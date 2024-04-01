@@ -1,0 +1,33 @@
+﻿.logo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    cursor: pointer;
+    transition: transform 1s ease;
+    margin-left: 7px;
+    margin-right: 3px;
+}
+
+.image {
+    position:absolute;
+    opacity: 0;
+    transition: opacity 1s ease; /* Плавный переход для opacity */
+}
+
+    .image.hidden {
+        opacity: 1;
+    }
+
+.logo:hover .image.hidden {
+    opacity: 1;
+}
+
+.logo:hover .image:not(.hidden) {
+    opacity: 0;
+}
+
+.logo:hover {
+    transform: scale(1.2);
+}

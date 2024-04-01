@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "MyFont"; /* Замените на желаемое имя */
+  src: local("YourCustomFont"),
+    url("/public/fonts/centurygothic.ttf") format("truetype"); /* Путь к вашему файлу шрифта */
+}
+
+.custom-font {
+  font-family: "MyFont", sans-serif; /* Используйте ваше имя шрифта здесь */
+  color: white;
+  text-align: left;
+}
