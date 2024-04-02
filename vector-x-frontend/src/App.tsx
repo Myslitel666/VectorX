@@ -1,5 +1,4 @@
 ﻿//React Import
-import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
 
 //MUI Import
@@ -8,7 +7,8 @@ import { CssBaseline } from '@mui/material';
 //MyComponents Import
 import { ColorModeProvider } from '../src/Context/ColorModeContext';
 import { UserProvider } from '../src/Context/UserContext';
-import Home from './Components/Services/EnglishAssistant/Pages/Home/Home';
+import EnglishAssistantHome from './Components/Services/EnglishAssistant/Pages/Home/Home';
+import Home from './Components/Services/VectorX/Pages/Home/Home';
 import Registration from './Components/Services/Shared/AccountService/Pages/Registration/Registration';
 import Authorization from './Components/Services/Shared/AccountService/Pages/Authorization/Authorization';
 import Redirect from '../src/Components/Common/Redirect'
@@ -25,11 +25,15 @@ function App() {
                 <Routes>
                     <Route
                         path="/"
-                            element={<Redirect />}
+                        element={<Redirect />}
+                    />
+                    <Route
+                        path="/home"
+                        element={<Home />}
                     />
                     <Route
                         path="/english-assistant/home"
-                        element={ <Home /> }
+                        element={ <EnglishAssistantHome /> }
                     />
                     <Route
                         path="/reg"

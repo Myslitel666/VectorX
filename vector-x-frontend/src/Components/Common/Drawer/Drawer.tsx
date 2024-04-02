@@ -12,11 +12,6 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import LogoutIcon from '@mui/icons-material/Logout';
 
 //MyComponents Import
 import { useUserContext } from '../../../Context/UserContext';
@@ -30,6 +25,10 @@ const drawerWidth = 240;
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
+}
+
+interface ContentProps {
+    serviceName?: string;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -58,7 +57,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
     //Работа с контекстом
     const { isLogged } = useUserContext();
     const theme = useTheme();
@@ -99,7 +98,7 @@ export default function PersistentDrawerLeft() {
                         <MenuIcon />
                     </IconButton>
                     <Logo />
-                    <ServiceName />
+                    <ServiceName content={serviceName } />
                 </Toolbar>
             </AppBar>
             <Drawer

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 //MyComponents Import
-import Header from '../../../../Common/Header/Header';
+import EnglishAssistantHeader from '../../Common/EnglishAssistantHeader';
 import Content from './Content';
 import { HomeProvider } from './HomeContext'
 import { useUserContext } from '../../../../../Context/UserContext';
@@ -15,8 +15,10 @@ const Home: React.FC = () => {
     //Работа с контекстом
     const { isLogged } = useUserContext();
 
+    //Попытка получить доступ к контенту из адресной строки браузера
+    //English Assistant Pro доступен только для зарегистрированных пользователей
     useEffect(() => {
-        if (location.pathname === '/home') {
+        if (location.pathname === '/english-assistant/home') {
             if (!isLogged()) {
                 navigate('/auth');
             }
@@ -25,7 +27,7 @@ const Home: React.FC = () => {
 
     return (
         <HomeProvider>
-            <Header />
+            <EnglishAssistantHeader />
             <Content/>
         </HomeProvider>
     );

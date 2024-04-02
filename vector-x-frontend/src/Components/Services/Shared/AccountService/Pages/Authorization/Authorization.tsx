@@ -68,7 +68,7 @@ const Authorization: React.FC = () => {
         if (isError === false) {
             // Выполнить переход после успешной регистрации
             const timeoutId = setTimeout(() => {
-                navigate('/english-assistant/home');
+                navigate('/home');
             }, 500);
 
             // Очистить таймаут, чтобы избежать утечек при размонтировании компонента

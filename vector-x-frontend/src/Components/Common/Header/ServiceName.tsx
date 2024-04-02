@@ -8,7 +8,11 @@ import { useTheme } from '@mui/material/styles';
 //MyComponents Import
 import { useUserContext } from '../../../Context/UserContext';
 
-const ServiceName: React.FC = () => {
+interface ContentProps {
+    content?: string;
+}
+
+const ServiceName: React.FC<ContentProps> = ({content = 'Vector X'}) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {
@@ -47,7 +51,7 @@ const ServiceName: React.FC = () => {
                 }
             }}
         >
-            EnglishAssistant Pro
+            { content }
         </Typography>
     );
 };

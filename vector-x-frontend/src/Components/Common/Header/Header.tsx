@@ -17,8 +17,11 @@ import Login from '../Header/Login'
 import { useUserContext } from '../../../Context/UserContext';
 import Drawer from '../../Common/Drawer/Drawer'
 
+interface ContentProps {
+    serviceName?: string;
+}
 
-const Header: React.FC = () => {
+const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X' }) => {
     //Работа с контекстом
     const { isLogged } = useUserContext();
     const theme = useTheme();
@@ -51,7 +54,7 @@ const Header: React.FC = () => {
                 >
 
                     <Logo />
-                    <ServiceName />
+                    <ServiceName content={serviceName} />
                     <Box
                         display='flex'
                         sx={{
