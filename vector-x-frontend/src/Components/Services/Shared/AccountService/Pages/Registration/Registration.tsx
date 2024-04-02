@@ -10,11 +10,11 @@ import KeyIcon from '../Registration/RegistrationIco'
 import { useTheme } from '@mui/material';
 
 //MyComponents Import
-import MyTypography from '../../../../../Common/MyTypography';
+import MyTypography from '../../../../../Common/User Interface/MyTypography';
 import Header from '../../../../../Common/Header/Header';
-import MyButton from '../../../../../Common/MyButton';
-import MyLink from '../../../../../Common/MyLink';
-import PasswordTextField from '../../../../../Common/PasswordTextField'
+import MyButton from '../../../../../Common/User Interface/MyButton';
+import MyLink from '../../../../../Common/User Interface/MyLink';
+import PasswordTextField from '../../../../../Common/User Interface/PasswordTextField'
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 

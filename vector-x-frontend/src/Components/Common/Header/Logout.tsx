@@ -6,7 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 //MyComponents Import
 import Button from '@mui/material/Button';
-import MyTypography from '../MyTypography';
+import MyTypography from '../User Interface/MyTypography';
 import { useUserContext } from '../../../Context/UserContext';
 
 const Logout = () => {

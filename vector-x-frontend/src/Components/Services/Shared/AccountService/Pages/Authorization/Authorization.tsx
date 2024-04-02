@@ -12,12 +12,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
 //MyComponents Import
-import MyTypography from '../../../../../Common/MyTypography'
+import MyTypography from '../../../../../Common/User Interface/MyTypography'
 import Header from '../../../../../Common/Header/Header';
-import MyButton from '../../../../../Common/MyButton';
-import MyLink from '../../../../../Common/MyLink';
+import MyButton from '../../../../../Common/User Interface/MyButton';
+import MyLink from '../../../../../Common/User Interface/MyLink';
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
-import PasswordTextField from '../../../../../Common/PasswordTextField'
+import PasswordTextField from '../../../../../Common/User Interface/PasswordTextField'
 import { useUserContext } from '../../../../../../Context/UserContext';
 
 const Authorization: React.FC = () => {

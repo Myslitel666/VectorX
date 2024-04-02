@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 
 //MyComponents Import
-import MyButton from '../MyButton';
+import MyButton from '../User Interface/MyButton';
 import { useUserContext } from '../../../Context/UserContext';
 import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeContext';
 

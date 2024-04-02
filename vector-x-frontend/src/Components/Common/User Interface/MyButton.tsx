@@ -1,6 +1,5 @@
 ﻿import * as React from 'react';
 import Button, { ButtonProps } from '@mui/material/Button';
-import { useColorMode, ColorModeContextProps } from '../../Context/ColorModeContext';
 
 interface MyButtonProps extends ButtonProps {
     // Дополнительные свойства, если необходимо

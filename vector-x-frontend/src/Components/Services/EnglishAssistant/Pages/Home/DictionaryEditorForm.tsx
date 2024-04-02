@@ -10,8 +10,8 @@ import Tooltip from '@mui/material/Tooltip';
 //MyComponents Import
 import { useHomeContext } from './HomeContext'
 import { useUserContext } from '../../../../../Context/UserContext';
-import MyInputBase from '../../../../Common/MyInputBase';
-import MyButton from '../../../../Common/MyButton';
+import MyInputBase from '../../../../Common/User Interface/MyInputBase';
+import MyButton from '../../../../Common/User Interface/MyButton';
 
 const DictionaryEditorForm: React.FC = () => {
     //Работа с контекстом домашней страницы

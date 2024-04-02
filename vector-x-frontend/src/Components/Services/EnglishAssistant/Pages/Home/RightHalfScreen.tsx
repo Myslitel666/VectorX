@@ -1,11 +1,11 @@
 ﻿//MUI Import
 import FormControlLabel from '@mui/material/FormControlLabel';
-import MyCheckbox from '../../../../Common/MyCheckBox';
+import MyCheckbox from '../../../../Common/User Interface/MyCheckBox';
 import Box from '@mui/material/Box';
 
 //MyComponents Import
-import MyButton from '../../../../Common/MyButton';
-import MyInputBase from '../../../../Common/MyInputBase'
+import MyButton from '../../../../Common/User Interface/MyButton';
+import MyInputBase from '../../../../Common/User Interface/MyInputBase'
 import DictionaryEditorForm from './DictionaryEditorForm'
 import BackgroundImage from './BackgroundImage'
 
