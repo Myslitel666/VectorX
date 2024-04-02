@@ -6,31 +6,31 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
-import KeyIcon from '../Registration/RegistrationIco'
 import { useTheme } from '@mui/material';
+import LockIcon from '@mui/icons-material/Lock';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 //MyComponents Import
-import MyTypography from '../../Common/MyTypography'
-import Header from '../../Common/Header/Header';
-import MyButton from '../../Common/MyButton';
-import MyLink from '../../Common/MyLink';
-import { useColorLabel } from '../../../UseColorLabel';
-import PasswordTextField from '../../Common/PasswordTextField'
-import { useUserContext } from '../../../Context/UserContext';
+import MyTypography from '../../../../../Common/MyTypography'
+import Header from '../../../../../Common/Header/Header';
+import MyButton from '../../../../../Common/MyButton';
+import MyLink from '../../../../../Common/MyLink';
+import { useColorLabel } from '../../../../../../Context/UseColorLabel';
+import PasswordTextField from '../../../../../Common/PasswordTextField'
+import { useUserContext } from '../../../../../../Context/UserContext';
 
-const Registration: React.FC = () => {
+const Authorization: React.FC = () => {
     const theme = useTheme();
-    const keyIconColor = theme.palette.background.default;
-    const borderBoxColor = theme.palette.action.disabled;
-    const [feedbackMessage, setFeedbackMessage] = useState('');
     const [username, setUsername] = useState('aaa');
     const [password, setPassword] = useState('aaaaaa1');
-    const [confirmPassword, setConfirmPassword] = useState('aaaaaa1');
-    const navigate = useNavigate();
-    const location = useLocation();
-
+    const [feedbackMessage, setFeedbackMessage] = useState('');
     const [isError, setIsError] = useState(true);
     const { getColorFromLabel } = useColorLabel('green');
+    const KeyIconColor = theme.palette.background.default;
+    const borderBoxColor = theme.palette.action.disabled;
+    const navigate = useNavigate();
+    const location = useLocation();
 
     //Работа с контекстом
     const { setUser, logoutUser } = useUserContext();
@@ -42,14 +42,13 @@ const Registration: React.FC = () => {
         setFeedbackMessage(message);
     };
 
-    async function signUp() {
-        const response = await fetch(`${apiUrl}/api/reg/setUser`, {
+    async function signIn() {
+        const response = await fetch(`${apiUrl}/api/auth/findUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                role: 'learner',
                 username: username,
                 password: password,
             }),
@@ -69,7 +68,7 @@ const Registration: React.FC = () => {
         if (isError === false) {
             // Выполнить переход после успешной регистрации
             const timeoutId = setTimeout(() => {
-                navigate('/home');
+                navigate('/english-assistant/home');
             }, 500);
 
             // Очистить таймаут, чтобы избежать утечек при размонтировании компонента
@@ -78,24 +77,16 @@ const Registration: React.FC = () => {
     }, [isError]);
 
     useEffect(() => {
-        if (location.pathname === '/reg') {
+        if (location.pathname === '/auth') {
             logoutUser();
         }
     }, [location.pathname]);
 
-    function hasDigits(str: string) {
-        return /\d/.test(str);
-    }
-
-    const handleRegistration = () => {
+    const handleAuthoriazation = () => {
         if (username === '') updateFeedbackMessage(true, '✗Enter the "Username"')
         else if (password === '') updateFeedbackMessage(true, '✗Enter the "Password"')
-        else if (confirmPassword === '') updateFeedbackMessage(true, '✗Enter the "Confirm Password"')
-        else if (password.length < 6) updateFeedbackMessage(true, '✗The password must be at least 6 characters long')
-        else if (!hasDigits(password)) updateFeedbackMessage(true, '✗The password must contain letters and numbers')
-        else if (password !== confirmPassword) updateFeedbackMessage(true, '✗The password and confirmation password do not match')
         else {
-            signUp();
+            signIn();
         }
     };
 
@@ -123,27 +114,26 @@ const Registration: React.FC = () => {
                     bgcolor="primary.main"
                     sx={{ transition: 'background-color 1s ease' } }
                 >
-                    <KeyIcon style={{
-                            fill: keyIconColor,
+                    <LockIcon style={{
+                            fill: KeyIconColor,
                             width: '2.88rem',
                             height: '2.88rem'
                         }}
                     />
                 </Box>
-
                 <MyTypography
                     marginTop='-0.7rem'
                     fontSize='1.66rem'
                     color='primary.main'
                 >
-                    Registration Form
+                    Authorization
                 </MyTypography>
                 <Typography sx={{
-                        textAlign: 'left',
+                    textAlign: 'left',
                     color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
-                    }}
+                }}
                 >
-                    { feedbackMessage }
+                    {feedbackMessage}
                 </Typography>
                 <TextField
                     id="outlined-basic"
@@ -161,25 +151,36 @@ const Registration: React.FC = () => {
                     setExternalPassword={setPassword}
                     containerSx={{ width: '100%', marginTop: '1rem' }}
                 />
-                <PasswordTextField
-                    externalPassword={confirmPassword}
-                    setExternalPassword={setConfirmPassword}
-                    containerSx={{ width: '100%', marginTop: '1rem' }}
-                />
+                <Box style={{ display: 'flex', alignItems: 'center' }}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                defaultChecked
+                                sx={{
+                                    transition: 'background-color 1s ease, color 1s ease, border-color 1s ease'
+                                }}
+                            />
+                        }
+                        label=''
+                    />
+                    <Typography sx={{marginLeft: '-1.4rem', fontSize: '0.8rem'}}>
+                        Remember me
+                    </Typography>
+                </Box>
                 <MyButton
                     variant="contained"
-                    onClick={handleRegistration}
+                    onClick={handleAuthoriazation}
                     sx={{
                         width: '100%',
                         height: '3.6rem',
                         transition: 'background-color 1s ease',
-                        marginTop: '1rem',
+                        marginTop: '0rem',
                     }}
                 >
                     <Typography
                         fontSize='1.12rem'
                     >
-                        Create Account
+                        SIGN IN
                     </Typography>
                 </MyButton>
                 <Typography
@@ -189,13 +190,13 @@ const Registration: React.FC = () => {
                         marginBottom: '1rem',
                     }}
                 >
-                    Already have an account? 
+                    Don't have an account yet?
                     <MyLink
                         fontSize='0.75rem'
                         marginLeft='0.25rem'
-                        href='/auth'
+                        href='/reg'
                     >
-                        Sign in
+                        Sign up
                     </MyLink>
                 </Typography>
             </Box>
@@ -203,4 +204,4 @@ const Registration: React.FC = () => {
     )
 }
 
-export default Registration
+export default Authorization

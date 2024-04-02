@@ -8,10 +8,10 @@ import FormatPaintIcon from '@mui/icons-material/FormatPaint';
 import Tooltip from '@mui/material/Tooltip';
 
 //MyComponents Import
-import { useHomeContext } from '../Home/HomeContext'
-import { useUserContext } from '../../../Context/UserContext';
-import MyInputBase from '../../Common/MyInputBase';
-import MyButton from '../../Common/MyButton';
+import { useHomeContext } from './HomeContext'
+import { useUserContext } from '../../../../../Context/UserContext';
+import MyInputBase from '../../../../Common/MyInputBase';
+import MyButton from '../../../../Common/MyButton';
 
 const DictionaryEditorForm: React.FC = () => {
     //Работа с контекстом домашней страницы

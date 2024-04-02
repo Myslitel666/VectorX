@@ -1,13 +1,13 @@
 ﻿//MUI Import
 import FormControlLabel from '@mui/material/FormControlLabel';
-import MyCheckbox from '../../Common/MyCheckBox';
+import MyCheckbox from '../../../../Common/MyCheckBox';
 import Box from '@mui/material/Box';
 
 //MyComponents Import
-import MyButton from '../../Common/MyButton';
-import MyInputBase from '../../Common/MyInputBase'
-import DictionaryEditorForm from '../../Pages/Home/DictionaryEditorForm'
-import BackgroundImage from '../../Pages/Home/BackgroundImage'
+import MyButton from '../../../../Common/MyButton';
+import MyInputBase from '../../../../Common/MyInputBase'
+import DictionaryEditorForm from './DictionaryEditorForm'
+import BackgroundImage from './BackgroundImage'
 
 const RightHalfScreen: React.FC = () => {
     return (

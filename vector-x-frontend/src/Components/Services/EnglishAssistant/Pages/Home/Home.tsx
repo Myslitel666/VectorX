@@ -3,10 +3,10 @@ import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 //MyComponents Import
-import Header from '../../Common/Header/Header';
-import Content from '../Home/Content';
-import { HomeProvider } from '../Home/HomeContext'
-import { useUserContext } from '../../../Context/UserContext';
+import Header from '../../../../Common/Header/Header';
+import Content from './Content';
+import { HomeProvider } from './HomeContext'
+import { useUserContext } from '../../../../../Context/UserContext';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();

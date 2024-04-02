@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 //MyComponents Import
 import { useUserContext } from '../../Context/UserContext';
 
-export default function Redirect({ link = '/home' }) {
+export default function Redirect({ link = '/english-assistant/home' }) {
     const navigate = useNavigate();
     const { getUser } = useUserContext();
     const user = getUser()

@@ -6,10 +6,10 @@ import Tooltip from '@mui/material/Tooltip';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
 //My components import
-import { useHomeContext } from '../Home/HomeContext'
-import { useUserContext } from '../../../Context/UserContext';
-import DictionaryDataGrid from '../Home/DictionaryDataGrid'
-import JargonFilter from '../Home/JargonFilter'
+import { useHomeContext } from './HomeContext'
+import { useUserContext } from '../../../../../Context/UserContext';
+import DictionaryDataGrid from './DictionaryDataGrid'
+import JargonFilter from './JargonFilter'
 
 const LeftHalfScreen: React.FC = () => {
     //Работа с контекстом домашней страницы

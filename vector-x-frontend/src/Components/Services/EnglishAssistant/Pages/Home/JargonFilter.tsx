@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button'
 
 //MyComponents Import
-import { useHomeContext } from '../Home/HomeContext'
+import { useHomeContext } from './HomeContext'
 
 const JargonFilter: React.FC = () => {
     const { rowsState, backupRowsState } = useHomeContext();

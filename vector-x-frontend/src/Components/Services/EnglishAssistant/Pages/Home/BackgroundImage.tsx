@@ -1,8 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import '../../Common/Header/Logo.css';
-import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeContext';
-import { useColorLabel } from '../../../UseColorLabel';
+import '../../../../Common/Header/Logo.css'; 
+import { useColorMode, ColorModeContextProps } from '../../../../../Context/ColorModeContext';
+import { useColorLabel } from '../../../../../Context/UseColorLabel';
 
 const BackgroundImage: React.FC = () => {
     const { getColorFromLabel, getLabelFromColor } = useColorLabel('green');
