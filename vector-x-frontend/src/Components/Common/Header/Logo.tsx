@@ -87,8 +87,11 @@ const Logo = () => {
     }, [themeMode, getLabelFromColor]);
 
     return (
-        <div onClick={handleClick}
-            className={`logo`} style={{ cursor: 'pointer' }}>
+        <div
+            onClick={handleClick}
+            className={`logo`}
+            style={{ cursor: 'pointer'}}
+        >
                 <img
                     className={`image ${isThemeChanged ? '' : 'hidden'}`}
                     src={`${isThemeChanged ? oldLogoPath : newLogoPath}`}

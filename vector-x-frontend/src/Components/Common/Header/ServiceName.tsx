@@ -47,7 +47,8 @@ const ServiceName: React.FC<ContentProps> = ({content = 'Vector X'}) => {
                 transition: 'color 1s ease',
                 marginLeft: '5px',
                 '@media screen and (max-width: 725px)': {
-                    fontSize: '22.5px'
+                    fontSize: '22.5px',
+                    marginTop: '0.3rem'
                 }
             }}
         >

@@ -16,9 +16,9 @@
     transition: opacity 1s ease; /* Плавный переход для opacity */
 }
 
-    .image.hidden {
-        opacity: 1;
-    }
+.image.hidden {
+    opacity: 1;
+}
 
 .logo:hover .image.hidden {
     opacity: 1;

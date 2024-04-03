@@ -73,10 +73,10 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'fixed' }}>
             <CssBaseline />
             <AppBar
-                position="fixed"
+                position="absolute"
                 open={open}
                 elevation={0}
                 sx={{
@@ -97,10 +97,21 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Logo />
-                    <ServiceName content={serviceName } />
+                    {/*<Logo />*/}
+                    {/*<ServiceName content={serviceName} />*/}
                 </Toolbar>
             </AppBar>
+            <Box sx={{
+                position: 'absolute',
+                zIndex: 1100,
+                display: 'flex', // Горизонтальное направление flex
+                alignItems: 'center', // Выравнивание по центру,
+                marginLeft: '56px',
+                marginTop: '0.25rem'
+            }}>
+            <Logo />
+                <ServiceName content={serviceName} />
+            </Box>
             <Drawer
                 sx={{
                     width: drawerWidth,

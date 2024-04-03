@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import KeyIcon from '@mui/icons-material/VpnKey';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 //MyComponents Import
@@ -47,7 +47,7 @@ export default function Settings() {
             >
                 <ListItemButton>
                     <ListItemIcon>
-                        <VpnKeyIcon />
+                        <KeyIcon />
                     </ListItemIcon>
                     <ListItemText primary={'Sign up'} />
                 </ListItemButton>
