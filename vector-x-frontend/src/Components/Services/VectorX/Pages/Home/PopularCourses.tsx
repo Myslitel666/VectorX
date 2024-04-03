@@ -7,6 +7,7 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 
 //MyComponents Import
 import MyButton from '../../../../Common/User Interface/MyButton'
@@ -49,7 +50,7 @@ const PopularCourses: React.FC = () => {
     const theme = useTheme();
     const ArrowIconColor = theme.palette.primary.main;
     const borderBoxColor = theme.palette.action.disabled;
-    const itemsRowLimit = 5;
+    let itemsRowLimit = 5;
 
     const [startIndex, setStartIndex] = useState(0);
 
@@ -64,6 +65,19 @@ const PopularCourses: React.FC = () => {
             setStartIndex(startIndex + itemsRowLimit);
         }
     };
+
+    if (useMediaQuery('(max-width:1425px)')) {
+        itemsRowLimit = 4;
+    }
+    if (useMediaQuery('(max-width:1200px)')) {
+        itemsRowLimit = 3;
+    }
+    if (useMediaQuery('(max-width:950px)')) {
+        itemsRowLimit = 2;
+    }
+    if (useMediaQuery('(max-width:700px)')) {
+        itemsRowLimit = 1;
+    }
 
     return (
         <>
@@ -99,10 +113,9 @@ const PopularCourses: React.FC = () => {
                     width='100%'
                     height='23rem'
                     sx={{
-                        float: 'left',
                         display: 'flex', // Горизонтальное направление flex
                         alignItems: 'center', // Выравнивание по центру,
-                        justifyContent: 'space-between', //Одинаковые интервалы между элементами
+                        justifyContent: 'center', // Центрирование по горизонтали
                         marginLeft: '1rem',
                         marginRight: '1rem',
                         paddingTop: '1rem',
@@ -110,7 +123,9 @@ const PopularCourses: React.FC = () => {
                         cursor: 'pointer',
                     }}
                 >
-                    {popularCourses.slice(startIndex, startIndex + 5).map((course, index) => (
+                    {popularCourses.
+                        slice(startIndex, startIndex + itemsRowLimit).
+                        map((course, index) => (
                         <Box
                             key={index}
                             border='1px solid'
@@ -119,20 +134,20 @@ const PopularCourses: React.FC = () => {
                             padding='1rem'
                             paddingTop='0.5rem'
                             paddingBottom='0.5rem'
+                            marginRight='1rem'
                             sx={{
                                 marginBottom: '1rem',
                                 width: '15rem',
-                                height: '24rem'
-                            }}>
-                                <img src={course.imageUrl}
-                                    style={{
-                                        maxWidth: '100%',
-                                        maxHeight: '12rem',
-                                        //objectFit: 'cover',
-                                        borderRadius: '8px',
-                                        //marginTop: '5px'
-                                    }}
-                                />
+                                height: '24rem',
+                            }}
+                        >
+                            <img src={course.imageUrl}
+                                style={{
+                                    maxWidth: '100%',
+                                    maxHeight: '12rem',
+                                    borderRadius: '8px',
+                                }}
+                            />
                             <Typography
                                 fontSize="1rem"
                                 className="course-name"

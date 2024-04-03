@@ -1,19 +1,13 @@
-﻿import { useMediaQuery } from '@mui/material';
-
-//MUI Import
+﻿//MUI Import
 import SearchCriteria from '../../../../Common/User Interface/MyAutoComplete';
 import MyButton from '../../../../Common/User Interface/MyButton';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import { useMediaQuery } from '@mui/material';
 
 //MyComponents Import
 import { SearchIcon } from '../Home/Icons'
-
-const dropList = [
-    { title: 'The Shawshank Redemption' },
-    { title: 'The Godfather' },
-]
 
 const CoursesFilter: React.FC = () =>
 { 
