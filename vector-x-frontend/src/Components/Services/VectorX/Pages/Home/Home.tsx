@@ -15,8 +15,8 @@ const Home: React.FC = () => {
         <>
             <Header />
             <Box sx={{
-                marginTop: '4.3rem',
-                marginBottom: '0.5rem'
+                marginTop: '4.75rem',
+                marginBottom: '1.75rem'
             }}>
                 <PopularCourses />
             </Box>

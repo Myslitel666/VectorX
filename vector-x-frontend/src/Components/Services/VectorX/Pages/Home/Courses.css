@@ -1,0 +1,29 @@
+﻿.course-name {
+    height: 4.5rem;
+    /*Format content*/
+    display: -webkit-box;
+    /*Вертикльный content*/
+    -webkit-box-orient: vertical;
+    /*Обрезка текста под height*/
+    overflow: hidden;
+    /*Добавление многоточия после строк*/
+    -webkit-line-clamp: 3;
+    /* Форматирование текста по ширине */
+    text-align: left;
+}
+
+.course-author {
+    height: 1.2rem;
+    /*Format content*/
+    display: -webkit-box;
+    /*Вертикльный content*/
+    -webkit-box-orient: vertical;
+    /*Обрезка текста под height*/
+    overflow: hidden;
+    /*Добавление многоточия после строк*/
+    -webkit-line-clamp: 1;
+}
+
+.course-box:hover {
+    transform: scale(1.1);
+}
