@@ -1,10 +1,11 @@
 //React Import
 import React, { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 //MyComponents Import
 import Header from '../../../../Common/Header/Header';
-import Content from './Content';
+import Courses from '../../Pages/Home/Courses'
+import PopularCourses from '../../Pages/Home/PopularCourses'
+import CoursesFilter from '../../Pages/Home/CoursesFilter'
 import { useUserContext } from '../../../../../Context/UserContext';
 
 const Home: React.FC = () => {
@@ -12,7 +13,9 @@ const Home: React.FC = () => {
     return (
         <>
             <Header />
-            <Content />
+            <CoursesFilter />
+            <PopularCourses />
+            <Courses />
         </>
     );
 };
