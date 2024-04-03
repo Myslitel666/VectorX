@@ -1,10 +1,14 @@
-﻿//MUI Import
+﻿import { useMediaQuery } from '@mui/material';
+
+//MUI Import
 import SearchCriteria from '../../../../Common/User Interface/MyAutoComplete';
 import MyButton from '../../../../Common/User Interface/MyButton';
-
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+
+//MyComponents Import
+import { SearchIcon } from '../Home/Icons'
 
 const dropList = [
     { title: 'The Shawshank Redemption', year: 1994 },
@@ -13,6 +17,8 @@ const dropList = [
 
 const CoursesFilter: React.FC = () =>
 { 
+    const isMobile = useMediaQuery('(max-width:800px)');
+
     const searchCriteriaDropList = [
         { title: 'Course name' },
         { title: 'Author' },
@@ -22,31 +28,11 @@ const CoursesFilter: React.FC = () =>
     return (
         <>
             <Box
-                marginTop='4rem'
+                marginTop='3.5rem'
                 display='flex'
                 padding='1rem'
+                paddingRight='0.7rem'
             >
-                <Box marginRight='0.7rem'
-
-                    sx={{
-                        textAlign: 'right',
-                        float: 'left'
-                    }}
-                >
-                    <Typography
-                        fontSize='1rem'
-                        marginTop='0.35rem'
-                        sx={{
-                            whiteSpace: 'nowrap', //Предотвращаем перенос "by" на отдельную строку
-                            '@media screen and (max-width: 600px)': {
-                                fontSize: '1rem',
-                                marginTop: '0.35rem',
-                            }
-                        }}
-                    >
-                        Sort by:
-                    </Typography>
-                </Box>
                 <Box alignItems='center'
                     sx={{
                         float: 'left',
@@ -56,22 +42,38 @@ const CoursesFilter: React.FC = () =>
                 >
                     <Box
                         display='flex'
-                        paddingBottom='0.7rem'
-                        paddingRight='0.7rem'
                         sx={{
                             float: 'left',
-                            width: '34%',
+                            width: '42%',
                             '@media screen and (max-width: 600px)': {
                                 width: '100%'
                             }
                         }}
                     >
+                        <Typography
+                            fontSize='1rem'
+                            marginTop='0.35rem'
+                            marginRight='0.7rem'
+                            sx={{
+                                whiteSpace: 'nowrap', //Предотвращаем перенос "by" на отдельную строку
+                                '@media screen and (max-width: 600px)': {
+                                    fontSize: '1rem',
+                                    marginTop: '0.35rem',
+                                }
+                            }}
+                        >
+                            Sort by:
+                        </Typography>
                         <SearchCriteria
                             label="Search criteria"
                             dropList = {searchCriteriaDropList}
                             sx={{
                                 marginBottom: '1rem',
-                                width: '100%'
+                                marginRight: '0.7rem',
+                                width: '100%',
+                                '@media screen and (max-width: 600px)': {
+                                    marginRight: 0,
+                                }
                             }}
                         />
                     </Box>
@@ -80,9 +82,9 @@ const CoursesFilter: React.FC = () =>
                         paddingRight='0.7rem'
                         sx={{
                             float: 'left',
-                            width: '56%',
+                            width: '48%',
                             '@media screen and (max-width: 600px)': {
-                                width: '100%'
+                                width: '80%'
                             }
                         }}
                     >
@@ -101,14 +103,16 @@ const CoursesFilter: React.FC = () =>
                         sx={{
                             float: 'left',
                             '@media screen and (max-width: 600px)': {
-                                width: '10%'
+                                width: '20%'
                             }
                         }}
                     >
                         <MyButton
                             variant="contained"
-                            sx={{ width: '100%' }}>
-                            Search
+                            sx={{
+                                width: '100%',
+                            }}>
+                            {isMobile ? <SearchIcon style={{ height: '1.5rem' }} /> : <Typography>Search</Typography> }
                         </MyButton>
                     </Box>
                 </Box>

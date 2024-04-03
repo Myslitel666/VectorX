@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useTheme } from '@mui/material';
 
-//My components import
+//My Components Import
 import { useHomeContext } from '../Home/HomeContext'
 import { useUserContext } from '../../../../../Context/UserContext'
 import '../Home/DictionaryDataGrid.css'

@@ -2,7 +2,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 interface AutoCompleteProps {
-    sx?: React.CSSProperties; // Дополнительные стили для контейнера
+    sx?: React.CSSProperties | {
+        [key: string]: React.CSSProperties | undefined;
+    } ; // Либо CSS-правила, либо media-теги
     label?: string;
     dropList?: { title: string }[];
 }
