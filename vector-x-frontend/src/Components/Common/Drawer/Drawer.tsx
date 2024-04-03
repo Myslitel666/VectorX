@@ -89,16 +89,16 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
                     }}
                 >
                     <IconButton
-                        color="inherit"
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
                         sx={{ mr: 0, ...(open && { display: 'none' }) }}
+                        style={{
+                            color: `${theme.palette.text.primary}` // Предупреждаем исчезновение иконки
+                        }}
                     >
                         <MenuIcon />
-                    </IconButton>
-                    {/*<Logo />*/}
-                    {/*<ServiceName content={serviceName} />*/}
+                        </IconButton>
                 </Toolbar>
             </AppBar>
             <Box sx={{
