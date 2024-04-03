@@ -11,8 +11,8 @@ import TextField from '@mui/material/TextField';
 import { SearchIcon } from '../Home/Icons'
 
 const dropList = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
+    { title: 'The Shawshank Redemption' },
+    { title: 'The Godfather' },
 ]
 
 const CoursesFilter: React.FC = () =>
@@ -28,9 +28,9 @@ const CoursesFilter: React.FC = () =>
     return (
         <>
             <Box
-                marginTop='3.5rem'
                 display='flex'
                 padding='1rem'
+                paddingBottom='0'
                 paddingRight='0.7rem'
             >
                 <Box alignItems='center'
@@ -38,7 +38,6 @@ const CoursesFilter: React.FC = () =>
                         float: 'left',
                         width: '100%',
                     }}
-
                 >
                     <Box
                         display='flex'

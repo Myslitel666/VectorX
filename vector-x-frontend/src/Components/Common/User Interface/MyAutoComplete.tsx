@@ -26,6 +26,7 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({ sx,
             size="small"
             options={options}
             getOptionLabel={(option) => option.title}
+            defaultValue={options[0]} // Выбираем первый элемент по умолчанию
             sx={{
                 ...sx
             }}

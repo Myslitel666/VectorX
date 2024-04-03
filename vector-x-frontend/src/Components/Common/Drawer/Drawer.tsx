@@ -109,7 +109,7 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
                 marginLeft: '56px',
                 marginTop: '0.25rem'
             }}>
-            <Logo />
+                <Logo />
                 <ServiceName content={serviceName} />
             </Box>
             <Drawer
