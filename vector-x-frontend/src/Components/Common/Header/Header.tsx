@@ -30,7 +30,7 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X' }) => {
     if (isMobile) {
         return (
             <>
-                <Drawer />
+                <Drawer serviceName={ serviceName } />
             </>
         )
     }
