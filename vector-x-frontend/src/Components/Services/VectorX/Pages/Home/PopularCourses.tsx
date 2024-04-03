@@ -1,4 +1,7 @@
-﻿//MUI Import
+﻿//React Import
+import React, { useState } from 'react';
+
+//MUI Import
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import Box from '@mui/material/Box';
@@ -18,19 +21,49 @@ interface Course {
     coursePrice: number;
 }
 
-const courses: Course[] = [
-    { courseName: 'Курс по созданию приложений на C# в среде Visual Studio', courseAuthor: 'Артур Германович', coursePrice: 0, imageUrl: '/images/testCourses/csharp.png'},
+const popularCourses: Course[] = [
+    { courseName: 'Курс по созданию приложений на C# в среде Visual Studio', courseAuthor: 'Артур Германович', coursePrice: 0, imageUrl: '/images/testCourses/csharp.png' },
     { courseName: 'С++ от новичка до профессионала', courseAuthor: 'Юрий Шедогубов', coursePrice: 2000, imageUrl: '/images/testCourses/c++.png' },
     { courseName: 'Шахматы: правила и простейшие комбинации', courseAuthor: 'Тагир', coursePrice: 15000, imageUrl: '/images/testCourses/chess.png' },
     { courseName: 'Математический анализ на практике', courseAuthor: 'Тагир', coursePrice: 12000, imageUrl: '/images/testCourses/desmos.png' },
     { courseName: 'Основы языка программирования Python', courseAuthor: 'Олег Сергеевич', coursePrice: 10000, imageUrl: '/images/testCourses/python.png' },
-    // Добавьте другие курсы по вашему усмотрению
+    { courseName: 'Курс по веб-разработке на JavaScript', courseAuthor: 'Мария Иванова', coursePrice: 5000, imageUrl: '/images/testCourses/python.png' },
+    { courseName: 'Английский язык: от начального до продвинутого', courseAuthor: 'Елена Петрова', coursePrice: 8000, imageUrl: '/images/testCourses/desmos.png' },
+    { courseName: 'История искусства: от античности до современности', courseAuthor: 'Александр Васильев', coursePrice: 15000, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Финансовая грамотность: как управлять своими деньгами', courseAuthor: 'Наталья Смирнова', coursePrice: 12000, imageUrl: '/images/testCourses/c++.png' },
+    { courseName: 'Разработка мобильных приложений на Android', courseAuthor: 'Иван Дмитриев', coursePrice: 10000, imageUrl: '/images/testCourses/csharp.png' },
+    { courseName: 'Курс по Photoshop для начинающих', courseAuthor: 'Екатерина Николаева', coursePrice: 5000, imageUrl: '/images/testCourses/c++.png' },
+    { courseName: 'Основы маркетинга: как продавать свои товары и услуги', courseAuthor: 'Алексей Иванов', coursePrice: 8000, imageUrl: '/images/testCourses/desmos.png' },
+    { courseName: 'Курс по медитации и психологическому развитию', courseAuthor: 'Ольга Сидорова', coursePrice: 0, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Изучение японского языка: уровень начинающего', courseAuthor: 'Такахаси Хиро', coursePrice: 5000, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Танцы для всех: основные движения и техника', courseAuthor: 'Анна Павлова', coursePrice: 0, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Курс по управлению проектами: от идеи до реализации', courseAuthor: 'Дмитрий Козлов', coursePrice: 10000, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Приготовление домашней пасты: секреты и рецепты', courseAuthor: 'Мария Антонова', coursePrice: 5000, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Курс по астрономии: путешествие по Вселенной', courseAuthor: 'Владимир Попов', coursePrice: 8000, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Физические упражнения для укрепления здоровья', courseAuthor: 'Евгений Сидоров', coursePrice: 0, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Основы графического дизайна: создание логотипов и баннеров', courseAuthor: 'Ирина Смирнова', coursePrice: 10000, imageUrl: '/images/testCourses/chess.png' },
 ];
+
 
 const PopularCourses: React.FC = () => {
     const theme = useTheme();
     const ArrowIconColor = theme.palette.primary.main;
     const borderBoxColor = theme.palette.action.disabled;
+    const itemsRowLimit = 5;
+
+    const [startIndex, setStartIndex] = useState(0);
+
+    const handlePrevClick = () => {
+        if (startIndex >= itemsRowLimit) {
+            setStartIndex(startIndex - itemsRowLimit);
+        }
+    };
+
+    const handleNextClick = () => {
+        if (startIndex + itemsRowLimit < itemsRowLimit * 2 + 1) {
+            setStartIndex(startIndex + itemsRowLimit);
+        }
+    };
 
     return (
         <>
@@ -49,16 +82,18 @@ const PopularCourses: React.FC = () => {
                     alignItems: 'center', // Выравнивание по центру,
                 }}
             >
-                <ArrowCircleLeftIcon sx={{
-                    color: ArrowIconColor,
-                    height: '4rem',
-                    width: '4rem',
-                    float: 'left',
-                    transition: 'color 1s ease, transform 1s ease',
-                    cursor: 'pointer',
-                    ':hover': {
-                        transform: 'scale(1.2)'
-                    }
+                <ArrowCircleLeftIcon
+                    onClick={handlePrevClick}
+                    sx={{
+                        color: startIndex === 0 ? 'gray' : ArrowIconColor,
+                        height: '4rem',
+                        width: '4rem',
+                        float: 'left',
+                        transition: 'color 1s ease, transform 1s ease',
+                        cursor: 'pointer',
+                        ':hover': {
+                            transform: 'scale(1.2)'
+                        }
                 }} />
                 <Box
                     width='100%'
@@ -75,7 +110,7 @@ const PopularCourses: React.FC = () => {
                         cursor: 'pointer',
                     }}
                 >
-                    {courses.map((course, index) => (
+                    {popularCourses.slice(startIndex, startIndex + 5).map((course, index) => (
                         <Box
                             key={index}
                             border='1px solid'
@@ -122,16 +157,18 @@ const PopularCourses: React.FC = () => {
                         </Box>
                     ))}
                 </Box>
-                <ArrowCircleRightIcon sx={{
-                    color: ArrowIconColor,
-                    height: '4rem',
-                    width: '4rem',
-                    float: 'right',
-                    transition: 'color 1s ease, transform 1s ease',
-                    cursor: 'pointer',
-                    ':hover': {
-                        transform: 'scale(1.2)'
-                    }
+                <ArrowCircleRightIcon
+                    onClick={handleNextClick}
+                    sx={{
+                        color: startIndex === 2 * itemsRowLimit ? 'gray' : ArrowIconColor,
+                        height: '4rem',
+                        width: '4rem',
+                        float: 'right',
+                        transition: 'color 1s ease, transform 1s ease',
+                        cursor: 'pointer',
+                        ':hover': {
+                            transform: 'scale(1.2)'
+                        }
                 }} />
             </Box>
         </>
