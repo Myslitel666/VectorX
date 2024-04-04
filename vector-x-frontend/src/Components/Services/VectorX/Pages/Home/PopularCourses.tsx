@@ -167,7 +167,10 @@ const PopularCourses: React.FC = () => {
                                 fontSize="1rem"
                                 className="course-name"
                                 color="primary"
-                                fontWeight= 'bold'
+                                fontWeight='bold'
+                                sx={{
+                                    transition: 'color 1s esea'
+                                }}
                             >
                                 {course.courseName}
                             </Typography>

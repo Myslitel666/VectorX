@@ -20,13 +20,15 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({ sx,
         };
     });
 
+    const defaultValueIndex = dropList.findIndex((option) => option.title === dropList[0]?.title);
+
     return (
         <Autocomplete
             id="grouped-demo"
             size="small"
             options={options}
             getOptionLabel={(option) => option.title}
-            defaultValue={options[0]} // Выбираем первый элемент по умолчанию
+            value={defaultValueIndex !== -1 ? options[defaultValueIndex] : null} // Выбираем первый элемент по умолчанию
             sx={{
                 ...sx
             }}
