@@ -1,5 +1,6 @@
 ﻿//React Import
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 
 //MUI Import
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -37,12 +38,12 @@ const popularCourses: Course[] = [
     { courseName: 'Основы маркетинга: как продавать свои товары и услуги', courseAuthor: 'Алексей Иванов', coursePrice: 8000, imageUrl: '/images/testCourses/desmos.png' },
     { courseName: 'Курс по медитации и психологическому развитию', courseAuthor: 'Ольга Сидорова', coursePrice: 0, imageUrl: '/images/testCourses/chess.png' },
     { courseName: 'Изучение японского языка: уровень начинающего', courseAuthor: 'Такахаси Хиро', coursePrice: 5000, imageUrl: '/images/testCourses/chess.png' },
-    { courseName: 'Танцы для всех: основные движения и техника', courseAuthor: 'Анна Павлова', coursePrice: 0, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Танцы для всех: основные движения и техника', courseAuthor: 'Анна Павлова', coursePrice: 0, imageUrl: '/images/testCourses/desmos.png' },
     { courseName: 'Курс по управлению проектами: от идеи до реализации', courseAuthor: 'Дмитрий Козлов', coursePrice: 10000, imageUrl: '/images/testCourses/chess.png' },
     { courseName: 'Приготовление домашней пасты: секреты и рецепты', courseAuthor: 'Мария Антонова', coursePrice: 5000, imageUrl: '/images/testCourses/chess.png' },
     { courseName: 'Курс по астрономии: путешествие по Вселенной', courseAuthor: 'Владимир Попов', coursePrice: 8000, imageUrl: '/images/testCourses/chess.png' },
     { courseName: 'Физические упражнения для укрепления здоровья', courseAuthor: 'Евгений Сидоров', coursePrice: 0, imageUrl: '/images/testCourses/chess.png' },
-    { courseName: 'Основы графического дизайна: создание логотипов и баннеров', courseAuthor: 'Ирина Смирнова', coursePrice: 10000, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Основы графического дизайна: создание логотипов и баннеров', courseAuthor: 'Ирина Смирнова', coursePrice: 10000, imageUrl: '/images/testCourses/desmos.png' },
 ];
 
 
@@ -51,6 +52,8 @@ const PopularCourses: React.FC = () => {
     const ArrowIconColor = theme.palette.primary.main;
     const borderBoxColor = theme.palette.action.disabled;
     let itemsRowLimit = 5;
+    const itemsMaxLimit = 15;
+    let increase = itemsRowLimit;
 
     const [startIndex, setStartIndex] = useState(0);
 
@@ -58,25 +61,38 @@ const PopularCourses: React.FC = () => {
         if (startIndex >= itemsRowLimit) {
             setStartIndex(startIndex - itemsRowLimit);
         }
-    };
-
-    const handleNextClick = () => {
-        if (startIndex + itemsRowLimit < itemsRowLimit * 2 + 1) {
-            setStartIndex(startIndex + itemsRowLimit);
+        else {
+            setStartIndex(0);
         }
     };
 
-    if (useMediaQuery('(max-width:1425px)')) {
+    const handleNextClick = () => {
+        if (startIndex + itemsRowLimit < itemsMaxLimit) {
+            setStartIndex(startIndex + itemsRowLimit);
+        }
+        else {
+            //itemsRowLimit = startIndex + itemsRowLimit - itemsMaxLimit;
+        }
+    };
+
+    if (useMediaQuery('(max-width:90rem)')) {
         itemsRowLimit = 4;
     }
-    if (useMediaQuery('(max-width:1200px)')) {
+    if (useMediaQuery('(max-width:75rem)')) {
         itemsRowLimit = 3;
     }
-    if (useMediaQuery('(max-width:950px)')) {
+    if (useMediaQuery('(max-width:60rem)')) {
         itemsRowLimit = 2;
     }
-    if (useMediaQuery('(max-width:700px)')) {
+    if (useMediaQuery('(max-width:44rem)')) {
         itemsRowLimit = 1;
+    }
+
+    if (startIndex + itemsRowLimit < itemsMaxLimit) {
+        increase = itemsRowLimit;
+    }
+    else {
+        increase = itemsMaxLimit - startIndex;
     }
 
     return (
@@ -119,12 +135,11 @@ const PopularCourses: React.FC = () => {
                         marginLeft: '1rem',
                         marginRight: '1rem',
                         paddingTop: '1rem',
-                        textAlign: 'center',
                         cursor: 'pointer',
                     }}
                 >
                     {popularCourses.
-                        slice(startIndex, startIndex + itemsRowLimit).
+                        slice(startIndex, startIndex + increase).
                         map((course, index) => (
                         <Box
                             key={index}
@@ -175,7 +190,8 @@ const PopularCourses: React.FC = () => {
                 <ArrowCircleRightIcon
                     onClick={handleNextClick}
                     sx={{
-                        color: startIndex === 2 * itemsRowLimit ? 'gray' : ArrowIconColor,
+                        marginLeft: '-1rem', //Компенсация отступа последнего Box'а (в цикле)
+                        color: startIndex + itemsRowLimit >= itemsMaxLimit ? 'gray' : ArrowIconColor,
                         height: '4rem',
                         width: '4rem',
                         float: 'right',
