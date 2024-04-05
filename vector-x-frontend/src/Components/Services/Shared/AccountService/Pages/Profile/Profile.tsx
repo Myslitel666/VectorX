@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material';
 import Header from '../../../../../Common/Header/Header';
 import MyImageUploading from './MyImageUploading';
 import { useUserContext } from '../../../../../../Context/UserContext'
+import MyTypography from '../../../../../Common/User Interface/MyTypography';
 
 const Profile: React.FC = () => {
     const { getUser } = useUserContext();
@@ -19,7 +20,7 @@ const Profile: React.FC = () => {
 
         return (
             <>
-                <Typography
+                <MyTypography
                     color='primary'
                     sx={{
                         marginTop: '4rem',
@@ -28,7 +29,7 @@ const Profile: React.FC = () => {
                     }}
                 >
                     My Account
-                </Typography>
+                </MyTypography>
             </>
         )
     }
@@ -61,22 +62,21 @@ const Profile: React.FC = () => {
     const AttributeValue: React.FC<AttributeValueProps> = ({ attribute, value, sx }) => {
         return (
             <>
-                <Typography
+                <MyTypography
                     color = 'primary'
                     sx = {{
                         ...sx,
                         fontSize: '2.25rem',
-                        float: 'left'
+                        float: 'left',
+                        marginRight: '1rem'
                     }}
                 >
                     {attribute}
-                </Typography>
+                </MyTypography>
                 <Typography
                     sx = {{
                         ...sx,
-                        marginLeft: '1rem',
                         fontSize: '2.25rem',
-                        float: 'left'
                     }}
                 >
                     {value}
@@ -96,12 +96,23 @@ const Profile: React.FC = () => {
                 <Box 
                     sx = {{
                         marginLeft: '5rem',
+                        width: '100%'
                     }}
                 >
                     <AttributeValue 
                         attribute = "Username:"
                         value = {user.username}
                         sx = {{marginTop: '4.75rem',}}
+                    />
+                    <AttributeValue 
+                        attribute = "Role:"
+                        value = {user.userRole}
+                        sx = {{marginTop: '1rem',}}
+                    />
+                    <AttributeValue 
+                        attribute = "Password:"
+                        value = '●●●●●●●'
+                        sx = {{marginTop: '1rem',}}
                     />
                 </Box>
             </Box>

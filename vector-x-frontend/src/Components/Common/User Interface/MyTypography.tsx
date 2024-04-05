@@ -3,7 +3,6 @@ import Typography, { TypographyProps } from '@mui/material/Typography';
 import { useTheme } from '@mui/material';
 
 interface MyTypographyProps extends TypographyProps {
-    // Дополнительные свойства, если необходимо
 }
 
 const MyTypography: React.FC<MyTypographyProps> = (props) => {
@@ -16,6 +15,7 @@ const MyTypography: React.FC<MyTypographyProps> = (props) => {
             {...props}
             color={primaryMainColor}
             sx={{
+                ...props.sx,
                 transition: 'color 1s ease'
             }}
         />
