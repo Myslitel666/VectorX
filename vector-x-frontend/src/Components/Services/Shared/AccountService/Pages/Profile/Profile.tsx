@@ -20,8 +20,8 @@ const Profile: React.FC = () => {
             <>
                 <Box 
                     sx={{ 
-                        width: '25rem',
-                        height: '25rem',
+                        //width: '25rem',
+                        //height: '25rem',
                         //overflow: 'hidden',
                     }}
                 >

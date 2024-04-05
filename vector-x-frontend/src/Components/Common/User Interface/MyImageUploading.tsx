@@ -52,7 +52,12 @@ const MyImageUploading: React.FC = () => {
                     <div className="upload__image-wrapper">
                         {imageList.length > 0 && (
                             <div 
-                                className="image-item"
+                                className="image-item" style={{ 
+                                    width: '25rem', 
+                                    height: '25rem', 
+                                    borderRadius: '50%', 
+                                    overflow: 'hidden'
+                             }}
                             >
                                 <img 
                                     src={imageList[0]['data_url']} 
@@ -60,19 +65,23 @@ const MyImageUploading: React.FC = () => {
                                     style = {{
                                         width: '100%',
                                         height: '100%',
-                                        minWidth: '25rem',
-                                        minHeight: '25rem',
                                         objectFit: 'cover',
-                                        //objectPosition: 'center' /* Центрируем изображение */
                                     }}
                                 />
-                                <div className="image-item__btn-wrapper">
+                                <div className="image-item__btn-wrapper" 
+                                    style={{ 
+                                        position: 'absolute', 
+                                        top: '36rem', 
+                                        left: '5rem', 
+                                        width: '25rem',
+                                        zIndex: 1,
+                                        display: 'flex' }}>
                                     <MyButton
                                         variant='contained'
                                         onClick={() => onImageUpdate(0)}
                                         sx={{
                                             marginRight: '1rem',
-                                            minWidth: '7.5rem',
+                                            minWidth: '50%',
                                         }}
                                     >
                                         Update
@@ -81,7 +90,7 @@ const MyImageUploading: React.FC = () => {
                                         variant='contained'
                                         onClick={() => removeImage()}
                                         sx={{
-                                            minWidth: '7.5rem'
+                                            minWidth: '50%'
                                         }}
                                     >
                                         Remove
