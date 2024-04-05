@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 interface AutoCompleteProps {
     sx?: React.CSSProperties | {
         [key: string]: React.CSSProperties | undefined;
-    } ; // Либо CSS-правила, либо media-теги
+    } ; // Р›РёР±Рѕ CSS-РїСЂР°РІРёР»Р°, Р»РёР±Рѕ media-С‚РµРіРё
     label?: string;
     dropList?: { title: string }[];
 }
@@ -29,7 +29,7 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({ sx,
             size="small"
             options={options}
             getOptionLabel={(option) => option.title}
-            value={defaultValueIndex !== -1 ? options[defaultValueIndex] : null} // Выбираем первый элемент по умолчанию
+            value={defaultValueIndex !== -1 ? options[defaultValueIndex] : null} // РСЃРїСЂР°РІР»СЏРµРј РѕС€РёР±РєСѓ РЅРµСЃРѕРѕС‚РІРµС‚СЃС‚РІРёСЏ Р·РЅР°С‡РµРЅРёР№
             sx={{
                 ...sx
             }}

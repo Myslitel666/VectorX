@@ -22,8 +22,8 @@ import { useUserContext } from '../../../../../../Context/UserContext';
 
 const Authorization: React.FC = () => {
     const theme = useTheme();
-    const [username, setUsername] = useState('aaa');
-    const [password, setPassword] = useState('aaaaaa1');
+    const [username, setUsername] = useState('Вавилонов Алексей Владимирович');
+    const [password, setPassword] = useState('Darknet2024');
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [isError, setIsError] = useState(true);
     const { getColorFromLabel } = useColorLabel('green');

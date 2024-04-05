@@ -9,8 +9,30 @@ import { useTheme } from '@mui/material';
 //MyComponents Import
 import Header from '../../../../../Common/Header/Header';
 import MyImageUploading from './MyImageUploading';
+import { useUserContext } from '../../../../../../Context/UserContext'
 
 const Profile: React.FC = () => {
+    const { getUser } = useUserContext();
+    const user = getUser();
+
+    const MyAccountTypography: React.FC = () => {
+
+        return (
+            <>
+                <Typography
+                    color='primary'
+                    sx={{
+                        marginTop: '4rem',
+                        fontSize: '3rem',
+                        overflow: 'hidden'
+                    }}
+                >
+                    My Account
+                </Typography>
+            </>
+        )
+    }
+
     const Avatar: React.FC = () => {
         const theme = useTheme();
         const DefaultAvatarColor = theme.palette.action.disabled;
@@ -28,21 +50,60 @@ const Profile: React.FC = () => {
         )
     }
 
+    interface AttributeValueProps  {
+        attribute: string;
+        value: string;
+        sx?: React.CSSProperties | {
+            [key: string]: React.CSSProperties | undefined;
+        } ; // Либо CSS-правила, либо media-теги
+    }
+
+    const AttributeValue: React.FC<AttributeValueProps> = ({ attribute, value, sx }) => {
+        return (
+            <>
+                <Typography
+                    color = 'primary'
+                    sx = {{
+                        ...sx,
+                        fontSize: '2.25rem',
+                        float: 'left'
+                    }}
+                >
+                    {attribute}
+                </Typography>
+                <Typography
+                    sx = {{
+                        ...sx,
+                        marginLeft: '1rem',
+                        fontSize: '2.25rem',
+                        float: 'left'
+                    }}
+                >
+                    {value}
+                </Typography>
+            </>
+        )
+    }
+
     return (
         <>
             <Header />
-            <Box sx = {{marginLeft:'5rem'}}>
-                <Typography
-                    color='primary'
-                    sx={{
-                        marginTop: '4rem',
-                        fontSize: '3rem',
-                        overflow: 'hidden'
+            <Box display='flex'>
+                <Box sx = {{marginLeft:'5rem'}}>
+                    <MyAccountTypography />
+                    <Avatar/>
+                </Box>
+                <Box 
+                    sx = {{
+                        marginLeft: '5rem',
                     }}
                 >
-                    My Account
-                </Typography>
-                <Avatar/>
+                    <AttributeValue 
+                        attribute = "Username:"
+                        value = {user.username}
+                        sx = {{marginTop: '4.75rem',}}
+                    />
+                </Box>
             </Box>
         </>
     )
