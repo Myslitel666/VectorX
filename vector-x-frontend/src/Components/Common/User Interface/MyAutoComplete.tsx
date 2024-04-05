@@ -8,11 +8,13 @@ interface AutoCompleteProps {
     } ; // Либо CSS-правила, либо media-теги
     label?: string;
     dropList?: { title: string }[];
+    size?: "medium" | "small"
 }
 
 const MyAutoComplete: React.FC<AutoCompleteProps> = ({ sx,
     label = 'label',
-    dropList = defaultDropList
+    dropList = defaultDropList,
+    size = "small"
 }) => {
 
     const options = dropList.map((option) => {
@@ -26,7 +28,7 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({ sx,
     return (
         <Autocomplete
             id="grouped-demo"
-            size="small"
+            size = {size}
             options={options}
             getOptionLabel={(option) => option.title}
             value={defaultValueIndex !== -1 ? options[defaultValueIndex] : null} // Исправляем ошибку несоответствия значений

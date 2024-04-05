@@ -5,6 +5,8 @@ import ImageUploading, { ImageListType } from 'react-images-uploading';
 //MyComponent Import 
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
+//MUI Import
+import Box from '@mui/material/Box'
 
 const MyImageUploading: React.FC = () => {
     const { themeMode }: ColorModeContextProps = useColorMode();
@@ -65,8 +67,8 @@ const MyImageUploading: React.FC = () => {
                         {imageList.length > 0 && (
                             <div 
                                 className="image-item" style={{ 
-                                    width: '25rem', 
-                                    height: '25rem', 
+                                    width: '24rem', 
+                                    height: '24rem', 
                                     borderRadius: '50%', 
                                     overflow: 'hidden'
                              }}
@@ -80,20 +82,27 @@ const MyImageUploading: React.FC = () => {
                                         objectFit: 'cover',
                                     }}
                                 />
-                                <div className="image-item__btn-wrapper" 
+                                <Box className="image-item__btn-wrapper" 
                                     style={{ 
                                         position: 'absolute', 
-                                        top: '36rem', 
-                                        left: '5rem', 
-                                        width: '25rem',
+                                        top: '35.4rem', 
+                                        left: '2.5rem', 
+                                        width: '24rem',
                                         zIndex: 1,
-                                        display: 'flex' }}>
+                                    }}
+                                    sx = {{
+                                        '@media screen and (max-width: 850px)': {
+                                            display: 'flow',
+                                        },
+                                    }}
+                                >
                                     <MyButton
                                         variant='contained'
                                         onClick={() => onImageUpdate(0)}
                                         sx={{
-                                            marginRight: '1rem',
-                                            minWidth: '50%',
+                                            marginBottom: '0.5rem',
+                                            minWidth: '100%',
+                                            height: '3.4rem'
                                         }}
                                     >
                                         Update
@@ -102,12 +111,13 @@ const MyImageUploading: React.FC = () => {
                                         variant='contained'
                                         onClick={() => removeImage()}
                                         sx={{
-                                            minWidth: '50%'
+                                            minWidth: '100%',
+                                            height: '3.4rem'
                                         }}
                                     >
                                         Remove
                                     </MyButton>
-                                </div>
+                                </Box>
                             </div>
                         )}
                     </div>

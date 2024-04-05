@@ -69,9 +69,6 @@ const PopularCourses: React.FC = () => {
         if (startIndex + itemsRowLimit < itemsMaxLimit) {
             setStartIndex(startIndex + itemsRowLimit);
         }
-        else {
-            //itemsRowLimit = startIndex + itemsRowLimit - itemsMaxLimit;
-        }
     };
 
     if (useMediaQuery('(max-width:90rem)')) {
