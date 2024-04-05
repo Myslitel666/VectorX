@@ -11,6 +11,7 @@ import EnglishAssistantHome from './Components/Services/EnglishAssistant/Pages/H
 import Home from './Components/Services/VectorX/Pages/Home/Home';
 import Registration from './Components/Services/Shared/AccountService/Pages/Registration/Registration';
 import Authorization from './Components/Services/Shared/AccountService/Pages/Authorization/Authorization';
+import Profile from './Components/Services/Shared/AccountService/Pages/Profile/Profile'
 import Redirect from '../src/Components/Common/Redirect'
 
 //CSS Import
@@ -30,7 +31,11 @@ function App() {
                     <Route
                         path="/home"
                         element={<Home />}
-                    />
+                        />
+                        <Route
+                            path="/profile"
+                            element={<Profile />}
+                        />
                     <Route
                         path="/english-assistant/home"
                         element={ <EnglishAssistantHome /> }

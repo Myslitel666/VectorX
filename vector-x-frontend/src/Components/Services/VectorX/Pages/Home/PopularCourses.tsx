@@ -124,7 +124,7 @@ const PopularCourses: React.FC = () => {
                         ':hover': {
                             transform: 'scale(1.2)'
                         }
-                }} />
+                    }} />
                 <Box
                     width='100%'
                     height='23rem'
@@ -141,54 +141,54 @@ const PopularCourses: React.FC = () => {
                     {popularCourses.
                         slice(startIndex, startIndex + increase).
                         map((course, index) => (
-                        <Box
-                            key={index}
-                            border='1px solid'
-                            borderColor={`${borderBoxColor}`}
-                            borderRadius='2rem'
-                            padding='1rem'
-                            paddingTop='0.5rem'
-                            paddingBottom='0.5rem'
-                            marginRight='1rem'
-                            sx={{
-                                marginBottom: '1rem',
-                                width: '15rem',
-                                height: '24rem',
-                            }}
-                        >
-                            <img src={course.imageUrl}
-                                style={{
-                                    maxWidth: '100%',
-                                    maxHeight: '12rem',
-                                    borderRadius: '8px',
-                                }}
-                            />
-                            <Typography
-                                fontSize="1rem"
-                                className="course-name"
-                                color="primary"
-                                fontWeight='bold'
+                            <Box
+                                key={index}
+                                border='1px solid'
+                                borderColor={`${borderBoxColor}`}
+                                borderRadius='2rem'
+                                padding='1rem'
+                                paddingTop='0.5rem'
+                                paddingBottom='0.5rem'
+                                marginRight='1rem'
                                 sx={{
-                                    transition: 'color 1s esea'
+                                    marginBottom: '1rem',
+                                    width: '15rem',
+                                    height: '24rem',
                                 }}
                             >
-                                {course.courseName}
-                            </Typography>
-                            <Typography
-                                fontSize='0.8rem'
-                                className='course-author'
-                            >{course.courseAuthor}</Typography>
-                            <Typography fontSize='1.3rem'>
-                                {course.coursePrice === 0 ? 'Free' : `${course.coursePrice} ₽`}
-                            </Typography>
-                            <MyButton
-                                variant="contained"
-                                sx={{minWidth: '90%'}}
-                            >
-                                {course.coursePrice === 0 ? 'get started' : 'add to cart'}
-                            </MyButton>
-                        </Box>
-                    ))}
+                                <img src={course.imageUrl}
+                                    style={{
+                                        maxWidth: '100%',
+                                        maxHeight: '12rem',
+                                        borderRadius: '8px',
+                                    }}
+                                />
+                                <Typography
+                                    fontSize="1rem"
+                                    className="course-name"
+                                    color="primary"
+                                    fontWeight='bold'
+                                    sx={{
+                                        transition: 'color 1s esea'
+                                    }}
+                                >
+                                    {course.courseName}
+                                </Typography>
+                                <Typography
+                                    fontSize='0.8rem'
+                                    className='course-author'
+                                >{course.courseAuthor}</Typography>
+                                <Typography fontSize='1.3rem'>
+                                    {course.coursePrice === 0 ? 'Free' : `${course.coursePrice} ₽`}
+                                </Typography>
+                                <MyButton
+                                    variant="contained"
+                                    sx={{ minWidth: '90%' }}
+                                >
+                                    {course.coursePrice === 0 ? 'get started' : 'add to cart'}
+                                </MyButton>
+                            </Box>
+                        ))}
                 </Box>
                 <ArrowCircleRightIcon
                     onClick={handleNextClick}
@@ -203,7 +203,7 @@ const PopularCourses: React.FC = () => {
                         ':hover': {
                             transform: 'scale(1.2)'
                         }
-                }} />
+                    }} />
             </Box>
         </>
     );

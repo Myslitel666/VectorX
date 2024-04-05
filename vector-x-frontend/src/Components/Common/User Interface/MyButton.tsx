@@ -2,14 +2,14 @@
 import Button, { ButtonProps } from '@mui/material/Button';
 
 interface MyButtonProps extends ButtonProps {
-    // Дополнительные свойства, если необходимо
+    
 }
 
 const MyButton: React.FC<MyButtonProps> = (props) => {
     return (
         <Button
             {...props}
-            disableElevation
+            disableElevation //Убираем тени
             sx={{
                 transition: 'background-color 1s ease, color 1s ease, border-color 1s ease',
                 border: 1,

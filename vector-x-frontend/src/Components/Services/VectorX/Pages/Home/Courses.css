@@ -27,3 +27,18 @@
 .course-box:hover {
     transform: scale(1.1);
 }
+
+/* Добавляем анимацию сдвига */
+.slide-in {
+    transition: transform 0.5s ease;
+}
+
+    /* Анимация для сдвига влево */
+    .slide-in.left {
+        transform: translateX(-100%);
+    }
+
+    /* Анимация для сдвига вправо */
+    .slide-in.right {
+        transform: translateX(100%);
+    }
