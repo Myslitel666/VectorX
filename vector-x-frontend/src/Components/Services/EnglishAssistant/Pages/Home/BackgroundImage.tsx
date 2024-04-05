@@ -56,7 +56,7 @@ const BackgroundImage: React.FC = () => {
         const currentLogoPath = getLogoImage();
 
         const delayedUpdate = () => {
-            const delay = 1; // задержка в миллисекундах
+            const delay = 1; // задержка в миллисекундах для корректного обновления изображения
 
             setTimeout(() => {
                 if (newLogoPath !== currentLogoPath) {

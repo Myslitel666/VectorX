@@ -1,25 +1,40 @@
 //React Import
 import React from 'react';
 //ImageUploading Import
-import ImageUploading, { ImageListType, ImageType } from 'react-images-uploading';
+import ImageUploading, { ImageListType } from 'react-images-uploading';
 //MyComponent Import 
-import MyButton from './MyButton'
+import MyButton from './MyButton';
+
+// Путь к изображению по умолчанию
+const defaultImageURL = '/images/default-avatars/light.jpg';
 
 const MyImageUploading: React.FC = () => {
-    const [images, setImages] = React.useState<ImageListType>([]);
-    const maxNumber = 69;
+    // Установка начального значения для imageList
+    const [image, setImage] = React.useState<ImageListType>([
+        {
+            data_url: defaultImageURL
+        }
+    ]);
+    const maxNumber = 1; // Задаем максимальное количество изображений равным 1
 
-    const onChange = (imageList: ImageListType, addUpdateIndex?: number[] | undefined) => {
+    const onChange = (imageList: ImageListType) => {
         // data for submit
-        console.log(imageList, addUpdateIndex);
-        setImages(imageList);
+        console.log(imageList);
+        setImage(imageList);
+    };
+
+    const removeImage = () => {
+        setImage([
+            {
+                data_url: defaultImageURL
+            }
+        ]);
     };
 
     return (
         <div className="App">
             <ImageUploading
-                multiple
-                value={images}
+                value={image}
                 onChange={onChange}
                 maxNumber={maxNumber}
                 dataURLKey="data_url"
@@ -35,28 +50,26 @@ const MyImageUploading: React.FC = () => {
                 }) => (
                     // write your building UI
                     <div className="upload__image-wrapper">
-                        <MyButton
-                            style={isDragging ? { color: 'red' } : undefined}
-                            onClick={onImageUpload}
-                            variant='contained'
-                            {...dragProps}
-                        >
-                            Click or Drop here
-                        </MyButton>
-                        &nbsp;
-                        <MyButton
-                            variant='contained'
-                            onClick={onImageRemoveAll}
-                        >
-                            Remove all images
-                        </MyButton>
-                        {imageList.map((image, index) => (
-                            <div key={index} className="image-item">
-                                <img src={image['data_url']} alt="" width="100" />
+                        {imageList.length > 0 && (
+                            <div 
+                                className="image-item"
+                            >
+                                <img 
+                                    src={imageList[0]['data_url']} 
+                                    alt="" 
+                                    style = {{
+                                        width: '100%',
+                                        height: '100%',
+                                        minWidth: '25rem',
+                                        minHeight: '25rem',
+                                        objectFit: 'cover',
+                                        //objectPosition: 'center' /* Центрируем изображение */
+                                    }}
+                                />
                                 <div className="image-item__btn-wrapper">
                                     <MyButton
                                         variant='contained'
-                                        onClick={() => onImageUpdate(index)}
+                                        onClick={() => onImageUpdate(0)}
                                         sx={{
                                             marginRight: '1rem',
                                             minWidth: '7.5rem',
@@ -66,7 +79,7 @@ const MyImageUploading: React.FC = () => {
                                     </MyButton>
                                     <MyButton
                                         variant='contained'
-                                        onClick={() => onImageRemove(index)}
+                                        onClick={() => removeImage()}
                                         sx={{
                                             minWidth: '7.5rem'
                                         }}
@@ -75,12 +88,12 @@ const MyImageUploading: React.FC = () => {
                                     </MyButton>
                                 </div>
                             </div>
-                        ))}
+                        )}
                     </div>
                 )}
             </ImageUploading>
         </div>
-    )
-}
+    );
+};
 
 export default MyImageUploading;

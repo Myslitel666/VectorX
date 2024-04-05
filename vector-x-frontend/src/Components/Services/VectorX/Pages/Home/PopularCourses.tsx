@@ -1,6 +1,5 @@
 ﻿//React Import
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 
 //MUI Import
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
