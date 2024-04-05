@@ -11,8 +11,8 @@ const BackgroundImage: React.FC = () => {
     if (themeMode === 'light') defaultLogoPath = '/images/background-light-green.png';
     else defaultLogoPath = '/images/background-dark-red.png';
 
-    const [oldLogoPath, setOldLogoPath] = useState(defaultLogoPath);
-    const [newLogoPath, setNewLogoPath] = useState(defaultLogoPath);
+    const [oldLogoPath, setOldImagePath] = useState(defaultLogoPath);
+    const [newLogoPath, setNewImagePath] = useState(defaultLogoPath);
     const [isThemeChanged, setIsThemeChanged] = useState(true);
 
     const getLogoImage = () => {
@@ -48,7 +48,7 @@ const BackgroundImage: React.FC = () => {
             return '/images/background-dark-light-green.png';
         } else {
             // Вернуть значение по умолчанию или для других условий
-            return '/images/logo-light-green.png';
+            return '/images/background-light-green.png';
         }
     };
 
@@ -60,8 +60,8 @@ const BackgroundImage: React.FC = () => {
 
             setTimeout(() => {
                 if (newLogoPath !== currentLogoPath) {
-                    setOldLogoPath(newLogoPath);
-                    setNewLogoPath(currentLogoPath);
+                    setOldImagePath(newLogoPath);
+                    setNewImagePath(currentLogoPath);
                     setIsThemeChanged(!isThemeChanged);
                 }
             }, delay);

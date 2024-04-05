@@ -1,34 +1,46 @@
 //React Import
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 //ImageUploading Import
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 //MyComponent Import 
-import MyButton from './MyButton';
-
-// Путь к изображению по умолчанию
-const defaultImageURL = '/images/default-avatars/light.jpg';
+import MyButton from '../../../../../Common/User Interface/MyButton';
+import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
 
 const MyImageUploading: React.FC = () => {
+    const { themeMode }: ColorModeContextProps = useColorMode();
+    let isHasAvatar = false;
+    let userAvatar = ''
+    let defaultAvatarPath = themeMode === 'dark' ? '/images/default-avatars/dark.jpg' : '/images/default-avatars/light.jpg';
+
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
         {
-            data_url: defaultImageURL
+            data_url: isHasAvatar? userAvatar : defaultAvatarPath
         }
     ]);
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
 
+    useEffect(() => {
+        setImage([
+            {
+                data_url: isHasAvatar? userAvatar : defaultAvatarPath
+            }
+        ]);
+    }, [defaultAvatarPath, isHasAvatar]
+    )
+
     const onChange = (imageList: ImageListType) => {
         // data for submit
-        console.log(imageList);
         setImage(imageList);
     };
 
     const removeImage = () => {
         setImage([
             {
-                data_url: defaultImageURL
+                data_url: defaultAvatarPath
             }
         ]);
+        isHasAvatar = false;
     };
 
     return (
@@ -60,7 +72,7 @@ const MyImageUploading: React.FC = () => {
                              }}
                             >
                                 <img 
-                                    src={imageList[0]['data_url']} 
+                                    src={imageList[0]['data_url']}
                                     alt="" 
                                     style = {{
                                         width: '100%',

@@ -3,13 +3,12 @@ import React from 'react'
 
 //MUI Import
 import Typography from '@mui/material/Typography';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material';
 
 //MyComponents Import
 import Header from '../../../../../Common/Header/Header';
-import MyImageUploading from '../../../../../Common/User Interface/MyImageUploading';
+import MyImageUploading from './MyImageUploading';
 
 const Profile: React.FC = () => {
     const Avatar: React.FC = () => {
@@ -20,9 +19,7 @@ const Profile: React.FC = () => {
             <>
                 <Box 
                     sx={{ 
-                        //width: '25rem',
-                        //height: '25rem',
-                        //overflow: 'hidden',
+                        marginTop: '0.5rem',
                     }}
                 >
                     <MyImageUploading />
