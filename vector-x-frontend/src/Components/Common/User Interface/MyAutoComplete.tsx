@@ -2,28 +2,36 @@
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
+// Определение типа для объекта с полем title
+type Option = { title: string };
+
 interface AutoCompleteProps {
     sx?: React.CSSProperties | {
         [key: string]: React.CSSProperties | undefined;
     } ; // Либо CSS-правила, либо media-теги
     label?: string;
     dropList?: { title: string }[];
-    size?: "medium" | "small"
+    size?: "medium" | "small";
+    onFieldSelectionChange?: (selectedValue: string) => void; // Обработчик события для выбора поля
+    defaultValue?: Option | null;
 }
 
-const MyAutoComplete: React.FC<AutoCompleteProps> = ({ sx,
+const MyAutoComplete: React.FC<AutoCompleteProps> = ({ 
+    sx,
     label = 'label',
     dropList = defaultDropList,
-    size = "small"
+    size = "small",
+    onFieldSelectionChange,
+    defaultValue = { title: '' }
 }) => {
 
-    const options = dropList.map((option) => {
-        return {
-            ...option,
-        };
-    });
+    const options = dropList.map((option) => ({ ...option }));
 
-    const defaultValueIndex = dropList.findIndex((option) => option.title === dropList[0]?.title);
+    const handleFieldSelectionChange = (event: React.ChangeEvent<{}>, selectedOption: { title: string } | null) => {
+        if (selectedOption && onFieldSelectionChange) {
+            onFieldSelectionChange(selectedOption.title); // Вызываем обработчик события с выбранным значением
+        }
+    };
 
     return (
         <Autocomplete
@@ -31,10 +39,11 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({ sx,
             size = {size}
             options={options}
             getOptionLabel={(option) => option.title}
-            value={defaultValueIndex !== -1 ? options[defaultValueIndex] : null} // Исправляем ошибку несоответствия значений
+            value = {defaultValue}
             sx={{
                 ...sx
             }}
+            onChange={handleFieldSelectionChange} // Передаем обработчик события onChange
             renderInput={(params) => <TextField {...params} label={ label } />}
         />
     );

@@ -1,5 +1,5 @@
 //React Import
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 //MUI Import
 import Typography from '@mui/material/Typography';
@@ -12,12 +12,31 @@ import MyImageUploading from './MyImageUploading';
 import MyTypography from '../../../../../Common/User Interface/MyTypography';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete';
+import RedactModal from './RedactModal';
 import { useUserContext } from '../../../../../../Context/UserContext'
 
 const Profile: React.FC = () => {
-    //Работа с контекстом
+    
     const { getUser } = useUserContext();
     const user = getUser();
+
+    const [selectedField, setSelectedField] = useState('Username');
+
+    const handleFieldSelectionChange = (fieldSelection: string) => {
+        setSelectedField(fieldSelection);
+    };
+
+    useEffect(()=>{
+        console.log(selectedField);
+    },[selectedField])
+
+    interface AttributeValueProps  {
+        attribute: string;
+        value: string;
+        sx?: React.CSSProperties | {
+            [key: string]: React.CSSProperties | undefined;
+        } ; // Либо CSS-правила, либо media-теги
+    }
 
     const MyAccountTypography: React.FC = () => {
 
@@ -50,14 +69,6 @@ const Profile: React.FC = () => {
                 </Box>
             </>
         )
-    }
-
-    interface AttributeValueProps  {
-        attribute: string;
-        value: string;
-        sx?: React.CSSProperties | {
-            [key: string]: React.CSSProperties | undefined;
-        } ; // Либо CSS-правила, либо media-теги
     }
 
     const AttributeValue: React.FC<AttributeValueProps> = ({ attribute, value, sx }) => {
@@ -151,25 +162,15 @@ const Profile: React.FC = () => {
                             label = 'Field Selection'
                             dropList={fieldSelectionDropList}
                             size='medium'
+                            onFieldSelectionChange={handleFieldSelectionChange}
+                            defaultValue={{title: selectedField} }
                             sx = {{
                                 marginTop: '1rem',
                                 marginRight: '1rem',
                                 width: '60%',
                             }}
                         />
-                        <MyButton
-                            variant='contained'
-                            sx = {{
-                                marginTop: '1rem',
-                                marginRight: '1rem',
-                                marginBottom: '1.4rem',
-                                width: '40%',
-                                height: '3.5rem',
-                                
-                            }}
-                        >
-                            Redact
-                        </MyButton>
+                        <RedactModal selectedField={selectedField}/>
                     </Box>
                 </Box>
             </Box>
