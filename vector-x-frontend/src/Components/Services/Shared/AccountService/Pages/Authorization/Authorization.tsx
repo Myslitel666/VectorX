@@ -149,7 +149,7 @@ const Authorization: React.FC = () => {
                 <PasswordTextField
                     externalPassword={password}
                     setExternalPassword={setPassword}
-                    containerSx={{ width: '100%', marginTop: '1rem' }}
+                    sx={{ width: '100%', marginTop: '1rem' }}
                 />
                 <Box style={{ display: 'flex', alignItems: 'center' }}>
                     <FormControlLabel

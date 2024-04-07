@@ -11,13 +11,13 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 interface PasswordTextFieldProps {
     externalPassword: string;
     setExternalPassword: React.Dispatch<React.SetStateAction<string>>;
-    containerSx?: React.CSSProperties; // Дополнительные стили для контейнера
+    sx?: React.CSSProperties; // Дополнительные стили для контейнера
 }
 
 const PasswordTextField: React.FC<PasswordTextFieldProps> = ({
         externalPassword,
         setExternalPassword,
-        containerSx
+        sx
     }) => {
     const [showPassword, setShowPassword] = React.useState(false);
     const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -44,9 +44,9 @@ const PasswordTextField: React.FC<PasswordTextFieldProps> = ({
             setCursorPosition(inputRef.current.selectionStart);
         }
     };
-
+    
     return (
-        <FormControl sx={{ ...containerSx }} variant='outlined'>
+        <FormControl sx={{ ...sx }}variant='outlined'>
             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
             <OutlinedInput
                 label='Password'

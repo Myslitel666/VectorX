@@ -159,12 +159,12 @@ const Registration: React.FC = () => {
                 <PasswordTextField
                     externalPassword={password}
                     setExternalPassword={setPassword}
-                    containerSx={{ width: '100%', marginTop: '1rem' }}
+                    sx={{ width: '100%', marginTop: '1rem' }}
                 />
                 <PasswordTextField
                     externalPassword={confirmPassword}
                     setExternalPassword={setConfirmPassword}
-                    containerSx={{ width: '100%', marginTop: '1rem' }}
+                    sx={{ width: '100%', marginTop: '1rem' }}
                 />
                 <MyButton
                     variant="contained"
