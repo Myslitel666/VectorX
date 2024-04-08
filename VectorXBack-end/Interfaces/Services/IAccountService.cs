@@ -5,8 +5,8 @@ namespace VectorXBackend.Interfaces.Services
 {
     public interface IAccountService
     {
-        Task<AuthorizationResponseDto> AuthorizeUser(UserDto userDto);
+        Task<AuthResponseDto> AuthorizeUser(UserDto userDto);
 
-        Task<AuthorizationResponseDto> RegisterUser(UserDto userDto);
+        Task<AuthResponseDto> RegisterUser(UserDto userDto);
     }
 }

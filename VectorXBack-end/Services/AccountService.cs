@@ -17,7 +17,7 @@ namespace VectorXBackend.Services
             _roleRepository = roleRepository;
         }
 
-        public async Task<AuthorizationResponseDto> AuthorizeUser(UserDto userDto)
+        public async Task<AuthResponseDto> AuthorizeUser(UserDto userDto)
         {
             //Извлекаем пользователя из списка по username (в случае его отсутствия получим null)
             var existingUser = await _userRepository.GetUserByUsername(userDto.Username);
@@ -25,7 +25,7 @@ namespace VectorXBackend.Services
             //Если пользователя с данным username не существует
             if (existingUser == null)
             {
-                var response = new AuthorizationResponseDto()
+                var response = new AuthResponseDto()
                 {
                     IsError = true,
                     FeedbackMessage = "✗A user with this username does not exist"
@@ -37,7 +37,7 @@ namespace VectorXBackend.Services
                 //Если пароль не верный
                 if (existingUser.Password != userDto.Password)
                 {
-                    var response = new AuthorizationResponseDto()
+                    var response = new AuthResponseDto()
                     {
                         IsError = true,
                         FeedbackMessage = "✗The password is incorrect"
@@ -59,7 +59,7 @@ namespace VectorXBackend.Services
                             Username = existingUser.Username,
                         };
 
-                        var response = new AuthorizationResponseDto()
+                        var response = new AuthResponseDto()
                         {
                             IsError = false,
                             FeedbackMessage = "✓User successfully authorized",
@@ -69,7 +69,7 @@ namespace VectorXBackend.Services
                     }
                     catch (Exception ex)
                     {
-                        AuthorizationResponseDto response = new AuthorizationResponseDto()
+                        AuthResponseDto response = new AuthResponseDto()
                         {
                             IsError = true,
                             FeedbackMessage = $"✗Failed to complete the authorization. Error: {ex.Message}"
@@ -80,7 +80,7 @@ namespace VectorXBackend.Services
             }
         }
 
-        public async Task<AuthorizationResponseDto> RegisterUser(UserDto userDto)
+        public async Task<AuthResponseDto> RegisterUser(UserDto userDto)
         {
             //Извлекаем пользователя из списка по username (в случае его отсутствия получим null)
             var existingUser = await _userRepository.GetUserByUsername(userDto.Username);
@@ -88,7 +88,7 @@ namespace VectorXBackend.Services
             //Если пользователь с данным username уже присутствует в System
             if (existingUser != null)
             {
-                var response = new AuthorizationResponseDto()
+                var response = new AuthResponseDto()
                 {
                     IsError = true,
                     FeedbackMessage = "✗A user with this username already exists"
@@ -102,7 +102,7 @@ namespace VectorXBackend.Services
             //Если пользователь с данным паролем уже присутствует в System
             if (existingUser != null)
             {
-                var response = new AuthorizationResponseDto()
+                var response = new AuthResponseDto()
                 {
                     IsError = true,
                     FeedbackMessage = "✗This password is already taken"
@@ -117,7 +117,7 @@ namespace VectorXBackend.Services
 
                 if (role == null)
                 {
-                    var response = new AuthorizationResponseDto()
+                    var response = new AuthResponseDto()
                     {
                         IsError = true,
                         FeedbackMessage = "✗Role does not exist"
@@ -145,7 +145,7 @@ namespace VectorXBackend.Services
                         Username = registeredUser.Username,
                     };
 
-                    var response = new AuthorizationResponseDto()
+                    var response = new AuthResponseDto()
                     {
                         IsError = false,
                         FeedbackMessage = "✓User successfully registered",
@@ -156,7 +156,7 @@ namespace VectorXBackend.Services
             }
             catch (Exception ex)
             {
-                var response = new AuthorizationResponseDto()
+                var response = new AuthResponseDto()
                 {
                     IsError = true,
                     FeedbackMessage = $"✗Failed to complete the registration. Error: {ex.Message}"
@@ -165,9 +165,58 @@ namespace VectorXBackend.Services
             }
         }
 
-        //public async Task<AuthorizationResponseDto> RedactUserInfo(UserDto userDto)
-        //{
-            
-        //}
+        public async Task<UserInfoRedactDto> RedactUserInfo(UsernameRedactDto usernameRedactDto)
+        {
+            //Извлекаем пользователя из списка по userId (в случае его отсутствия получим null)
+            var existingUser = await _userRepository.GetUserById(usernameRedactDto.UserId);
+
+            //Если пользователь с данным userId существует
+            if (existingUser != null)
+            {
+                //Проверяем, существует ли пользователь с желаемым usernam'ом другим пользователем
+                var potentialUser = await _userRepository.GetUserByUsername(usernameRedactDto.DesiredUsername);
+
+                //Если пользователь с данным username уже существует
+                if (potentialUser != null)
+                {
+                    var response = new UserInfoRedactDto()
+                    {
+                        IsError = true,
+                        FeedbackMessage = "✗A user with this username already exists"
+                    };
+                    return response;
+                }
+                else
+                {
+                    try 
+                    {
+                        _userRepository.RedactUsername(usernameRedactDto);
+
+                        var response = new UserInfoRedactDto()
+                        {
+                            IsError = false,
+                            FeedbackMessage = "✓The username has been successfully changed"
+                        };
+                        return response;
+                    }
+                    catch (Exception ex)
+                    {
+                        var response = new UserInfoRedactDto()
+                        {
+                            IsError = true,
+                            FeedbackMessage = $"✗Failed to change the username. Error: {ex.Message}"
+                        };
+                        return response;
+                    }
+                }
+            }
+
+            //Если пользователя с данным userId не было обнаружено репозиторием
+            return new UserInfoRedactDto()
+            {
+                IsError = true,
+                FeedbackMessage = $"✗Failed to change the username. You may have been removed from the system."
+            };
+        }
     }
 }

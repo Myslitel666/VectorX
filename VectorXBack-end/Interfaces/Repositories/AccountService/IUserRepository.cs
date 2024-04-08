@@ -1,5 +1,6 @@
 ﻿using VectorXBackend.Models.Entities;
 using VectorXBackend.DTOs.Requests;
+using VectorXBackend.DTOs.Requests.AccountService;
 
 namespace VectorXBackend.Interfaces.Repositories.AccountService
 {
@@ -12,5 +13,7 @@ namespace VectorXBackend.Interfaces.Repositories.AccountService
         Task<User> GetUserByPassword(string password);
 
         Task AddUser(User user);
+
+        Task RedactUsername(UsernameRedactDto usernameRedactDto);
     }
 }

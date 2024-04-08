@@ -1,7 +1,9 @@
 ﻿using VectorXBackend.Context;
 using VectorXBackend.Interfaces.Repositories.AccountService;
+using VectorXBackend.DTOs.Requests.AccountService;
 using VectorXBackend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using VectorXBackend.DTOs.Requests.EnglishAssistant;
 
 namespace VectorXBackend.Repositories.AccountService
 {
@@ -38,5 +40,11 @@ namespace VectorXBackend.Repositories.AccountService
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task RedactUsername(UsernameRedactDto usernameRedactDto)
+        {
+            var user = await GetUserById(usernameRedactDto.UserId); // Извлекаем пользователя по Id
+            user.Username = usernameRedactDto.DesiredUsername; // Меняем Username
+            await _dbContext.SaveChangesAsync(); // Сохраняем изменения
+        }
     }
 }
