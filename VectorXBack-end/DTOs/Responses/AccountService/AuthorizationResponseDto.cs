@@ -1,6 +1,6 @@
-﻿using EnglishAssistantBackend.DTOs.Requests;
+﻿using VectorXBackend.DTOs.Requests.AccountService;
 
-namespace EnglishAssistantBackend.DTOs.Responses
+namespace VectorXBackend.DTOs.Responses.AccountService
 {
     public class AuthorizationResponseDto : ResponseBase
     {

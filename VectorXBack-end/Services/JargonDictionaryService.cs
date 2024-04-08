@@ -1,12 +1,12 @@
-﻿using EnglishAssistantBackend.Interfaces.Services;
-using EnglishAssistantBackend.Interfaces.Repositories;
-using EnglishAssistantBackend.Models.Entities;
-using EnglishAssistantBackend.DTOs.Requests;
-using EnglishAssistantBackend.DTOs.Responses;
+﻿using VectorXBackend.Interfaces.Services;
+using VectorXBackend.Interfaces.Repositories.EnglishAssistant;
+using VectorXBackend.Models.Entities;
+using VectorXBackend.DTOs.Requests.EnglishAssistant;
+using VectorXBackend.DTOs.Responses.EnglishAssistant;
 
-namespace EnglishAssistantBackend.Services
+namespace VectorXBackend.Services
 {
-    public class JargonDictionaryService : IJargonDictionaryService
+    public class JargonDictionaryService : IEnglishAssistantService
     {
         private readonly IUserJargonsRepository _userJargonsRepository;
         private readonly IJargonRepository _jargonRepository;

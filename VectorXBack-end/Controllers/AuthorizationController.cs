@@ -1,12 +1,8 @@
-﻿using EnglishAssistantBackend.Context;
-using EnglishAssistantBackend.Models.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EnglishAssistantBackend.Repositories;
-using EnglishAssistantBackend.Interfaces.Services;
-using EnglishAssistantBackend.DTOs.Requests;
+﻿using Microsoft.AspNetCore.Mvc;
+using VectorXBackend.Interfaces.Services;
+using VectorXBackend.DTOs.Requests.AccountService;
 
-namespace EnglishAssistantBackend.Controllers
+namespace VectorXBackend.Controllers
 {
     [Route("api/auth")]
     [ApiController]

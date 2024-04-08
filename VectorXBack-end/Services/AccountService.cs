@@ -1,10 +1,10 @@
-﻿using EnglishAssistantBackend.Interfaces.Services;
-using EnglishAssistantBackend.Interfaces.Repositories;
-using EnglishAssistantBackend.Models.Entities;
-using EnglishAssistantBackend.DTOs.Requests;
-using EnglishAssistantBackend.DTOs.Responses;
+﻿using VectorXBackend.Interfaces.Services;
+using VectorXBackend.Interfaces.Repositories.AccountService;
+using VectorXBackend.Models.Entities;
+using VectorXBackend.DTOs.Requests.AccountService;
+using VectorXBackend.DTOs.Responses.AccountService;
 
-namespace EnglishAssistantBackend.Services
+namespace VectorXBackend.Services
 {
     public class AccountService : IAccountService
     {
@@ -164,5 +164,10 @@ namespace EnglishAssistantBackend.Services
                 return response;
             }
         }
+
+        //public async Task<AuthorizationResponseDto> RedactUserInfo(UserDto userDto)
+        //{
+            
+        //}
     }
 }

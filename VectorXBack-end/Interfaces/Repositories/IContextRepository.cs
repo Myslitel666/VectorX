@@ -1,6 +1,4 @@
-﻿using EnglishAssistantBackend.Models.Entities;
-
-namespace EnglishAssistantBackend.Interfaces.Repositories
+﻿namespace VectorXBackend.Interfaces.Repositories
 {
     public interface IContextRepository
     {

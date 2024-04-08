@@ -1,4 +1,4 @@
-﻿namespace EnglishAssistantBackend.DTOs.Responses
+﻿namespace VectorXBackend.DTOs.Responses
 {
     public class ResponseBase
     {

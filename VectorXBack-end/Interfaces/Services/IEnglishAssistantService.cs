@@ -1,10 +1,10 @@
-﻿using EnglishAssistantBackend.DTOs.Requests;
-using EnglishAssistantBackend.DTOs.Responses;
-using EnglishAssistantBackend.Models.Entities;
+﻿using VectorXBackend.DTOs.Requests.EnglishAssistant;
+using VectorXBackend.DTOs.Responses.EnglishAssistant;
+using VectorXBackend.Models.Entities;
 
-namespace EnglishAssistantBackend.Interfaces.Services
+namespace VectorXBackend.Interfaces.Services
 {
-    public interface IJargonDictionaryService
+    public interface IEnglishAssistantService
     {
         Task<IEnumerable<Jargon>> GetUserJargons(int userId);
 

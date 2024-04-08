@@ -1,7 +1,7 @@
-﻿using EnglishAssistantBackend.Models.Entities;
-using EnglishAssistantBackend.DTOs.Requests;
+﻿using VectorXBackend.Models.Entities;
+using VectorXBackend.DTOs.Requests;
 
-namespace EnglishAssistantBackend.Interfaces.Repositories
+namespace VectorXBackend.Interfaces.Repositories.AccountService
 {
     public interface IUserRepository
     {

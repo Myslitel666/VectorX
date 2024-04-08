@@ -1,7 +1,7 @@
-﻿using EnglishAssistantBackend.DTOs.Requests;
-using EnglishAssistantBackend.DTOs.Responses;
+﻿using VectorXBackend.DTOs.Requests.AccountService;
+using VectorXBackend.DTOs.Responses.AccountService;
 
-namespace EnglishAssistantBackend.Interfaces.Services
+namespace VectorXBackend.Interfaces.Services
 {
     public interface IAccountService
     {

@@ -1,9 +1,9 @@
-﻿using EnglishAssistantBackend.Context;
-using EnglishAssistantBackend.Interfaces.Repositories;
-using EnglishAssistantBackend.Models.Entities;
+﻿using VectorXBackend.Context;
+using VectorXBackend.Interfaces.Repositories.AccountService;
+using VectorXBackend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnglishAssistantBackend.Repositories
+namespace VectorXBackend.Repositories.AccountService
 {
     public class UserRepository : IUserRepository
     {

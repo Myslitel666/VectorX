@@ -1,22 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EnglishAssistantBackend.Context;
-using EnglishAssistantBackend.Models.Entities;
-using EnglishAssistantBackend.DTOs.Requests;
-using EnglishAssistantBackend.Interfaces.Services;
-using EnglishAssistantBackend.Interfaces.Repositories;
-using EnglishAssistantBackend.Repositories;
+using VectorXBackend.Context;
+using VectorXBackend.DTOs.Requests.AccountService;
+using VectorXBackend.DTOs.Requests.EnglishAssistant;
+using VectorXBackend.Interfaces.Services;
 
-namespace EnglishAssistantBackend.Controllers
+namespace VectorXBackend.Controllers
 {
     [Route("api/english-assistant/home")]
     [ApiController]
     public class HomeController : Controller
     {
         private EnglishAssistantContext _dbContext;
-        private readonly IJargonDictionaryService _jargonDictionaryService;
+        private readonly IEnglishAssistantService _jargonDictionaryService;
 
-        public HomeController(IJargonDictionaryService jargonDictionaryService)
+        public HomeController(IEnglishAssistantService jargonDictionaryService)
         {
             _dbContext = new EnglishAssistantContext();
             _jargonDictionaryService = jargonDictionaryService;

@@ -1,10 +1,9 @@
-﻿using EnglishAssistantBackend.Context;
-using EnglishAssistantBackend.DTOs.Requests;
-using EnglishAssistantBackend.Interfaces.Repositories;
-using EnglishAssistantBackend.Models.Entities;
+﻿using VectorXBackend.Context;
+using VectorXBackend.Interfaces.Repositories.EnglishAssistant;
+using VectorXBackend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnglishAssistantBackend.Repositories
+namespace VectorXBackend.Repositories.EnglishAssistant
 {
     public class UserJargonsRepository : IUserJargonsRepository
     {
@@ -55,8 +54,8 @@ namespace EnglishAssistantBackend.Repositories
         public async Task<UserJargon> GetUserJargon(int userId, int jargonId)
         {
             return await _dbContext.UserJargons.FirstOrDefaultAsync(
-                userJargon => 
-                userJargon.UserId == userId && 
+                userJargon =>
+                userJargon.UserId == userId &&
                 userJargon.JargonId == jargonId
             );
         }

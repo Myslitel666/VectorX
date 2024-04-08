@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EnglishAssistantBackend.Models.Entities;
+namespace VectorXBackend.Models.Entities;
 
 public partial class UserJargon
 {

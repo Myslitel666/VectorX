@@ -1,6 +1,6 @@
-﻿using EnglishAssistantBackend.Models.Entities;
+﻿using VectorXBackend.Models.Entities;
 
-namespace EnglishAssistantBackend.Interfaces.Repositories
+namespace VectorXBackend.Interfaces.Repositories.EnglishAssistant
 {
     public interface IUserJargonsRepository
     {

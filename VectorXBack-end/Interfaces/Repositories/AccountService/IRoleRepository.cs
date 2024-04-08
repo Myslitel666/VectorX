@@ -1,6 +1,6 @@
-﻿using EnglishAssistantBackend.Models.Entities;
+﻿using VectorXBackend.Models.Entities;
 
-namespace EnglishAssistantBackend.Interfaces.Repositories
+namespace VectorXBackend.Interfaces.Repositories.AccountService
 {
     public interface IRoleRepository
     {

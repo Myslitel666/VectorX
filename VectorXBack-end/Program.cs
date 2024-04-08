@@ -1,10 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using EnglishAssistantBackend.Context;
-using EnglishAssistantBackend.Repositories;
-using EnglishAssistantBackend.Interfaces.Repositories;
-using EnglishAssistantBackend.Interfaces.Services;
-using EnglishAssistantBackend.Services;
-using EnglishAssistantBackend.Properties;
+using VectorXBackend.Properties;
 
 var builder = WebApplication.CreateBuilder(args);
 

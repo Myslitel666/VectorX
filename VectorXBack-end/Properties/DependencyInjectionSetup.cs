@@ -1,11 +1,15 @@
-﻿using EnglishAssistantBackend.Context;
-using EnglishAssistantBackend.Interfaces.Repositories;
-using EnglishAssistantBackend.Interfaces.Services;
-using EnglishAssistantBackend.Repositories;
-using EnglishAssistantBackend.Services;
+﻿using VectorXBackend.Context;
+using VectorXBackend.Interfaces.Repositories;
+using VectorXBackend.Interfaces.Repositories.AccountService;
+using VectorXBackend.Interfaces.Repositories.EnglishAssistant;
+using VectorXBackend.Interfaces.Services;
+using VectorXBackend.Repositories;
+using VectorXBackend.Repositories.AccountService;
+using VectorXBackend.Repositories.EnglishAssistant;
+using VectorXBackend.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnglishAssistantBackend.Properties
+namespace VectorXBackend.Properties
 {
     public class DependencyInjectionSetup
     {
@@ -24,7 +28,7 @@ namespace EnglishAssistantBackend.Properties
 
             // Services
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IJargonDictionaryService, JargonDictionaryService>();
+            services.AddScoped<IEnglishAssistantService, JargonDictionaryService>();
         }
     }
 }

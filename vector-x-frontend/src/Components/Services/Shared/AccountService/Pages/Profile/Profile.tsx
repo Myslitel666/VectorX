@@ -4,13 +4,11 @@ import React, {useEffect, useState} from 'react'
 //MUI Import
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material';
 
 //MyComponents Import
 import Header from '../../../../../Common/Header/Header';
 import MyImageUploading from './MyImageUploading';
 import MyTypography from '../../../../../Common/User Interface/MyTypography';
-import MyButton from '../../../../../Common/User Interface/MyButton';
 import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete';
 import RedactModal from './RedactModal';
 import { useUserContext } from '../../../../../../Context/UserContext'

@@ -1,7 +1,7 @@
-﻿using EnglishAssistantBackend.DTOs.Requests;
-using EnglishAssistantBackend.Models.Entities;
+﻿using VectorXBackend.DTOs.Requests.EnglishAssistant;
+using VectorXBackend.Models.Entities;
 
-namespace EnglishAssistantBackend.Interfaces.Repositories
+namespace VectorXBackend.Interfaces.Repositories.EnglishAssistant
 {
     public interface IJargonRepository
     {

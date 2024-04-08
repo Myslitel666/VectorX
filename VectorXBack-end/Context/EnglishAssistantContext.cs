@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using EnglishAssistantBackend.Models.Entities;
+using VectorXBackend.Models.Entities;
 
-namespace EnglishAssistantBackend.Context;
+namespace VectorXBackend.Context;
 
 public partial class EnglishAssistantContext : DbContext
 {

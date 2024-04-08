@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace EnglishAssistantBackend.DTOs.Requests;
+namespace VectorXBackend.DTOs.Requests.AccountService;
 
 public partial class UserDto
 {

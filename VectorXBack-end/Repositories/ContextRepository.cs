@@ -1,8 +1,8 @@
-﻿using EnglishAssistantBackend.Context;
-using EnglishAssistantBackend.Interfaces.Repositories;
+﻿using VectorXBackend.Context;
+using VectorXBackend.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace EnglishAssistantBackend.Repositories
+namespace VectorXBackend.Repositories
 {
     public class ContextRepository : IContextRepository
     {

@@ -1,4 +1,4 @@
-﻿namespace EnglishAssistantBackend.DTOs.Requests;
+﻿namespace VectorXBackend.DTOs.Requests.EnglishAssistant;
 
 public class JargonDto
 {
