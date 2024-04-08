@@ -165,7 +165,7 @@ namespace VectorXBackend.Services
             }
         }
 
-        public async Task<UserInfoRedactDto> RedactUserInfo(UsernameRedactDto usernameRedactDto)
+        public async Task<UserDataRedactDto> RedactUserData(UsernameRedactDto usernameRedactDto)
         {
             //Извлекаем пользователя из списка по userId (в случае его отсутствия получим null)
             var existingUser = await _userRepository.GetUserById(usernameRedactDto.UserId);
@@ -179,7 +179,7 @@ namespace VectorXBackend.Services
                 //Если пользователь с данным username уже существует
                 if (potentialUser != null)
                 {
-                    var response = new UserInfoRedactDto()
+                    var response = new UserDataRedactDto()
                     {
                         IsError = true,
                         FeedbackMessage = "✗A user with this username already exists"
@@ -190,9 +190,9 @@ namespace VectorXBackend.Services
                 {
                     try 
                     {
-                        _userRepository.RedactUsername(usernameRedactDto);
+                        _userRepository.RedactUserData(usernameRedactDto);
 
-                        var response = new UserInfoRedactDto()
+                        var response = new UserDataRedactDto()
                         {
                             IsError = false,
                             FeedbackMessage = "✓The username has been successfully changed"
@@ -201,7 +201,7 @@ namespace VectorXBackend.Services
                     }
                     catch (Exception ex)
                     {
-                        var response = new UserInfoRedactDto()
+                        var response = new UserDataRedactDto()
                         {
                             IsError = true,
                             FeedbackMessage = $"✗Failed to change the username. Error: {ex.Message}"
@@ -212,10 +212,64 @@ namespace VectorXBackend.Services
             }
 
             //Если пользователя с данным userId не было обнаружено репозиторием
-            return new UserInfoRedactDto()
+            return new UserDataRedactDto()
             {
                 IsError = true,
                 FeedbackMessage = $"✗Failed to change the username. You may have been removed from the system."
+            };
+        }
+
+        public async Task<UserDataRedactDto> RedactUserData(PasswordRedactDto passwordRedactDto)
+        {
+            //Извлекаем пользователя из списка по userId (в случае его отсутствия получим null)
+            var existingUser = await _userRepository.GetUserById(passwordRedactDto.UserId);
+
+            //Если пользователь с данным userId существует
+            if (existingUser != null)
+            {
+                //Проверяем, занят ли желаемый пароль другим пользователем
+                var potentialUser = await _userRepository.GetUserByPassword(passwordRedactDto.DesiredPassword);
+
+                //Если пароль уже занят
+                if (potentialUser != null)
+                {
+                    var response = new UserDataRedactDto()
+                    {
+                        IsError = true,
+                        FeedbackMessage = "✗This password is already taken"
+                    };
+                    return response;
+                }
+                else
+                {
+                    try
+                    {
+                        _userRepository.RedactUserData(passwordRedactDto);
+
+                        var response = new UserDataRedactDto()
+                        {
+                            IsError = false,
+                            FeedbackMessage = "✓The password has been successfully changed"
+                        };
+                        return response;
+                    }
+                    catch (Exception ex)
+                    {
+                        var response = new UserDataRedactDto()
+                        {
+                            IsError = true,
+                            FeedbackMessage = $"✗Failed to change the password. Error: {ex.Message}"
+                        };
+                        return response;
+                    }
+                }
+            }
+
+            //Если пользователя с данным userId не было обнаружено репозиторием
+            return new UserDataRedactDto()
+            {
+                IsError = true,
+                FeedbackMessage = $"✗Failed to change the password. You may have been removed from the system."
             };
         }
     }

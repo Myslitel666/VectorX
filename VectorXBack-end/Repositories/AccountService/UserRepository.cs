@@ -40,10 +40,17 @@ namespace VectorXBackend.Repositories.AccountService
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task RedactUsername(UsernameRedactDto usernameRedactDto)
+        public async Task RedactUserData(UsernameRedactDto usernameRedactDto)
         {
             var user = await GetUserById(usernameRedactDto.UserId); // Извлекаем пользователя по Id
             user.Username = usernameRedactDto.DesiredUsername; // Меняем Username
+            await _dbContext.SaveChangesAsync(); // Сохраняем изменения
+        }
+
+        public async Task RedactUserData(PasswordRedactDto passwordRedactDto)
+        {
+            var user = await GetUserById(passwordRedactDto.UserId); // Извлекаем пользователя по Id
+            user.Username = passwordRedactDto.DesiredPassword; // Меняем Password
             await _dbContext.SaveChangesAsync(); // Сохраняем изменения
         }
     }
