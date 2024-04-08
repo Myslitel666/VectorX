@@ -2,7 +2,7 @@
 using VectorXBackend.Interfaces.Services;
 using VectorXBackend.DTOs.Requests.AccountService;
 
-namespace EnglishAssistantBackend.Controllers
+namespace VectorXBackend.Controllers.AccountService
 {
     [Route("api/reg")]
     [ApiController]

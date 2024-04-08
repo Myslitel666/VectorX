@@ -4,16 +4,16 @@ using VectorXBackend.DTOs.Requests.AccountService;
 using VectorXBackend.DTOs.Requests.EnglishAssistant;
 using VectorXBackend.Interfaces.Services;
 
-namespace VectorXBackend.Controllers
+namespace VectorXBackend.Controllers.EnglishAssistant
 {
     [Route("api/english-assistant/home")]
     [ApiController]
-    public class HomeController : Controller
+    public class EnglishAssistantController : Controller
     {
         private EnglishAssistantContext _dbContext;
         private readonly IEnglishAssistantService _jargonDictionaryService;
 
-        public HomeController(IEnglishAssistantService jargonDictionaryService)
+        public EnglishAssistantController(IEnglishAssistantService jargonDictionaryService)
         {
             _dbContext = new EnglishAssistantContext();
             _jargonDictionaryService = jargonDictionaryService;

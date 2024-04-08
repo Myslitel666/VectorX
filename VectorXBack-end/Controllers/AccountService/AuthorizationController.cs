@@ -2,7 +2,7 @@
 using VectorXBackend.Interfaces.Services;
 using VectorXBackend.DTOs.Requests.AccountService;
 
-namespace VectorXBackend.Controllers
+namespace VectorXBackend.Controllers.AccountService
 {
     [Route("api/auth")]
     [ApiController]
@@ -18,9 +18,9 @@ namespace VectorXBackend.Controllers
         [HttpPost("findUser")]
         public async Task<IActionResult> FindUser([FromBody] UserDto userDto)
         {
-            var authorizationResponse = await _accountService.AuthorizeUser(userDto);
+            var authResponse = await _accountService.AuthorizeUser(userDto);
 
-            return Ok(authorizationResponse);
+            return Ok(authResponse);
         }
     }
 }
