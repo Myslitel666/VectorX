@@ -9,6 +9,8 @@ namespace VectorXBackend.Interfaces.Services
 
         Task<AuthResponseDto> RegisterUser(UserDto userDto);
 
+        Task<AuthResponseDto> VerifyUser(VerifyUserDto verifyUserDto);
+
         Task<UserDataRedactDto> RedactUserData(UsernameRedactDto usernameRedactDto);
 
         Task<UserDataRedactDto> RedactUserData(PasswordRedactDto passwordRedactDto);

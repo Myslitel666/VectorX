@@ -165,6 +165,42 @@ namespace VectorXBackend.Services
             }
         }
 
+        public async Task<AuthResponseDto> VerifyUser(VerifyUserDto verifyUserDto)
+        {
+            //Извлекаем пользователя из списка по userId (в случае его отсутствия получим null)
+            var existingUser = await _userRepository.GetUserById(verifyUserDto.UserId);
+
+            //Если пользователь с данным userId существует
+            if (existingUser != null)
+            {
+                //Если пароль не верный
+                if (existingUser.Password != verifyUserDto.EnteredPassword)
+                {
+                    var response = new AuthResponseDto()
+                    {
+                        IsError = true,
+                        FeedbackMessage = "✗The password is incorrect"
+                    };
+                    return response;
+                }
+                else
+                {
+                    return new AuthResponseDto()
+                    {
+                        IsError = false,
+                        FeedbackMessage = $"✓Verification was successful"
+                    };
+                }
+            }
+
+            //Если пользователя с данным userId не было обнаружено репозиторием
+            return new AuthResponseDto()
+            {
+                IsError = true,
+                FeedbackMessage = $"✗Verification failed. You may have been removed from the system."
+            };
+        }
+
         public async Task<UserDataRedactDto> RedactUserData(UsernameRedactDto usernameRedactDto)
         {
             //Извлекаем пользователя из списка по userId (в случае его отсутствия получим null)
