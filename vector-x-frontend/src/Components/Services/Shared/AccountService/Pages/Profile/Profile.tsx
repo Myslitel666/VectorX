@@ -14,18 +14,14 @@ import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete'
 import RedactModal from './RedactModal';
 
 const Profile: React.FC = () => {
-    const { getUser } = useUserContext();
-    const user = getUser();
+    const { getUser, updateUsername } = useUserContext();
+    let user = getUser();
 
     const [selectedField, setSelectedField] = useState('Username');
 
     const handleFieldSelectionChange = (fieldSelection: string) => {
         setSelectedField(fieldSelection);
     };
-
-    useEffect(()=>{
-        console.log(selectedField);
-    },[selectedField])
 
     interface AttributeValueProps  {
         attribute: string;

@@ -1,5 +1,5 @@
 //React Import
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
 type User = {
     userId: number;
@@ -9,7 +9,7 @@ type User = {
 
 export interface UserContextProps {
     setUser: (userId: number, userRole: string, username: string) => void;
-    setUsername: (desiredUsername: string) => void;
+    updateUsername: (desiredUsername: string) => void;
     getUser: () => User;
     logoutUser: () => void;
     isLogged: () => boolean;
@@ -53,9 +53,17 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem('userId', userId.toString());
         setUserRole(userRole);
         localStorage.setItem('userRole', userRole);
+        updateUsername(username);
+    }
+
+    const updateUsername = (username: string) => {
         setUsername(username);
         localStorage.setItem('username', username);
     }
+
+    useEffect(() => {
+
+    }, [username]);
 
     const logoutUser = () => {
         setUser(-1, '', '')
@@ -70,7 +78,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     const contextValue: UserContextProps = {
         setUser: setUser,
-        setUsername: setUsername,
+        updateUsername: updateUsername,
         getUser: getUser,
         logoutUser: logoutUser,
         isLogged: isLogged

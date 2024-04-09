@@ -18,7 +18,7 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [isError, setIsError] = useState(true);
     const [desiredUsername, setDesiredUsername] = useState('');
-    const { getUser, setUsername } = useUserContext();
+    const { getUser, updateUsername } = useUserContext();
     const { getColorFromLabel } = useColorLabel('green');
     let user = getUser();
 
@@ -48,11 +48,22 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
         const data = await response.json();
         updateFeedbackMessage(data.isError, data.feedbackMessage);
 
-        if (!isError) {
-            setUsername(desiredUsername);
-            user = getUser();
+        if (!data.isError) {
+            updateUsername(desiredUsername);
         }
+
     };
+
+    //useEffect(() => {
+    //    if (!isError) {
+    //        updateUsername(desiredUsername);
+    //    }
+    //}, [isError])
+
+    useEffect(() => {
+        //user = getUser();
+        console.log(user);
+    }, [user.username])
 
     let componentToRender;
 
