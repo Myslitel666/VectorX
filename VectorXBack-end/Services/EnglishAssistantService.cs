@@ -6,12 +6,12 @@ using VectorXBackend.DTOs.Responses.EnglishAssistant;
 
 namespace VectorXBackend.Services
 {
-    public class JargonDictionaryService : IEnglishAssistantService
+    public class EnglishAssistantService : IEnglishAssistantService
     {
         private readonly IUserJargonsRepository _userJargonsRepository;
         private readonly IJargonRepository _jargonRepository;
 
-        public JargonDictionaryService(
+        public EnglishAssistantService(
             IUserJargonsRepository userJargonsRepository, 
             IJargonRepository jargonRepository
         )

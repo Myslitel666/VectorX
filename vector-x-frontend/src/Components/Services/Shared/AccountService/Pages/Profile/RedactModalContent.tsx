@@ -6,20 +6,55 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 
 //My Components Import
+import { useUserContext } from '../../../../../../Context/UserContext'
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import MyButton from '../../../../../../Components/Common/User Interface/MyButton';
 import PasswordTextField from '../../../../../Common/User Interface/PasswordTextField' 
 
 export default function RedactModalContent({ selectedField }: { selectedField: string }) {
-
-    let componentToRender;
     const [verification, setVerification] = React.useState(false);
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [isError, setIsError] = useState(true);
+    const [desiredUsername, setDesiredUsername] = useState('');
+    const { getUser, setUsername } = useUserContext();
+    const { getColorFromLabel } = useColorLabel('green');
+    let user = getUser();
 
     const onClickVerification = () => {
         setVerification(true);
     };
+
+    const updateFeedbackMessage = (isError: boolean, message: string) => {
+        setIsError(isError);
+        setFeedbackMessage(message);
+    };
+
+    const apiUrl = process.env.REACT_APP_API_URL as string;
+
+    async function redactUsername() {
+        const response = await fetch(`${apiUrl}/api/userDataRedaction/redactUsername`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user.userId,
+                desiredUsername: desiredUsername,
+            }),
+        });
+
+        const data = await response.json();
+        updateFeedbackMessage(data.isError, data.feedbackMessage);
+
+        if (!isError) {
+            setUsername(desiredUsername);
+            user = getUser();
+        }
+    };
+
+    let componentToRender;
 
     switch (selectedField) {
         case 'Username':
@@ -34,12 +69,16 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
                     </Typography>
                     <TextField 
                         sx = {{width: '100%'}}
-                        label = 'Username'
+                        label='Username'
+                        onChange={(e) => setDesiredUsername(e.target.value)}
+                        value={desiredUsername}
                     />
                     </Box>
                     <MyButton
-                        variant='contained'
-                        sx = {{
+                        variant = 'contained'
+                        onClick={redactUsername}
+                        disabled={desiredUsername === ''}
+                        sx={{
                             marginTop: '1rem',
                             width: '100%',
                             height: '3.4rem'
@@ -133,6 +172,13 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
         <>
             <Typography variant="h6" component="h2">
                 User data editing form
+            </Typography>
+            <Typography sx={{
+                textAlign: 'left',
+                color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
+            }}
+            >
+                {feedbackMessage}
             </Typography>
             {componentToRender}
         </>

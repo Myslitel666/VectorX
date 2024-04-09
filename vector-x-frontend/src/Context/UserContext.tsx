@@ -9,6 +9,7 @@ type User = {
 
 export interface UserContextProps {
     setUser: (userId: number, userRole: string, username: string) => void;
+    setUsername: (desiredUsername: string) => void;
     getUser: () => User;
     logoutUser: () => void;
     isLogged: () => boolean;
@@ -69,6 +70,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     const contextValue: UserContextProps = {
         setUser: setUser,
+        setUsername: setUsername,
         getUser: getUser,
         logoutUser: logoutUser,
         isLogged: isLogged

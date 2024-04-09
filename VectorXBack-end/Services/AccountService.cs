@@ -226,7 +226,7 @@ namespace VectorXBackend.Services
                 {
                     try 
                     {
-                        _userRepository.RedactUserData(usernameRedactDto);
+                        await _userRepository.RedactUserData(usernameRedactDto);
 
                         var response = new UserDataRedactDto()
                         {

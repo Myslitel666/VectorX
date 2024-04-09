@@ -26,11 +26,11 @@ const Authorization: React.FC = () => {
     const [password, setPassword] = useState('Darknet2024');
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [isError, setIsError] = useState(true);
-    const { getColorFromLabel } = useColorLabel('green');
     const KeyIconColor = theme.palette.background.default;
     const borderBoxColor = theme.palette.action.disabled;
     const navigate = useNavigate();
     const location = useLocation();
+    const { getColorFromLabel } = useColorLabel('green');
 
     //Работа с контекстом
     const { setUser, logoutUser } = useUserContext();

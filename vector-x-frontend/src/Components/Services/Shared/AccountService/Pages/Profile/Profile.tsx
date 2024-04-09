@@ -6,15 +6,14 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 //MyComponents Import
+import { useUserContext } from '../../../../../../Context/UserContext'
 import Header from '../../../../../Common/Header/Header';
 import MyImageUploading from './MyImageUploading';
 import MyTypography from '../../../../../Common/User Interface/MyTypography';
 import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete';
 import RedactModal from './RedactModal';
-import { useUserContext } from '../../../../../../Context/UserContext'
 
 const Profile: React.FC = () => {
-    
     const { getUser } = useUserContext();
     const user = getUser();
 

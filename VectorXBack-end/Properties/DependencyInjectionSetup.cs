@@ -28,7 +28,7 @@ namespace VectorXBackend.Properties
 
             // Services
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IEnglishAssistantService, JargonDictionaryService>();
+            services.AddScoped<IEnglishAssistantService, EnglishAssistantService>();
         }
     }
 }
