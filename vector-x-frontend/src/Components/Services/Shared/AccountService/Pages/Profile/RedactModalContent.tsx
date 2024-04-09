@@ -12,7 +12,7 @@ import MyButton from '../../../../../../Components/Common/User Interface/MyButto
 import PasswordTextField from '../../../../../Common/User Interface/PasswordTextField' 
 
 export default function RedactModalContent({ selectedField }: { selectedField: string }) {
-    const [verification, setVerification] = React.useState(false);
+    const [isVerification, setIsVerification] = React.useState(false);
     const [verificationPassword, setVerificationPassword] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
@@ -22,10 +22,6 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
     const { getUser, updateUsername } = useUserContext();
     const { getColorFromLabel } = useColorLabel('green');
     let user = getUser();
-
-    const onClickVerification = () => {
-        setVerification(true);
-    };
 
     const updateFeedbackMessage = (isError: boolean, message: string) => {
         setIsError(isError);
@@ -55,11 +51,28 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
 
     };
 
-    //useEffect(() => {
-    //    if (!isError) {
-    //        updateUsername(desiredUsername);
-    //    }
-    //}, [isError])
+    async function verification() {
+        const response = await fetch(`${apiUrl}/api/verification/verifyUser`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user.userId,
+                enteredPassword: verificationPassword,
+            }),
+        });
+
+        const data = await response.json();
+        updateFeedbackMessage(data.isError, data.feedbackMessage);
+
+        if (!data.isError) {
+            setTimeout(() => {
+                setIsVerification(true);
+                updateFeedbackMessage(true, '');
+            }, 500); 
+        }
+    };
 
     let componentToRender;
 
@@ -71,7 +84,7 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
                         display='flex'
                         marginTop='1rem'
                     >
-                    <Typography >
+                    <Typography>
                         Enter a new username:
                     </Typography>
                     <TextField 
@@ -109,12 +122,12 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
                     <PasswordTextField 
                         externalPassword={verificationPassword}
                         setExternalPassword={setVerificationPassword}
-                        sx={{ width: '100%' }}
+                        sx = {{ width: '100%' }}
                     />
                     </Box>
                     <MyButton
                         variant = 'contained'
-                        onClick = {onClickVerification}
+                        onClick = {verification}
                         sx = {{
                             marginTop: '1rem',
                             width: '100%',
@@ -131,47 +144,48 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
             componentToRender = null;
     }
 
-    if (verification)
+    if (isVerification)
     {
-        componentToRender = (
+        componentToRender =
+        (
             <>
-                    <Box 
-                        display='flex'
-                        marginTop='1rem'
-                    >
+                <Box
+                    display='flex'
+                    marginTop='1rem'
+                >
                     <Typography>
                         Enter a new password:
                     </Typography>
-                    <PasswordTextField 
-                        externalPassword = {password}
+                    <PasswordTextField
+                        externalPassword={password}
                         setExternalPassword={setPassword}
-                        sx = {{width: '100%'}}
+                        sx={{ width: '100%' }}
                     />
-                    </Box>
-                    <Box 
-                        display='flex'
-                        marginTop='1rem'
-                    >
+                </Box>
+                <Box
+                    display='flex'
+                    marginTop='1rem'
+                >
                     <Typography>
                         Confirm the password:
                     </Typography>
-                    <PasswordTextField 
-                        externalPassword = {confirmPassword}
+                    <PasswordTextField
+                        externalPassword={confirmPassword}
                         setExternalPassword={setConfirmPassword}
-                        sx = {{width: '100%'}}
+                        sx={{ width: '100%' }}
                     />
-                    </Box>
-                    <MyButton
-                        variant = 'contained'
-                        onClick = {onClickVerification}
-                        sx = {{
-                            marginTop: '1rem',
-                            width: '100%',
-                            height: '3.4rem'
-                        }}
-                    >
-                        Save password
-                    </MyButton>
+                </Box>
+                <MyButton
+                    variant='contained'
+                    //onClick={onClickVerification}
+                    sx={{
+                        marginTop: '1rem',
+                        width: '100%',
+                        height: '3.4rem'
+                    }}
+                >
+                    Save password
+                </MyButton>
             </>
         );
     }
