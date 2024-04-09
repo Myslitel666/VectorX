@@ -13,6 +13,7 @@ import PasswordTextField from '../../../../../Common/User Interface/PasswordText
 
 export default function RedactModalContent({ selectedField }: { selectedField: string }) {
     const [verification, setVerification] = React.useState(false);
+    const [verificationPassword, setVerificationPassword] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [feedbackMessage, setFeedbackMessage] = useState('');
@@ -60,11 +61,6 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
     //    }
     //}, [isError])
 
-    useEffect(() => {
-        //user = getUser();
-        console.log(user);
-    }, [user.username])
-
     let componentToRender;
 
     switch (selectedField) {
@@ -110,9 +106,10 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
                     <Typography>
                         Enter your password:
                     </Typography>
-                    <TextField 
-                        sx = {{width: '100%'}}
-                        label = 'Password'
+                    <PasswordTextField 
+                        externalPassword={verificationPassword}
+                        setExternalPassword={setVerificationPassword}
+                        sx={{ width: '100%' }}
                     />
                     </Box>
                     <MyButton
