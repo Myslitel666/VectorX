@@ -280,7 +280,7 @@ namespace VectorXBackend.Services
                 {
                     try
                     {
-                        _userRepository.RedactUserData(passwordRedactDto);
+                        await _userRepository.RedactUserData(passwordRedactDto);
 
                         var response = new UserDataRedactDto()
                         {

@@ -54,7 +54,13 @@ namespace VectorXBackend.Repositories.AccountService
         public async Task RedactUserData(PasswordRedactDto passwordRedactDto)
         {
             var user = await GetUserById(passwordRedactDto.UserId); // Извлекаем пользователя по Id
-            user.Username = passwordRedactDto.DesiredPassword; // Меняем Password
+
+            if (user != null)
+            {
+                user.Password = passwordRedactDto.DesiredPassword; // Меняем Password
+                _dbContext.Users.Update(user); //Обновляем контекст базы данных
+            }
+
             await _dbContext.SaveChangesAsync(); // Сохраняем изменения
         }
     }

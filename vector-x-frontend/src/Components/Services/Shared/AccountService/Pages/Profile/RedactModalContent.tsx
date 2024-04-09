@@ -28,6 +28,19 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
         setFeedbackMessage(message);
     };
 
+    const onClickSavePassword = () => {
+        if (password.length < 6) updateFeedbackMessage(true, '✗The password must be at least 6 characters long')
+        else if (!hasDigits(password)) updateFeedbackMessage(true, '✗The password must contain letters and numbers')
+        else if (password !== confirmPassword) updateFeedbackMessage(true, '✗The password and confirmation password do not match')
+        else {
+            redactPassword();
+        }
+    };
+
+    function hasDigits(str: string) {
+        return /\d/.test(str);
+    }
+
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
     async function redactUsername() {
@@ -72,6 +85,22 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
                 updateFeedbackMessage(true, '');
             }, 500); 
         }
+    };
+
+    async function redactPassword() {
+        const response = await fetch(`${apiUrl}/api/userDataRedaction/redactPassword`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user.userId,
+                DesiredPassword: password,
+            }),
+        });
+
+        const data = await response.json();
+        updateFeedbackMessage(data.isError, data.feedbackMessage);
     };
 
     let componentToRender;
@@ -127,7 +156,8 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
                     </Box>
                     <MyButton
                         variant = 'contained'
-                        onClick = {verification}
+                        onClick={verification}
+                        disabled={verificationPassword === ''}
                         sx = {{
                             marginTop: '1rem',
                             width: '100%',
@@ -177,7 +207,8 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
                 </Box>
                 <MyButton
                     variant='contained'
-                    //onClick={onClickVerification}
+                    onClick={onClickSavePassword}
+                    disabled={ !password || !confirmPassword }
                     sx={{
                         marginTop: '1rem',
                         width: '100%',
