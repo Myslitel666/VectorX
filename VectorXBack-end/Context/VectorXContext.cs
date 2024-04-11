@@ -5,13 +5,13 @@ using VectorXBackend.Models.Entities;
 
 namespace VectorXBackend.Context;
 
-public partial class EnglishAssistantContext : DbContext
+public partial class VectorXContext : DbContext
 {
-    public EnglishAssistantContext()
+    public VectorXContext()
     {
     }
 
-    public EnglishAssistantContext(DbContextOptions<EnglishAssistantContext> options)
+    public VectorXContext(DbContextOptions<VectorXContext> options)
         : base(options)
     {
     }
@@ -28,7 +28,7 @@ public partial class EnglishAssistantContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS; Database=EnglishAssistant; Trusted_Connection=True; TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS; Database=VectorX; Trusted_Connection=True; TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -39,8 +39,7 @@ public partial class EnglishAssistantContext : DbContext
             entity.Property(e => e.ExampleOfUse).HasColumnType("text");
             entity.Property(e => e.JargonInstance)
                 .HasMaxLength(256)
-                .IsUnicode(false)
-                .HasColumnName("JargonInstance");
+                .IsUnicode(false);
             entity.Property(e => e.Translate)
                 .HasMaxLength(256)
                 .IsUnicode(false);

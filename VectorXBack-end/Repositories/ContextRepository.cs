@@ -6,9 +6,9 @@ namespace VectorXBackend.Repositories
 {
     public class ContextRepository : IContextRepository
     {
-        private readonly EnglishAssistantContext _dbContext;
+        private readonly VectorXContext _dbContext;
 
-        public ContextRepository(EnglishAssistantContext dbContext)
+        public ContextRepository(VectorXContext dbContext)
         {
             _dbContext = dbContext;
         }

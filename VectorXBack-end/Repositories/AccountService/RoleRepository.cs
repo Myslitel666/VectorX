@@ -7,9 +7,9 @@ namespace VectorXBackend.Repositories.AccountService
 {
     public class RoleRepository : IRoleRepository
     {
-        private readonly EnglishAssistantContext _dbContext;
+        private readonly VectorXContext _dbContext;
 
-        public RoleRepository(EnglishAssistantContext dbContext)
+        public RoleRepository(VectorXContext dbContext)
         {
             _dbContext = dbContext;
         }

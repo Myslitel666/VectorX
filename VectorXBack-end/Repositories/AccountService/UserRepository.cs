@@ -9,9 +9,9 @@ namespace VectorXBackend.Repositories.AccountService
 {
     public class UserRepository : IUserRepository
     {
-        private readonly EnglishAssistantContext _dbContext;
+        private readonly VectorXContext _dbContext;
 
-        public UserRepository(EnglishAssistantContext dbContext)
+        public UserRepository(VectorXContext dbContext)
         {
             _dbContext = dbContext;
         }

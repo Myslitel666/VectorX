@@ -7,9 +7,9 @@ namespace VectorXBackend.Repositories.EnglishAssistant
 {
     public class UserJargonsRepository : IUserJargonsRepository
     {
-        private readonly EnglishAssistantContext _dbContext;
+        private readonly VectorXContext _dbContext;
 
-        public UserJargonsRepository(EnglishAssistantContext dbContext)
+        public UserJargonsRepository(VectorXContext dbContext)
         {
             _dbContext = dbContext;
         }

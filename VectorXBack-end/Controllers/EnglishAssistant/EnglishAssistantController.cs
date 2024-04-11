@@ -10,12 +10,12 @@ namespace VectorXBackend.Controllers.EnglishAssistant
     [ApiController]
     public class EnglishAssistantController : Controller
     {
-        private EnglishAssistantContext _dbContext;
+        private VectorXContext _dbContext;
         private readonly IEnglishAssistantService _jargonDictionaryService;
 
         public EnglishAssistantController(IEnglishAssistantService jargonDictionaryService)
         {
-            _dbContext = new EnglishAssistantContext();
+            _dbContext = new VectorXContext();
             _jargonDictionaryService = jargonDictionaryService;
         }
 

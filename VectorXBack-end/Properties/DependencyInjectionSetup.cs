@@ -16,7 +16,7 @@ namespace VectorXBackend.Properties
         public static void Configure(IServiceCollection services, string connectionString)
         {
             // Add database context
-            services.AddDbContext<EnglishAssistantContext>(options =>
+            services.AddDbContext<VectorXContext>(options =>
                 options.UseSqlServer(connectionString));
 
             // Repositories
