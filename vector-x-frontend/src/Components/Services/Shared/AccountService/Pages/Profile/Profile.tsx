@@ -14,13 +14,13 @@ import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete'
 import RedactModal from './RedactModal';
 
 const Profile: React.FC = () => {
-    const { getUser, updateUsername } = useUserContext();
+    const { getUser } = useUserContext();
     let user = getUser();
 
     const [selectedField, setSelectedField] = useState('Username');
 
-    const handleFieldSelectionChange = (fieldSelection: string) => {
-        setSelectedField(fieldSelection);
+    const handleFieldSelectionChange = (selectedValue: string) => {
+        setSelectedField(selectedValue); // обновляем значение выбранного поля
     };
 
     interface AttributeValueProps  {
@@ -155,8 +155,8 @@ const Profile: React.FC = () => {
                             label = 'Field Selection'
                             dropList={fieldSelectionDropList}
                             size='medium'
-                            onFieldSelectionChange={handleFieldSelectionChange}
-                            defaultValue={{title: selectedField} }
+                            onFieldSelectionChange={handleFieldSelectionChange} // передаем обновленный обработчик
+                            defaultValue={fieldSelectionDropList.find(option => option.title === selectedField)}
                             sx = {{
                                 marginTop: '1rem',
                                 marginRight: '1rem',

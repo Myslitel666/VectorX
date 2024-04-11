@@ -61,7 +61,6 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
         if (!data.isError) {
             updateUsername(desiredUsername);
         }
-
     };
 
     async function verification() {

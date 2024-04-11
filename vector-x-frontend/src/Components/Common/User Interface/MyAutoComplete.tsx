@@ -10,10 +10,10 @@ interface AutoCompleteProps {
         [key: string]: React.CSSProperties | undefined;
     } ; // Либо CSS-правила, либо media-теги
     label?: string;
-    dropList?: { title: string }[];
+    dropList?: { title: string } [];
     size?: "medium" | "small";
     onFieldSelectionChange?: (selectedValue: string) => void; // Обработчик события для выбора поля
-    defaultValue?: Option | null;
+    defaultValue?: { title: string } | null;
 }
 
 const MyAutoComplete: React.FC<AutoCompleteProps> = ({ 
@@ -26,6 +26,12 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({
 }) => {
 
     const options = dropList.map((option) => ({ ...option }));
+    const isOptionEqualToValue = (option: Option, value: Option | null) => {
+        if (value === null) {
+            return false;
+        }
+        return option.title === value.title;
+    };
 
     const handleFieldSelectionChange = (event: React.ChangeEvent<{}>, selectedOption: { title: string } | null) => {
         if (selectedOption && onFieldSelectionChange) {
@@ -39,11 +45,13 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({
             size = {size}
             options={options}
             getOptionLabel={(option) => option.title}
-            value = {defaultValue}
+            value={defaultValue}
+
             sx={{
                 ...sx
             }}
             onChange={handleFieldSelectionChange} // Передаем обработчик события onChange
+            isOptionEqualToValue={isOptionEqualToValue}
             renderInput={(params) => <TextField {...params} label={ label } />}
         />
     );
