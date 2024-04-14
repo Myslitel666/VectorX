@@ -14,5 +14,7 @@ namespace VectorXBackend.Interfaces.Services
         Task<UserDataRedactDto> RedactUserData(UsernameRedactDto usernameRedactDto);
 
         Task<UserDataRedactDto> RedactUserData(PasswordRedactDto passwordRedactDto);
+
+        Task<UserDataRedactDto> RedactUserData(AvatarRedactDto avatarRedactDto);
     }
 }

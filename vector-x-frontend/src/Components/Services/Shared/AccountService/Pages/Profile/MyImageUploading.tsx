@@ -3,16 +3,51 @@ import React, { useState, useEffect } from 'react';
 //ImageUploading Import
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 //MyComponent Import 
-import MyButton from '../../../../../Common/User Interface/MyButton';
+import { useUserContext } from '../../../../../../Context/UserContext'
+import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
+import MyButton from '../../../../../Common/User Interface/MyButton';
 //MUI Import
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 const MyImageUploading: React.FC = () => {
     const { themeMode }: ColorModeContextProps = useColorMode();
     let isHasAvatar = false;
     let userAvatar = ''
     let defaultAvatarPath = themeMode === 'dark' ? '/images/default-avatars/dark.jpg' : '/images/default-avatars/light.jpg';
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [isError, setIsError] = useState(true);
+    const { getUser, updateUsername } = useUserContext();
+    const { getColorFromLabel } = useColorLabel('green');
+    let user = getUser();
+
+    const apiUrl = process.env.REACT_APP_API_URL as string;
+
+    const updateFeedbackMessage = (isError: boolean, message: string) => {
+        setIsError(isError);
+        setFeedbackMessage(message);
+    };
+
+    const onClickSave = async (avatar: string) => {
+
+            const response = await fetch(`${apiUrl}/api/userDataRedaction/redactAvatar`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: user.userId,
+                    avatar: avatar,
+                }),
+            });
+
+            const data = await response.json();
+            updateFeedbackMessage(data.isError, data.feedbackMessage);
+    };
+
+
+
 
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
@@ -43,6 +78,7 @@ const MyImageUploading: React.FC = () => {
             }
         ]);
         isHasAvatar = false;
+        updateFeedbackMessage(true, '');
     };
 
     return (
@@ -62,35 +98,42 @@ const MyImageUploading: React.FC = () => {
                     isDragging,
                     dragProps,
                 }) => (
-                    // write your building UI
                     <div className="upload__image-wrapper">
+                        <Typography sx={{
+                            textAlign: 'left',
+                            color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
+                        }}
+                        >
+                            {feedbackMessage}
+                        </Typography>
                         {imageList.length > 0 && (
-                            <div 
-                                className="image-item" style={{ 
-                                    width: '24rem', 
-                                    height: '24rem', 
-                                    borderRadius: '50%', 
+                            <div
+                                className="image-item"
+                                style={{
+                                    width: '20rem',
+                                    height: '20rem',
+                                    borderRadius: '50%',
                                     overflow: 'hidden'
-                             }}
+                                }}
                             >
-                                <img 
+                                <img
                                     src={imageList[0]['data_url']}
-                                    alt="" 
-                                    style = {{
+                                    alt=""
+                                    style={{
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'cover',
                                     }}
                                 />
-                                <Box className="image-item__btn-wrapper" 
-                                    style={{ 
-                                        position: 'absolute', 
-                                        top: '35.4rem', 
-                                        left: '2.5rem', 
-                                        width: '24rem',
+                                <Box className="image-item__btn-wrapper"
+                                    style={{
+                                        position: 'absolute',
+                                        top: '32rem',
+                                        left: '1.25rem',
+                                        width: '22.75rem',
                                         zIndex: 1,
                                     }}
-                                    sx = {{
+                                    sx={{
                                         '@media screen and (max-width: 850px)': {
                                             display: 'flow',
                                         },
@@ -98,7 +141,10 @@ const MyImageUploading: React.FC = () => {
                                 >
                                     <MyButton
                                         variant='contained'
-                                        onClick={() => onImageUpdate(0)}
+                                        onClick={() => {
+                                            onImageUpdate(0)
+                                        }
+                                        }
                                         sx={{
                                             marginBottom: '0.5rem',
                                             minWidth: '100%',
@@ -111,11 +157,27 @@ const MyImageUploading: React.FC = () => {
                                         variant='contained'
                                         onClick={() => removeImage()}
                                         sx={{
+                                            marginBottom: '0.5rem',
                                             minWidth: '100%',
                                             height: '3.4rem'
                                         }}
                                     >
                                         Remove
+                                    </MyButton>
+                                    <MyButton
+                                        variant='contained'
+                                        onClick={() => {
+
+                                            onClickSave(imageList[0]['data_url']);
+                                            
+                                        }}
+                                        sx={{
+                                            marginBottom: '0.5rem',
+                                            minWidth: '100%',
+                                            height: '3.4rem'
+                                        }}
+                                    >
+                                        Save
                                     </MyButton>
                                 </Box>
                             </div>
@@ -123,6 +185,7 @@ const MyImageUploading: React.FC = () => {
                     </div>
                 )}
             </ImageUploading>
+
         </div>
     );
 };

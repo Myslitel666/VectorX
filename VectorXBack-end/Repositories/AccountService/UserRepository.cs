@@ -63,5 +63,23 @@ namespace VectorXBackend.Repositories.AccountService
 
             await _dbContext.SaveChangesAsync(); // Сохраняем изменения
         }
+
+        public async Task RedactUserData(AvatarRedactDto avatarRedactDto)
+        {
+            var user = await GetUserById(avatarRedactDto.UserId); // Извлекаем пользователя по Id
+
+            if (user != null)
+            {
+                string base64String = avatarRedactDto.Avatar.Replace("data:image/png;base64,", "");
+
+                // Преобразуем строку Base64 в массив байт
+                byte[] avatarBytes = Convert.FromBase64String(base64String);
+
+                user.Avatar = avatarBytes; // Присваиваем массив байт полю Avatar пользователя
+                _dbContext.Users.Update(user); //Обновляем контекст базы данных
+            }
+
+            await _dbContext.SaveChangesAsync(); // Сохраняем изменения
+        }
     }
 }

@@ -308,5 +308,38 @@ namespace VectorXBackend.Services
                 FeedbackMessage = $"✗Failed to change the password. You may have been removed from the system."
             };
         }
+
+        public async Task<UserDataRedactDto> RedactUserData(AvatarRedactDto avatarRedactDto)
+        {
+            //try
+            //{
+                var user = await _userRepository.GetUserById(avatarRedactDto.UserId);
+
+                if (user == null)
+                {
+                    return new UserDataRedactDto
+                    {
+                        IsError = true,
+                        FeedbackMessage = "✗User not found."
+                    };
+                }
+
+                await _userRepository.RedactUserData(avatarRedactDto);
+
+                return new UserDataRedactDto
+                {
+                    IsError = false,
+                    FeedbackMessage = "✓Avatar updated successfully."
+                };
+            //}
+            //catch (Exception ex)
+            //{
+                return new UserDataRedactDto
+                {
+                    IsError = true,
+                    //FeedbackMessage = $"✗Failed to update avatar. Error: {ex.Message}"
+                };
+            //}
+        }
     }
 }

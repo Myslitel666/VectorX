@@ -30,5 +30,13 @@ namespace VectorXBackend.Controllers.AccountService
 
             return Ok(userDataRedactDto);
         }
+
+        [HttpPost("redactAvatar")]
+        public async Task<IActionResult> RedactAvatar([FromBody] AvatarRedactDto avatarRedactDto)
+        {
+            var userDataRedactDto = await _accountService.RedactUserData(avatarRedactDto);
+
+            return Ok(userDataRedactDto);
+        }
     }
 }

@@ -38,7 +38,7 @@ const Profile: React.FC = () => {
                 <MyTypography
                     color='primary'
                     sx={{
-                        marginTop: '4.75rem',
+                        marginTop: '4.5rem',
                         fontSize: '3rem',
                         overflow: 'hidden'
                     }}

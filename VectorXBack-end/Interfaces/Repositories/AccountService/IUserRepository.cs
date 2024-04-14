@@ -17,5 +17,7 @@ namespace VectorXBackend.Interfaces.Repositories.AccountService
         Task RedactUserData(UsernameRedactDto usernameRedactDto);
 
         Task RedactUserData(PasswordRedactDto passwordRedactDto);
+
+        Task RedactUserData(AvatarRedactDto avatarRedactDto);
     }
 }
