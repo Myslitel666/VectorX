@@ -1,6 +1,5 @@
 ﻿//React Import
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import dbContext from './DexieContext';
 
 type User = {
     userId: number;
@@ -47,7 +46,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const storedUsername = localStorage.getItem('username');
     const [username, setUsername] = useState(storedUsername ? storedUsername : '');
 
-    const [avatar, setAvatar] = useState('');
+    const storedAvatar = localStorage.getItem('avatar');
+    const [avatar, setAvatar] = useState(storedAvatar ? storedAvatar : '');
 
     const getUser = (): User => {
         return {
@@ -73,39 +73,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
 
     const updateAvatar = async (avatar: string) => {
-        // Проверяем, существует ли пользователь с идентификатором 1
-        const existingUser = await dbContext.table('user').get(1);
-
-        // Если пользователь не существует, создаем его
-        if (!existingUser) {
-            await dbContext.table('user').add({ userId: 1, avatar: avatar });
-        } else {
-            // Если пользователь существует, обновляем его аватар
-            await dbContext.table('user').update(1, { avatar: avatar });
-        }
-
-        // Устанавливаем новый аватар в состояние без приставки
         setAvatar(avatar);
+        localStorage.setItem('avatar', avatar);
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            // Получаем пользователя из базы данных
-            const user = await dbContext.table('user').get(1);
-            if (user) {
-                setAvatar(user.avatar); // Если аватар существует, устанавливаем его, иначе - пустая строка
-                console.log('user.avatar: ' + avatar);
-            }
-        };
 
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        console.log('avatar: ' + avatar);
     }, [avatar]);
-
-
 
     const logoutUser = () => {
         setUser(-1, '', '', '')
