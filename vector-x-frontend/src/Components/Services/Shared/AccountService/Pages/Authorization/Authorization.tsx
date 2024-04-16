@@ -59,7 +59,7 @@ const Authorization: React.FC = () => {
 
         if (!data.isError) {
             setTimeout(() => {
-                setUser(data.user.userId, data.user.role, data.user.username);
+                setUser(data.user.userId, data.user.role, data.user.username, data.user.avatar);
             }, 500);
         }
     };

@@ -13,14 +13,12 @@ import Typography from '@mui/material/Typography'
 
 const MyImageUploading: React.FC = () => {
     const { themeMode }: ColorModeContextProps = useColorMode();
-    let isHasAvatar = false;
-    let userAvatar = ''
+    const { getUser, updateAvatar } = useUserContext();
+    const { getColorFromLabel } = useColorLabel('green');
+    let user = getUser();
     let defaultAvatarPath = themeMode === 'dark' ? '/images/default-avatars/dark.jpg' : '/images/default-avatars/light.jpg';
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [isError, setIsError] = useState(true);
-    const { getUser, updateUsername } = useUserContext();
-    const { getColorFromLabel } = useColorLabel('green');
-    let user = getUser();
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
@@ -29,42 +27,51 @@ const MyImageUploading: React.FC = () => {
         setFeedbackMessage(message);
     };
 
-    const onClickSave = async (avatar: string) => {
+    const addImagePrefix = (image: string) => {
+        const subString = 'data:image/png;base64,';
 
-            const response = await fetch(`${apiUrl}/api/userDataRedaction/redactAvatar`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userId: user.userId,
-                    avatar: avatar,
-                }),
-            });
+        if (image.startsWith(subString)) {
+            return image;
+        } 
 
-            const data = await response.json();
-            updateFeedbackMessage(data.isError, data.feedbackMessage);
+        return subString + image;
     };
 
+    const onClickSave = async (avatar: string) => {
 
+        const response = await fetch(`${apiUrl}/api/userDataRedaction/redactAvatar`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: user.userId,
+                avatar: avatar,
+            }),
+        });
 
+        const data = await response.json();
+        updateFeedbackMessage(data.isError, data.feedbackMessage);
+
+        updateAvatar(avatar);
+    };
 
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
         {
-            data_url: isHasAvatar? userAvatar : defaultAvatarPath
-        }
+            data_url: user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath
+        } 
     ]);
+
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
 
     useEffect(() => {
         setImage([
             {
-                data_url: isHasAvatar? userAvatar : defaultAvatarPath
+                data_url: user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath
             }
         ]);
-    }, [defaultAvatarPath, isHasAvatar]
-    )
+    }, [defaultAvatarPath])
 
     const onChange = (imageList: ImageListType) => {
         // data for submit
@@ -77,8 +84,7 @@ const MyImageUploading: React.FC = () => {
                 data_url: defaultAvatarPath
             }
         ]);
-        isHasAvatar = false;
-        updateFeedbackMessage(true, '');
+        //updateFeedbackMessage(true, '');
     };
 
     return (
@@ -101,7 +107,7 @@ const MyImageUploading: React.FC = () => {
                     <div className="upload__image-wrapper">
                         <Typography sx={{
                             textAlign: 'left',
-                            color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
+                            color: { isError } ? getColorFromLabel('red') : getColorFromLabel('green'),
                         }}
                         >
                             {feedbackMessage}
@@ -142,9 +148,8 @@ const MyImageUploading: React.FC = () => {
                                     <MyButton
                                         variant='contained'
                                         onClick={() => {
-                                            onImageUpdate(0)
-                                        }
-                                        }
+                                            onImageUpdate(0);
+                                        }}
                                         sx={{
                                             marginBottom: '0.5rem',
                                             minWidth: '100%',
@@ -155,7 +160,9 @@ const MyImageUploading: React.FC = () => {
                                     </MyButton>
                                     <MyButton
                                         variant='contained'
-                                        onClick={() => removeImage()}
+                                        onClick={() => {
+                                            removeImage();
+                                        }}
                                         sx={{
                                             marginBottom: '0.5rem',
                                             minWidth: '100%',
@@ -167,9 +174,7 @@ const MyImageUploading: React.FC = () => {
                                     <MyButton
                                         variant='contained'
                                         onClick={() => {
-
                                             onClickSave(imageList[0]['data_url']);
-                                            
                                         }}
                                         sx={{
                                             marginBottom: '0.5rem',

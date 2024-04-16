@@ -1,15 +1,18 @@
-//React Import
+﻿//React Import
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import dbContext from './DexieContext';
 
 type User = {
     userId: number;
     userRole: string;
     username: string;
+    avatar: string
 }
 
 export interface UserContextProps {
-    setUser: (userId: number, userRole: string, username: string) => void;
+    setUser: (userId: number, userRole: string, username: string, avatar: string) => void;
     updateUsername: (desiredUsername: string) => void;
+    updateAvatar: (avatar: string) => void;
     getUser: () => User;
     logoutUser: () => void;
     isLogged: () => boolean;
@@ -29,6 +32,10 @@ interface UserProviderProps {
     children: ReactNode;
 }
 
+interface IDBObjectStoreGetResult {
+    data: string;
+}
+
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const storedUserId = localStorage.getItem('userId');
     const parsedUserId = storedUserId ? parseInt(storedUserId) : -1;
@@ -40,20 +47,24 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const storedUsername = localStorage.getItem('username');
     const [username, setUsername] = useState(storedUsername ? storedUsername : '');
 
+    const [avatar, setAvatar] = useState('');
+
     const getUser = (): User => {
         return {
             userId: userId,
             userRole: userRole,
             username: username,
+            avatar: avatar
         };
     };
 
-    const setUser = (userId: number, userRole: string, username: string) => {
+    const setUser = (userId: number, userRole: string, username: string, avatar: string) => {
         setUserId(userId);
         localStorage.setItem('userId', userId.toString());
         setUserRole(userRole);
         localStorage.setItem('userRole', userRole);
         updateUsername(username);
+        updateAvatar(avatar);
     }
 
     const updateUsername = (username: string) => {
@@ -61,12 +72,43 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem('username', username);
     }
 
-    useEffect(() => {
+    const updateAvatar = async (avatar: string) => {
+        // Проверяем, существует ли пользователь с идентификатором 1
+        const existingUser = await dbContext.table('user').get(1);
 
-    }, [username]);
+        // Если пользователь не существует, создаем его
+        if (!existingUser) {
+            await dbContext.table('user').add({ userId: 1, avatar: avatar });
+        } else {
+            // Если пользователь существует, обновляем его аватар
+            await dbContext.table('user').update(1, { avatar: avatar });
+        }
+
+        // Устанавливаем новый аватар в состояние без приставки
+        setAvatar(avatar);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            // Получаем пользователя из базы данных
+            const user = await dbContext.table('user').get(1);
+            if (user) {
+                setAvatar(user.avatar); // Если аватар существует, устанавливаем его, иначе - пустая строка
+                console.log('user.avatar: ' + avatar);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        console.log('avatar: ' + avatar);
+    }, [avatar]);
+
+
 
     const logoutUser = () => {
-        setUser(-1, '', '')
+        setUser(-1, '', '', '')
     }
 
     const isLogged = (): boolean => {
@@ -79,6 +121,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const contextValue: UserContextProps = {
         setUser: setUser,
         updateUsername: updateUsername,
+        updateAvatar: updateAvatar,
         getUser: getUser,
         logoutUser: logoutUser,
         isLogged: isLogged

@@ -57,6 +57,7 @@ namespace VectorXBackend.Services
                             UserId = existingUser.UserId,
                             Role = role.RoleName,
                             Username = existingUser.Username,
+                            Avatar = existingUser.Avatar,
                         };
 
                         var response = new AuthResponseDto()
@@ -311,8 +312,8 @@ namespace VectorXBackend.Services
 
         public async Task<UserDataRedactDto> RedactUserData(AvatarRedactDto avatarRedactDto)
         {
-            //try
-            //{
+            try
+            {
                 var user = await _userRepository.GetUserById(avatarRedactDto.UserId);
 
                 if (user == null)
@@ -320,7 +321,7 @@ namespace VectorXBackend.Services
                     return new UserDataRedactDto
                     {
                         IsError = true,
-                        FeedbackMessage = "✗User not found."
+                        FeedbackMessage = "✗User not found"
                     };
                 }
 
@@ -329,17 +330,17 @@ namespace VectorXBackend.Services
                 return new UserDataRedactDto
                 {
                     IsError = false,
-                    FeedbackMessage = "✓Avatar updated successfully."
+                    FeedbackMessage = "✓Avatar updated successfully"
                 };
-            //}
-            //catch (Exception ex)
-            //{
+            }
+            catch (Exception ex)
+            {
                 return new UserDataRedactDto
                 {
                     IsError = true,
-                    //FeedbackMessage = $"✗Failed to update avatar. Error: {ex.Message}"
+                    FeedbackMessage = $"✗Failed to update avatar. Error: {ex.Message}"
                 };
-            //}
+            }
         }
     }
 }
