@@ -12,20 +12,16 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
 const MyImageUploading: React.FC = () => {
+
     const { themeMode }: ColorModeContextProps = useColorMode();
     const { getUser, updateAvatar } = useUserContext();
     const { getColorFromLabel } = useColorLabel('green');
     let user = getUser();
     let defaultAvatarPath = themeMode === 'dark' ? '/images/default-avatars/dark.jpg' : '/images/default-avatars/light.jpg';
-    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [feedbackMessage, setFeedbackMessage] = useState("");
     const [isError, setIsError] = useState(true);
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
-
-    const updateFeedbackMessage = (isError: boolean, message: string) => {
-        setIsError(isError);
-        setFeedbackMessage(message);
-    };
 
     const addImagePrefix = (image: string) => {
         const subString = 'data:image/png;base64,';
@@ -50,8 +46,9 @@ const MyImageUploading: React.FC = () => {
             }),
         });
 
-        const data = await response.json();
-        updateFeedbackMessage(data.isError, data.feedbackMessage);
+        const jsonData = await response.json();
+
+        setFeedbackMessage("Avatar updated successfully");
 
         updateAvatar(avatar);
     };
@@ -72,6 +69,10 @@ const MyImageUploading: React.FC = () => {
             }
         ]);
     }, [defaultAvatarPath])
+
+    useEffect(() => {
+        console.log('feedbackMessage: ' + feedbackMessage)
+    }, [feedbackMessage]);
 
     const onChange = (imageList: ImageListType) => {
         // data for submit

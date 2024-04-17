@@ -31,10 +31,6 @@ interface UserProviderProps {
     children: ReactNode;
 }
 
-interface IDBObjectStoreGetResult {
-    data: string;
-}
-
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const storedUserId = localStorage.getItem('userId');
     const parsedUserId = storedUserId ? parseInt(storedUserId) : -1;
