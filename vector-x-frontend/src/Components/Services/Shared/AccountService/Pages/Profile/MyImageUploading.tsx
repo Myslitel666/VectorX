@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 //ImageUploading Import
 import ImageUploading, { ImageListType } from 'react-images-uploading';
-//MyComponent Import 
+//MyComponent Import
 import { useUserContext } from '../../../../../../Context/UserContext'
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
@@ -18,8 +18,8 @@ const MyImageUploading: React.FC = () => {
     const { getColorFromLabel } = useColorLabel('green');
     let user = getUser();
     let defaultAvatarPath = themeMode === 'dark' ? '/images/default-avatars/dark.jpg' : '/images/default-avatars/light.jpg';
-    const [feedbackMessage, setFeedbackMessage] = useState("");
-    const [isError, setIsError] = useState(true);
+    const [feedbackMessage, setFeedbackMessage] = useState<string | undefined>(undefined);
+    const [isError, setIsError] = useState<boolean | undefined>(undefined);
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
@@ -28,36 +28,51 @@ const MyImageUploading: React.FC = () => {
 
         if (image.startsWith(subString)) {
             return image;
-        } 
+        }
 
         return subString + image;
     };
 
-    const onClickSave = async (avatar: string) => {
+    const onClickSave = (avatar: string) => {
 
-        const response = await fetch(`${apiUrl}/api/userDataRedaction/redactAvatar`, {
-            method: 'POST',
+        const logerr = (reason: any): void => {
+            console.error(`onClickSave logged error: ${reason}`)
+            setFeedbackMessage(`Failed to save avatar: ${reason}`)
+            setIsError(true)
+        }
+
+        fetch(`${apiUrl}/api/userDataRedaction/redactAvatar`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 userId: user.userId,
-                avatar: avatar,
-            }),
-        });
-
-        const jsonData = await response.json();
-
-        setFeedbackMessage("Avatar updated successfully");
-
-        updateAvatar(avatar);
+                avatar: avatar
+            })
+        }).then((resp): void => {
+            if (!resp.ok) {
+                logerr("POST failed")
+                return
+            }
+            resp.json().then((data): void => {
+                setFeedbackMessage("Avatar updated successfully")
+                updateAvatar(avatar)
+                setIsError(false)
+            }).catch((reason): void => {
+                logerr(reason)
+            })
+        }).catch((reason): void => {
+            logerr(reason)
+        })
     };
 
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
         {
             data_url: user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath
-        } 
+        }
     ]);
 
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
@@ -71,8 +86,9 @@ const MyImageUploading: React.FC = () => {
     }, [defaultAvatarPath])
 
     useEffect(() => {
-        console.log('feedbackMessage: ' + feedbackMessage)
-    }, [feedbackMessage]);
+        console.debug(`feedbackMessage: ${feedbackMessage}`)
+        console.debug(`isError: ${isError}`)
+    }, [feedbackMessage, isError]);
 
     const onChange = (imageList: ImageListType) => {
         // data for submit
