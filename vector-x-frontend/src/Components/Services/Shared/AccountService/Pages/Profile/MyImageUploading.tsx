@@ -10,16 +10,22 @@ import MyButton from '../../../../../Common/User Interface/MyButton';
 //MUI Import
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { updateMessage } from './Store/slices/messageSlice'; // Импортируем экшен
+import { RootState } from '../Profile/Store/store'; // Импорт типа RootState из файла store
 
 const MyImageUploading: React.FC = () => {
-
     const { themeMode }: ColorModeContextProps = useColorMode();
     const { getUser, updateAvatar } = useUserContext();
     const { getColorFromLabel } = useColorLabel('green');
     let user = getUser();
     let defaultAvatarPath = themeMode === 'dark' ? '/images/default-avatars/dark.jpg' : '/images/default-avatars/light.jpg';
-    const [feedbackMessage, setFeedbackMessage] = useState<string | undefined>(undefined);
-    const [isError, setIsError] = useState<boolean | undefined>(undefined);
+
+    //Redux
+    const dispatch = useDispatch(); // Получаем диспетчер Redux
+    const feedbackMessage = useSelector((state: RootState) => state.message.text);
+    const isError = useSelector((state: RootState) => state.message.isError); 
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
@@ -33,39 +39,26 @@ const MyImageUploading: React.FC = () => {
         return subString + image;
     };
 
-    const onClickSave = (avatar: string) => {
+    const onClickSave = async (avatar: string) => {
 
-        const logerr = (reason: any): void => {
-            console.error(`onClickSave logged error: ${reason}`)
-            setFeedbackMessage(`Failed to save avatar: ${reason}`)
-            setIsError(true)
-        }
-
-        fetch(`${apiUrl}/api/userDataRedaction/redactAvatar`, {
-            method: "POST",
+        const response = await fetch(`${apiUrl}/api/userDataRedaction/redactAvatar`, {
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
                 userId: user.userId,
-                avatar: avatar
-            })
-        }).then((resp): void => {
-            if (!resp.ok) {
-                logerr("POST failed")
-                return
-            }
-            resp.json().then((data): void => {
-                setFeedbackMessage("Avatar updated successfully")
-                updateAvatar(avatar)
-                setIsError(false)
-            }).catch((reason): void => {
-                logerr(reason)
-            })
-        }).catch((reason): void => {
-            logerr(reason)
-        })
+                avatar: avatar,
+            }),
+        });
+
+        const jsonData = await response.json();
+
+        dispatch(updateMessage({ text: jsonData.feedbackMessage, isError: jsonData.isError }));
+
+        console.log(isError)
+
+        updateAvatar(avatar);
     };
 
     // Установка начального значения для imageList
@@ -84,11 +77,6 @@ const MyImageUploading: React.FC = () => {
             }
         ]);
     }, [defaultAvatarPath])
-
-    useEffect(() => {
-        console.debug(`feedbackMessage: ${feedbackMessage}`)
-        console.debug(`isError: ${isError}`)
-    }, [feedbackMessage, isError]);
 
     const onChange = (imageList: ImageListType) => {
         // data for submit
@@ -122,13 +110,13 @@ const MyImageUploading: React.FC = () => {
                     dragProps,
                 }) => (
                     <div className="upload__image-wrapper">
-                        <Typography sx={{
-                            textAlign: 'left',
-                            color: { isError } ? getColorFromLabel('red') : getColorFromLabel('green'),
-                        }}
-                        >
-                            {feedbackMessage}
-                        </Typography>
+                            <Typography sx={{
+                                textAlign: 'left',
+                                color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
+                            }}
+                            >
+                                {feedbackMessage}
+                            </Typography>
                         {imageList.length > 0 && (
                             <div
                                 className="image-item"
@@ -208,7 +196,7 @@ const MyImageUploading: React.FC = () => {
                 )}
             </ImageUploading>
 
-        </div>
+            </div>
     );
 };
 

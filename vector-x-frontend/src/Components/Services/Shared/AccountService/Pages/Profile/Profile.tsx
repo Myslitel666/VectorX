@@ -13,6 +13,10 @@ import MyTypography from '../../../../../Common/User Interface/MyTypography';
 import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete';
 import RedactModal from './RedactModal';
 
+//Redux
+import { Provider } from 'react-redux';
+import store from './Store/store'; // Путь к вашему файлу store
+
 const Profile: React.FC = () => {
     const { getUser } = useUserContext();
     let user = getUser();
@@ -100,6 +104,7 @@ const Profile: React.FC = () => {
 
     return (
         <>
+            <Provider store={store} >
             <Header />
             <Box 
                 display='flex'
@@ -166,7 +171,8 @@ const Profile: React.FC = () => {
                         <RedactModal selectedField={selectedField}/>
                     </Box>
                 </Box>
-            </Box>
+                </Box>
+            </Provider>
         </>
     )
 }

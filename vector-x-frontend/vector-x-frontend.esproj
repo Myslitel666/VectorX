@@ -10,6 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\Components\Services\EnglishAssistant\Common\" />
-    <Folder Include="src\Components\Services\Shared\AccountService\Pages\Profile\" />
+    <Folder Include="src\Components\Services\Shared\AccountService\Pages\Profile\Store\slices\" />
   </ItemGroup>
 </Project>
