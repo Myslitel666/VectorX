@@ -1,5 +1,6 @@
 //React Import
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom';
 
 //MUI Import
 import Typography from '@mui/material/Typography';
@@ -18,7 +19,7 @@ import { Provider } from 'react-redux';
 import store from './Store/store'; // Путь к вашему файлу store
 
 const Profile: React.FC = () => {
-    const { getUser } = useUserContext();
+    const { getUser, isLogged } = useUserContext();
     let user = getUser();
 
     const [selectedField, setSelectedField] = useState('Username');
@@ -26,6 +27,19 @@ const Profile: React.FC = () => {
     const handleFieldSelectionChange = (selectedValue: string) => {
         setSelectedField(selectedValue); // обновляем значение выбранного поля
     };
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    //Попытка получить доступ к контенту из адресной строки браузера
+    //Profile Section доступен только для зарегистрированных пользователей
+    useEffect(() => {
+        if (location.pathname === '/profile') {
+            if (!isLogged()) {
+                navigate('/auth');
+            }
+        }
+    }, [location.pathname]);
 
     interface AttributeValueProps  {
         attribute: string;
