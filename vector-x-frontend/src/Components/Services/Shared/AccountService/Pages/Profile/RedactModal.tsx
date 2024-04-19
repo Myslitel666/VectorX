@@ -35,7 +35,6 @@ export default function BasicModal({ selectedField }: { selectedField: string })
                 variant='contained'
                 onClick={handleOpen}
                 sx = {{
-                    marginRight: '1rem',
                     width: '40%',
                     height: '3.5rem',
                     

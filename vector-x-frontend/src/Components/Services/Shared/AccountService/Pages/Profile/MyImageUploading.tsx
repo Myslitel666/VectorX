@@ -50,8 +50,6 @@ const MyImageUploading: React.FC = () => {
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
     const [initialImage, setInitialImage] = React.useState<string>(image[0]['data_url']);
 
-    const [isAvatarChanged, setIsAvatarChanged] = useState(false);
-
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
     const onClickSave = async (avatar: string) => {
@@ -113,10 +111,6 @@ const MyImageUploading: React.FC = () => {
 
     const onChange = (imageList: ImageListType) => {
         setImage(imageList);
-
-        if (imageList[0].data_url !== image[0].data_url) {
-            setIsAvatarChanged(true);
-        }
     };
 
     const removeImage = () => {
@@ -145,43 +139,60 @@ const MyImageUploading: React.FC = () => {
                     dragProps,
                 }) => (
                     <div className="upload__image-wrapper">
-                            <Typography sx={{
-                                textAlign: 'left',
-                                color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
-                            }}
-                            >
-                                {feedbackMessage}
-                            </Typography>
+                        <Typography sx={{
+                            textAlign: 'left',
+                            color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
+                        }}
+                        >
+                            {feedbackMessage}
+                        </Typography>
                         {imageList.length > 0 && (
                             <div
                                 className="image-item"
-                                style={{
-                                    width: '20rem',
-                                    height: '20rem',
-                                    borderRadius: '50%',
-                                    overflow: 'hidden'
-                                }}
                             >
-                                <img
-                                    src={imageList[0]['data_url'] }
-                                    alt=""
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
-                                    }}
-                                />
+                                <Box sx={{
+                                    marginLeft: '1.25rem',
+                                    '@media screen and (max-width: 850px)': {
+                                        marginRight: '0rem',
+                                    },
+                                }}>
+                                    <div style={{
+                                        display: 'flex', // Центрируем содержимое по горизонтали и вертикали
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                    }}>
+                                        <div
+                                            style={{
+                                                width: '20rem',
+                                                height: '20rem',
+                                                borderRadius: '50%',
+                                                overflow: 'hidden',
+                                            }}
+                                        >
+                                            <img
+                                                src={imageList[0]['data_url']}
+                                                alt=""
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'cover',
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                </Box>
+                          
                                 <Box className="image-item__btn-wrapper"
-                                    style={{
+                                    sx={{
+                                        width: '22.75rem',
                                         position: 'absolute',
                                         top: '32rem',
-                                        left: '1.25rem',
-                                        width: '22.75rem',
+                                        paddingLeft: '0.5rem',
+                                        paddingRight: '0.5rem',
                                         zIndex: 1,
-                                    }}
-                                    sx={{
                                         '@media screen and (max-width: 850px)': {
                                             display: 'flow',
+                                            width: '100%',
                                         },
                                     }}
                                 >
@@ -193,7 +204,7 @@ const MyImageUploading: React.FC = () => {
                                         sx={{
                                             marginBottom: '0.5rem',
                                             minWidth: '100%',
-                                            height: '3.4rem'
+                                            height: '3.4rem',
                                         }}
                                     >
                                         Update

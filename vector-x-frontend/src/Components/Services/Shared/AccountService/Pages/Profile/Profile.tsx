@@ -56,7 +56,8 @@ const Profile: React.FC = () => {
                 <MyTypography
                     color='primary'
                     sx={{
-                        marginTop: '4.5rem',
+                        paddingLeft: '0.5rem',
+                        marginTop: '4.4rem',
                         fontSize: '3rem',
                         overflow: 'hidden'
                     }}
@@ -93,10 +94,7 @@ const Profile: React.FC = () => {
                         sx={{
                             fontSize: '2.25rem',
                             float: 'left',
-                            marginRight: '1rem',
-                            '@media screen and (max-width: 850px)': {
-                                float: 'none'
-                            }
+                            //marginRight: '1rem',
                         }}
                     >
                         {attribute}
@@ -104,6 +102,7 @@ const Profile: React.FC = () => {
                     <Typography
                         sx={{
                             fontSize: '2.25rem',
+                            paddingLeft: '12rem'
                         }}
                     >
                         {value ? value : 'undefined'}
@@ -132,18 +131,19 @@ const Profile: React.FC = () => {
                 }}
             >
                 <Box sx={{
-                    marginLeft: '2.5rem'
+
                 }}>
                     <MyAccountTypography />
                     <Avatar/>
                 </Box>
                 <Box 
                     sx = {{
-                        marginLeft: '5rem',
+                        paddingLeft: '5rem',
                         width: '100%',
                         '@media screen and (max-width: 850px)': {
                             display: 'flow',
-                            marginLeft: '1.25rem',
+                            paddingLeft: '0.5rem',
+                            paddingRight: '0.5rem',
                         },
                     }}
                 >
@@ -151,9 +151,10 @@ const Profile: React.FC = () => {
                         sx={{
                             display: 'flex',
                             marginTop: '5.2rem',
+                            paddingRight: '0.5rem',
                             '@media screen and (max-width: 850px)': {
                                 marginTop: '15rem',
-                                marginRight: '1rem',
+                                paddingRight: '0',
                             }
                         }}
                     >
@@ -164,7 +165,7 @@ const Profile: React.FC = () => {
                             onFieldSelectionChange={handleFieldSelectionChange} // передаем обновленный обработчик
                             defaultValue={fieldSelectionDropList.find(option => option.title === selectedField)}
                             sx={{
-                                marginRight: '1rem',
+                                marginRight: '0.5rem',
                                 width: '60%',
                             }}
                         />
