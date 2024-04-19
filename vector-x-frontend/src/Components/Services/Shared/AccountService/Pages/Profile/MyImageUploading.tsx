@@ -140,6 +140,9 @@ const MyImageUploading: React.FC = () => {
                 }) => (
                     <div className="upload__image-wrapper">
                         <Typography sx={{
+                            position: 'absolute',
+                            top: '8.5rem',
+                            left: '0.5rem',
                             textAlign: 'left',
                             color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
                         }}
@@ -157,6 +160,7 @@ const MyImageUploading: React.FC = () => {
                                     },
                                 }}>
                                     <div style={{
+                                        marginTop: '1.9rem',
                                         display: 'flex', // Центрируем содержимое по горизонтали и вертикали
                                         justifyContent: 'center',
                                         alignItems: 'center',
