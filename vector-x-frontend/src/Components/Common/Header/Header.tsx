@@ -12,8 +12,9 @@ import { useTheme } from '@mui/material/styles';
 import Logo from '../Header/Logo';
 import ServiceName from './ServiceName';
 import CustomizationModal from '../CustomizationModal/CustomizationModal'
-import Logout from '../Header/Logout'
-import Login from '../Header/Login'
+import UserMenu from './UserMenu'
+import Logout from './Logout'
+import Login from './Login'
 import { useUserContext } from '../../../Context/UserContext';
 import Drawer from '../../Common/Drawer/Drawer'
 
@@ -31,7 +32,7 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/hom
     if (isMobile) {
         return (
             <>
-                <Drawer serviceName={ serviceName } />
+                <Drawer serviceName={serviceName} />
             </>
         )
     }
@@ -56,17 +57,26 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/hom
 
                     <Logo />
                     <ServiceName
-                        content = { serviceName }
-                        href = { href }
+                        content={serviceName}
+                        href={href}
                     />
-                    <Box
+                    <Box 
                         display='flex'
                         sx={{
                             marginLeft: 'auto',
+                            marginRight: '9rem'
                         }}
                     >
-                        <CustomizationModal />
-                        {isLogged() ? <Logout /> : <Login />}
+                        <Box sx={{
+                            marginTop: '0.1rem'
+                        }}>
+                            <CustomizationModal />
+                        </Box>
+                        <Box sx={{
+                            marginRight: '5rem'
+                        }}>
+                            {isLogged() ? <UserMenu /> : <Login />}
+                        </Box>
                     </Box>
                 </Toolbar>
             </AppBar>

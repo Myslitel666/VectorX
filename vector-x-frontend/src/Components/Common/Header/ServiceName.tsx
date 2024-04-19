@@ -38,8 +38,14 @@ const ServiceName: React.FC<ContentProps> = ({content = 'Vector X', href = '/hom
     };
 
     return (
-        <Tooltip title = {content} placement = "right">
-            <Link underline = "none" href = { href }>
+        <Tooltip
+            title={content}
+            placement="right"
+        >
+            <Link
+                underline="none"
+                href={href}
+            >
                 <Typography
                     fontSize = '2.3rem'
                     color={primaryMainColor}
