@@ -1,5 +1,5 @@
 //React Import
-import React, {useEffect, useState} from 'react'
+import React, { useState } from 'react'
 
 //MUI Import
 import Typography from '@mui/material/Typography';
@@ -71,28 +71,31 @@ const Profile: React.FC = () => {
     const AttributeValue: React.FC<AttributeValueProps> = ({ attribute, value, sx }) => {
         return (
             <>
-                <MyTypography
-                    color = 'primary'
-                    sx = {{
-                        ...sx,
-                        fontSize: '2.25rem',
-                        float: 'left',
-                        marginRight: '1rem',
-                        '@media screen and (max-width: 850px)': {
-                            float: 'none'
-                        }
-                    }}
-                >
-                    {attribute}
-                </MyTypography>
-                <Typography
-                    sx = {{
-                        ...sx,
-                        fontSize: '2.25rem',
-                    }}
-                >
-                    {value}
-                </Typography>
+                <Box sx={{
+                    ...sx,
+                }}>
+                    <MyTypography
+                        color='primary'
+                        sx={{
+                            fontSize: '2.25rem',
+                            float: 'left',
+                            marginRight: '1rem',
+                            '@media screen and (max-width: 850px)': {
+                                float: 'none'
+                            }
+                        }}
+                    >
+                        {attribute}
+                    </MyTypography>
+                    <Typography
+                        sx={{
+                            fontSize: '2.25rem',
+                        }}
+                    >
+                        {value}
+                    </Typography>
+                </Box>
+                
             </>
         )
     }
@@ -112,11 +115,11 @@ const Profile: React.FC = () => {
                     '@media screen and (max-width: 850px)': {
                         display: 'flow',
                     },
-                    marginLeft: '2.5rem'
                 }}
             >
-                <Box 
-                >
+                <Box sx={{
+                    marginLeft: '2.5rem'
+                }}>
                     <MyAccountTypography />
                     <Avatar/>
                 </Box>
@@ -126,50 +129,55 @@ const Profile: React.FC = () => {
                         width: '100%',
                         '@media screen and (max-width: 850px)': {
                             display: 'flow',
-                            marginLeft: '0',
-                            marginTop: '10rem'
+                            marginLeft: '1.25rem',
                         },
                     }}
                 >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            marginTop: '5.2rem',
+                            '@media screen and (max-width: 850px)': {
+                                marginTop: '15rem',
+                                marginRight: '1rem',
+                            }
+                        }}
+                    >
+                        <MyAutoComplete
+                            label='Field Selection'
+                            dropList={fieldSelectionDropList}
+                            size='medium'
+                            onFieldSelectionChange={handleFieldSelectionChange} // передаем обновленный обработчик
+                            defaultValue={fieldSelectionDropList.find(option => option.title === selectedField)}
+                            sx={{
+                                marginRight: '1rem',
+                                width: '60%',
+                            }}
+                        />
+                        <RedactModal selectedField={selectedField} />
+                    </Box>
                     <AttributeValue 
                         attribute = "Username:"
                         value = {user.username}
                         sx = {{
-                            marginTop: '4.75rem',
+                            marginTop: '0.5rem',
                             '@media screen and (max-width: 850px)': {
-                                marginTop: '1rem',
+                                //marginTop: '20rem',
                             }
                         }}
                     />
                     <AttributeValue 
                         attribute = "Role:"
                         value = {user.userRole}
-                        sx = {{marginTop: '1rem',}}
+                            sx={{
+                                marginTop: '0.5rem',
+                            }}
                     />
                     <AttributeValue 
                         attribute = "Password:"
                         value = '●●●●●●●'
-                        sx = {{marginTop: '1rem',}}
+                        sx = {{marginTop: '0.5rem',}}
                     />
-                    <Box
-                        sx = {{
-                            display: 'flex',
-                        }}
-                    >
-                        <MyAutoComplete 
-                            label = 'Field Selection'
-                            dropList={fieldSelectionDropList}
-                            size='medium'
-                            onFieldSelectionChange={handleFieldSelectionChange} // передаем обновленный обработчик
-                            defaultValue={fieldSelectionDropList.find(option => option.title === selectedField)}
-                            sx = {{
-                                marginTop: '1rem',
-                                marginRight: '1rem',
-                                width: '60%',
-                            }}
-                        />
-                        <RedactModal selectedField={selectedField}/>
-                    </Box>
                 </Box>
                 </Box>
             </Provider>
