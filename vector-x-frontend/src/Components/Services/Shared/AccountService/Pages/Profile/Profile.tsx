@@ -92,7 +92,7 @@ const Profile: React.FC = () => {
                             fontSize: '2.25rem',
                         }}
                     >
-                        {value}
+                        {value ? value : 'undefined'}
                     </Typography>
                 </Box>
                 
@@ -161,9 +161,6 @@ const Profile: React.FC = () => {
                         value = {user.username}
                         sx = {{
                             marginTop: '0.5rem',
-                            '@media screen and (max-width: 850px)': {
-                                //marginTop: '20rem',
-                            }
                         }}
                     />
                     <AttributeValue 
