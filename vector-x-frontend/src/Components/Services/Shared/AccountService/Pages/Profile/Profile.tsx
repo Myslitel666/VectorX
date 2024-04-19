@@ -5,6 +5,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 //MUI Import
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import Tooltip from '@mui/material/Tooltip';
+import Link from '@mui/material/Link';
 
 //MyComponents Import
 import { useUserContext } from '../../../../../../Context/UserContext'
@@ -94,7 +97,6 @@ const Profile: React.FC = () => {
                         sx={{
                             fontSize: '2.25rem',
                             float: 'left',
-                            //marginRight: '1rem',
                         }}
                     >
                         {attribute}
@@ -119,8 +121,7 @@ const Profile: React.FC = () => {
     ]
 
     return (
-        <>
-            <Provider store={store} >
+        <Provider store={store} >
             <Header />
             <Box 
                 display='flex'
@@ -190,10 +191,34 @@ const Profile: React.FC = () => {
                         value = '●●●●●●●'
                         sx = {{marginTop: '0.5rem',}}
                     />
+                    <Link href='/english-assistant/home'>
+                        <Tooltip title="Learn English" placement="bottom">
+                            <Box sx={{
+                                maxWidth: '23.5rem',
+                            }}>
+                            <MyTypography
+                                sx={{
+                                    marginTop: '0.5rem',
+                                    fontSize: '2.25rem',
+                                    cursor: 'pointer',
+                                    float: 'left',
+                                }}
+                            >
+                                EnglishAssistant Pro
+                            </MyTypography>
+                            <MyTypography>
+                                <ExitToAppIcon sx={{
+                                    fontSize: '2.33rem',
+                                    marginLeft: '0.4rem',
+                                    marginTop: '1rem'
+                                }} />
+                                </MyTypography>
+                            </Box>
+                        </Tooltip>
+                        </Link>
                 </Box>
-                </Box>
-            </Provider>
-        </>
+            </Box>
+        </Provider>
     )
 }
 
