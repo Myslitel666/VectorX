@@ -330,7 +330,7 @@ namespace VectorXBackend.Services
                 return new UserDataRedactDto
                 {
                     IsError = false,
-                    FeedbackMessage = "✓Avatar updated successfully"
+                    FeedbackMessage = "✓Avatar changed successfully"
                 };
             }
             catch (Exception ex)

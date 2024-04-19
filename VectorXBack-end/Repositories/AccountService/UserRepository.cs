@@ -72,8 +72,14 @@ namespace VectorXBackend.Repositories.AccountService
             {
                 string base64String = avatarRedactDto.Avatar.Replace("data:image/png;base64,", "");
 
+                byte[] avatarBytes = null;
+
                 // Преобразуем строку Base64 в массив байт
-                byte[] avatarBytes = Convert.FromBase64String(base64String);
+                try
+                {
+                    avatarBytes = Convert.FromBase64String(base64String);
+                }
+                catch { }
 
                 user.Avatar = avatarBytes; // Присваиваем массив байт полю Avatar пользователя
                 _dbContext.Users.Update(user); //Обновляем контекст базы данных

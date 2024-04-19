@@ -56,9 +56,12 @@ const MyImageUploading: React.FC = () => {
 
         dispatch(updateMessage({ text: jsonData.feedbackMessage, isError: jsonData.isError }));
 
-        console.log(isError)
-
-        updateAvatar(avatar);
+        if (avatar === defaultAvatarPath) {
+            updateAvatar('');
+        }
+        else {
+            updateAvatar(avatar);
+        }
     };
 
     // Установка начального значения для imageList
