@@ -8,7 +8,7 @@ const EnglishAssistantHeader: React.FC = () => {
 
     return (
         <>
-            <Header serviceName = 'EnglishAssistant Pro' />
+            <Header serviceName = 'EnglishAssistant Pro' href = '/english-assistant/home'/>
         </>
     );
 };

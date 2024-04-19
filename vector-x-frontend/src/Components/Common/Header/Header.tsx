@@ -19,9 +19,10 @@ import Drawer from '../../Common/Drawer/Drawer'
 
 interface ContentProps {
     serviceName?: string;
+    href?: string;
 }
 
-const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X' }) => {
+const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/home' }) => {
     //Работа с контекстом
     const { isLogged } = useUserContext();
     const theme = useTheme();
@@ -54,7 +55,10 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X' }) => {
                 >
 
                     <Logo />
-                    <ServiceName content={serviceName} />
+                    <ServiceName
+                        content = { serviceName }
+                        href = { href }
+                    />
                     <Box
                         display='flex'
                         sx={{

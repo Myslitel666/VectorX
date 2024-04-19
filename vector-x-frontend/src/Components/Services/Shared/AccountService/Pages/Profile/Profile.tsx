@@ -188,7 +188,7 @@ const Profile: React.FC = () => {
                     />
                     <AttributeValue 
                         attribute = "Password:"
-                        value = '●●●●●●●'
+                        value= '●●●●●●●●●'
                         sx = {{marginTop: '0.5rem',}}
                     />
                     <Link href='/english-assistant/home'>
@@ -215,7 +215,7 @@ const Profile: React.FC = () => {
                                 </MyTypography>
                             </Box>
                         </Tooltip>
-                        </Link>
+                    </Link>
                 </Box>
             </Box>
         </Provider>
