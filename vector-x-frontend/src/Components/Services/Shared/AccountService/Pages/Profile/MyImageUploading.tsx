@@ -12,7 +12,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateMessage, resetMessage } from './Store/slices/messageSlice'; // Импортируем экшен
+import { updateMessage, resetMessage, updateUnlockSaveButton } from './Store/slices/messageSlice'; // Action Import
 import { RootState } from '../Profile/Store/store'; // Импорт типа RootState из файла store
 
 const MyImageUploading: React.FC = () => {
@@ -26,8 +26,7 @@ const MyImageUploading: React.FC = () => {
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const feedbackMessage = useSelector((state: RootState) => state.message.text);
     const isError = useSelector((state: RootState) => state.message.isError); 
-
-    const apiUrl = process.env.REACT_APP_API_URL as string;
+    const unlockSaveButton = useSelector((state: RootState) => state.message.unlockSaveButton); 
 
     const addImagePrefix = (image: string) => {
         const subString = 'data:image/png;base64,';
@@ -38,6 +37,20 @@ const MyImageUploading: React.FC = () => {
 
         return subString + image;
     };
+
+    // Установка начального значения для imageList
+    const [image, setImage] = React.useState<ImageListType>([
+        {
+            data_url: user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath
+        }
+    ]);
+    // dark and light default avatars
+    const [darkDefaultAvatar, setDarkDefaultAvatar] = React.useState<ImageListType>([{data_url: '/images/default-avatars/dark.jpg'}]);
+    const [lightDefaultAvatar, setLightDefaultAvatar] = React.useState<ImageListType>([{ data_url: '/images/default-avatars/light.jpg' }]);
+    const maxNumber = 1; // Задаем максимальное количество изображений равным 1
+    const [initialImage, setInitialImage] = React.useState<string>(image[0]['data_url']);
+
+    const apiUrl = process.env.REACT_APP_API_URL as string;
 
     const onClickSave = async (avatar: string) => {
 
@@ -64,15 +77,6 @@ const MyImageUploading: React.FC = () => {
         }
     };
 
-    // Установка начального значения для imageList
-    const [image, setImage] = React.useState<ImageListType>([
-        {
-            data_url: user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath
-        }
-    ]);
-
-    const maxNumber = 1; // Задаем максимальное количество изображений равным 1
-
     useEffect(() => {
         setImage([
             {
@@ -80,6 +84,20 @@ const MyImageUploading: React.FC = () => {
             }
         ]);
     }, [defaultAvatarPath])
+
+    useEffect(() => {
+        if (initialImage === image[0]['data_url']) {
+            dispatch(updateUnlockSaveButton(false));
+        }
+        else {
+            if ((initialImage === darkDefaultAvatar[0]['data_url'] || initialImage === lightDefaultAvatar[0]['data_url']) && (image[0]['data_url'] === darkDefaultAvatar[0].data_url || image[0]['data_url'] === lightDefaultAvatar[0].data_url)) {
+                dispatch(updateUnlockSaveButton(false));
+            }
+            else {
+                dispatch(updateUnlockSaveButton(true));
+            }
+        }
+    }, [image[0]['data_url']])
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -90,7 +108,6 @@ const MyImageUploading: React.FC = () => {
     }, [feedbackMessage, isError, dispatch]);
 
     const onChange = (imageList: ImageListType) => {
-        // data for submit
         setImage(imageList);
     };
 
@@ -100,7 +117,6 @@ const MyImageUploading: React.FC = () => {
                 data_url: defaultAvatarPath
             }
         ]);
-        //updateFeedbackMessage(true, '');
     };
 
     return (
@@ -139,7 +155,7 @@ const MyImageUploading: React.FC = () => {
                                 }}
                             >
                                 <img
-                                    src={imageList[0]['data_url']}
+                                    src={imageList[0]['data_url'] }
                                     alt=""
                                     style={{
                                         width: '100%',
@@ -188,9 +204,11 @@ const MyImageUploading: React.FC = () => {
                                         Remove
                                     </MyButton>
                                     <MyButton
-                                        variant='contained'
+                                        variant = 'contained'
+                                        disabled = { !unlockSaveButton }
                                         onClick={() => {
                                             onClickSave(imageList[0]['data_url']);
+                                            setInitialImage(imageList[0]['data_url']);
                                         }}
                                         sx={{
                                             marginBottom: '0.5rem',

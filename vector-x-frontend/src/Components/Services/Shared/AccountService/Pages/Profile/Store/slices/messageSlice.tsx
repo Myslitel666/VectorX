@@ -3,12 +3,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // ќпределение начального состо€ни€ среза
 interface MessageState {
     text: string;
-    isError: boolean; // ƒобавл€ем логическую переменную isError
+    isError: boolean;
+    unlockSaveButton: boolean;
 }
 
 const initialState: MessageState = {
     text: '',
-    isError: true, // »нициализируем значение isError
+    isError: true,
+    unlockSaveButton: false,
 };
 
 // —оздание среза дл€ управлени€ сообщением
@@ -24,9 +26,12 @@ const messageSlice = createSlice({
             state.text = initialState.text; // —брасываем текст в начальное состо€ние
             state.isError = initialState.isError; // —брасываем isError в начальное состо€ние
         },
+        updateUnlockSaveButton(state, action: PayloadAction<boolean>) {
+            state.unlockSaveButton = action.payload;
+        },
     },
 });
 
-export const { updateMessage, resetMessage } = messageSlice.actions; // Ёкспорт экшенов
+export const { updateMessage, resetMessage, updateUnlockSaveButton } = messageSlice.actions; // Ёкспорт экшенов
 
 export default messageSlice.reducer; // Ёкспорт редьюсера
