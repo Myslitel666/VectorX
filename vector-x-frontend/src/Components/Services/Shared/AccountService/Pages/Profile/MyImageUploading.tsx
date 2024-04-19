@@ -12,7 +12,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateMessage } from './Store/slices/messageSlice'; // Импортируем экшен
+import { updateMessage, resetMessage } from './Store/slices/messageSlice'; // Импортируем экшен
 import { RootState } from '../Profile/Store/store'; // Импорт типа RootState из файла store
 
 const MyImageUploading: React.FC = () => {
@@ -80,6 +80,14 @@ const MyImageUploading: React.FC = () => {
             }
         ]);
     }, [defaultAvatarPath])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            dispatch(resetMessage());
+        }, 1500);
+
+        return () => clearTimeout(timer);
+    }, [feedbackMessage, isError, dispatch]);
 
     const onChange = (imageList: ImageListType) => {
         // data for submit

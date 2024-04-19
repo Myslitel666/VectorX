@@ -20,9 +20,13 @@ const messageSlice = createSlice({
             state.text = action.payload.text; // ќбновление текста сообщени€
             state.isError = action.payload.isError; // ќбновление значени€ isError
         },
+        resetMessage(state) {
+            state.text = initialState.text; // —брасываем текст в начальное состо€ние
+            state.isError = initialState.isError; // —брасываем isError в начальное состо€ние
+        },
     },
 });
 
-export const { updateMessage } = messageSlice.actions; // Ёкспорт экшенов
+export const { updateMessage, resetMessage } = messageSlice.actions; // Ёкспорт экшенов
 
 export default messageSlice.reducer; // Ёкспорт редьюсера
