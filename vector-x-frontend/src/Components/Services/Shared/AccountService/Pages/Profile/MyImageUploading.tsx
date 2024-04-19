@@ -50,6 +50,8 @@ const MyImageUploading: React.FC = () => {
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
     const [initialImage, setInitialImage] = React.useState<string>(image[0]['data_url']);
 
+    const [isAvatarChanged, setIsAvatarChanged] = useState(false);
+
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
     const onClickSave = async (avatar: string) => {
@@ -78,11 +80,13 @@ const MyImageUploading: React.FC = () => {
     };
 
     useEffect(() => {
-        setImage([
-            {
-                data_url: user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath
-            }
-        ]);
+        if (image[0]['data_url'] === darkDefaultAvatar[0].data_url || image[0]['data_url'] === lightDefaultAvatar[0].data_url) {
+            setImage([
+                {
+                    data_url: defaultAvatarPath
+                }
+            ]);
+        }
     }, [defaultAvatarPath])
 
     useEffect(() => {
@@ -102,13 +106,17 @@ const MyImageUploading: React.FC = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             dispatch(resetMessage());
-        }, 1500);
+        }, 1750);
 
         return () => clearTimeout(timer);
     }, [feedbackMessage, isError, dispatch]);
 
     const onChange = (imageList: ImageListType) => {
         setImage(imageList);
+
+        if (imageList[0].data_url !== image[0].data_url) {
+            setIsAvatarChanged(true);
+        }
     };
 
     const removeImage = () => {
