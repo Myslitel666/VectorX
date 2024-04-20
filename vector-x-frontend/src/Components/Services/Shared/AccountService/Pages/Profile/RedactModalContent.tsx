@@ -220,6 +220,14 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
         );
     }
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            updateFeedbackMessage(true, '');
+        }, 1750);
+
+        return () => clearTimeout(timer);
+    }, [feedbackMessage, isError])
+
     return (
         <>
             <Typography variant="h6" component="h2">

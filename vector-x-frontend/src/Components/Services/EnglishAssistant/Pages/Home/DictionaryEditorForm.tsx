@@ -1,5 +1,5 @@
 ﻿//React Import
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //MUI Import
 import Box from '@mui/material/Box'
@@ -134,6 +134,14 @@ const DictionaryEditorForm: React.FC = () => {
         setId('');
         setExampleOfUse('');
     };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            updateFeedbackMessage(true, '');
+        }, 1750);
+
+        return () => clearTimeout(timer);
+    }, [feedbackMessage, isError])
 
     return (
         <>
