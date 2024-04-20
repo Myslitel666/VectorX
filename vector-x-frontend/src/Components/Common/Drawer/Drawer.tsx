@@ -17,7 +17,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useUserContext } from '../../../Context/UserContext';
 import Logo from '../Header/Logo';
 import ServiceName from '../Header/ServiceName';
-import Settings from '../Drawer/Settings'
+import Customization from '../Drawer/Customization'
+import Profile from '../Drawer/Profile'
 import Login from '../Drawer/Login'
 import Logout from '../Drawer/Logout'
 
@@ -132,11 +133,18 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <Settings />
+                    <Customization />
                 </List>
                 <Divider />
                 <List>
-                    { isLogged() ? <Logout /> : <Login /> } 
+                    {isLogged() ?
+                        <>
+                            <Profile />
+                            <Logout />
+                        </>
+                        :
+                        <Login />
+                    } 
                 </List>
             </Drawer>
         </Box>

@@ -12,8 +12,9 @@ import ListItemText from '@mui/material/ListItemText';
 
 //MyComponents Import
 import CustomizationModalContent from '../CustomizationModal/CustomizationModalContent'
+import CustomizationIcon from '../CustomizationModal/CustomizationIcon';
 
-export default function Settings() {
+export default function Customization() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -40,9 +41,9 @@ export default function Settings() {
             > 
                 <ListItemButton>
                     <ListItemIcon>
-                        <SettingsOutlinedIcon />
+                        <CustomizationIcon sx={{ fontSize: '1.5rem' }} />
                     </ListItemIcon>
-                    <ListItemText primary={'Settings'} />
+                    <ListItemText primary={'Customization'} />
                 </ListItemButton>
             </ListItem>
             <Modal
