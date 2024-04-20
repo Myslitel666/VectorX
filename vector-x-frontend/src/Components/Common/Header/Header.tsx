@@ -1,5 +1,5 @@
 ﻿//React Import
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
@@ -13,7 +13,6 @@ import Logo from '../Header/Logo';
 import ServiceName from './ServiceName';
 import CustomizationModal from '../CustomizationModal/CustomizationModal'
 import UserMenu from './UserMenu'
-import Logout from './Logout'
 import Login from './Login'
 import { useUserContext } from '../../../Context/UserContext';
 import Drawer from '../../Common/Drawer/Drawer'

@@ -1,5 +1,5 @@
 ﻿//React Import
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 //MUI Import
@@ -58,6 +58,7 @@ export default function UserMenu() {
                 onClick={handleClick}
                 sx={{
                     height: '3.15rem',
+                    color: theme.palette.text.primary
                 }}
             >
                 <ListItemIcon>
@@ -70,6 +71,7 @@ export default function UserMenu() {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
+                        color: theme.palette.text.primary
                     }}
                 />
                 {open ? <ExpandLess /> : <ExpandMore />}
@@ -89,19 +91,29 @@ export default function UserMenu() {
                             }}
                             />
                         </ListItemIcon>
-                        <ListItemText primary="Profile" />
+                        <ListItemText
+                            primary="Profile"
+                            sx={{
+                                color: theme.palette.text.primary
+                            }}
+                        />
                     </ListItemButton>
                     <ListItemButton
                         onClick={logoutClick}
                     >
-                            <ListItemIcon >
-                            <LogoutIcon sx={{
-                                fontSize: '2.1rem',
-                                color: iconColor,
+                        <ListItemIcon >
+                        <LogoutIcon sx={{
+                            fontSize: '2.1rem',
+                            color: iconColor,
+                        }}
+                        />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary="Log Out"
+                            sx={{
+                                color: theme.palette.text.primary
                             }}
-                            />
-                            </ListItemIcon>
-                            <ListItemText primary="Log Out" />
+                        />
                     </ListItemButton>
                 </List>
             </Collapse>

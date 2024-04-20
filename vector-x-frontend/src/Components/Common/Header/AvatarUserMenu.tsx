@@ -26,9 +26,9 @@ export default function NestedList() {
     };
 
     useEffect(() => {
-        
-        console.log(user.avatar)
-    },[user, defaultAvatarPath])
+        console.log(user.userId);
+        console.log(user.avatar);
+    }, []);
 
     return (
         <>
