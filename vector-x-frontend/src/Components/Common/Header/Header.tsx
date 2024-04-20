@@ -21,9 +21,21 @@ import Drawer from '../../Common/Drawer/Drawer'
 interface ContentProps {
     serviceName?: string;
     href?: string;
+    serviceNameSx?: React.CSSProperties | {
+        [key: string]: React.CSSProperties | undefined;
+    }; // Либо CSS-правила, либо media-теги
 }
 
-const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/home' }) => {
+const Header: React.FC<ContentProps> = ({
+    serviceName = 'Vector X',
+    href = '/home',
+    serviceNameSx = {
+        '@media screen and (max-width: 725px)': {
+            fontSize: '22.5px',
+            marginTop: '0.3rem'
+        }
+    }
+}) => {
     //Работа с контекстом
     const { isLogged } = useUserContext();
     const theme = useTheme();
@@ -32,7 +44,7 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/hom
     if (isMobile) {
         return (
             <>
-                <Drawer serviceName={serviceName} />
+                <Drawer serviceName = { serviceName } />
             </>
         )
     }
@@ -57,24 +69,25 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/hom
 
                     <Logo />
                     <ServiceName
-                        content={serviceName}
-                        href={href}
+                        content = {serviceName}
+                        href = {href}
+                        serviceNameSx = {serviceNameSx}
                     />
 
                     {isLogged() ? 
                         <Box
-                            display='flex'
-                            sx={{
+                            display = 'flex'
+                            sx = {{
                                 marginLeft: 'auto',
                                 marginRight: '9rem'
                             }}
                         >
-                            <Box sx={{
+                            <Box sx = {{
                                 marginTop: '-0.2rem'
                             }}>
                                 <CustomizationModal />
                             </Box>
-                            <Box sx={{
+                            <Box sx = {{
                                 marginRight: '5rem'
                             }}>
                                 <UserMenu />
@@ -84,12 +97,12 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/hom
                         :
 
                         <Box
-                            display='flex'
+                            display = 'flex'
                             sx={{
                                 marginLeft: 'auto',
                             }}
                         >
-                            <Box sx={{
+                            <Box sx = {{
                                 marginTop: '-0.15rem'
                             }}>
                                 <CustomizationModal />
@@ -97,8 +110,6 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/hom
                             <Login />
                         </Box>
                     }
-
-                    
                 </Toolbar>
             </AppBar>
         </Box>

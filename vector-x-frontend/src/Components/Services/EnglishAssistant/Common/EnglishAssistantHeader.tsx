@@ -11,6 +11,12 @@ const EnglishAssistantHeader: React.FC = () => {
             <Header
                 serviceName='EnglishAssistant Pro'
                 href='/english-assistant/home'
+                serviceNameSx={{
+                    '@media screen and (max-width: 750px)': {
+                        fontSize: '22.5px',
+                        marginTop: '0.3rem'
+                    }
+                }}
             />
         </>
     );

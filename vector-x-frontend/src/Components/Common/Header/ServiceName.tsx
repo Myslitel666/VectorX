@@ -13,9 +13,21 @@ import { useUserContext } from '../../../Context/UserContext';
 interface ContentProps {
     content?: string;
     href?: string;
+    serviceNameSx?: React.CSSProperties | {
+        [key: string]: React.CSSProperties | undefined;
+    }; // Либо CSS-правила, либо media-теги
 }
 
-const ServiceName: React.FC<ContentProps> = ({content = 'Vector X', href = '/home'}) => {
+const ServiceName: React.FC<ContentProps> = ({
+    content = 'Vector X',
+    href = '/home',
+    serviceNameSx = {
+        '@media screen and (max-width: 725px)': {
+            fontSize: '22.5px',
+            marginTop: '0.3rem'
+        }
+    }
+}) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => {
@@ -53,14 +65,11 @@ const ServiceName: React.FC<ContentProps> = ({content = 'Vector X', href = '/hom
                     onMouseLeave={handleMouseLeave}
                     onClick={handleMouseClick }
                     sx={{
+                        ...serviceNameSx,
                         cursor: 'pointer',
                         color: isHovered ? `${primaryDarkColor}` : `${primaryMainColor}`,
                         transition: 'color 1s ease',
                         marginLeft: '5px',
-                        '@media screen and (max-width: 725px)': {
-                            fontSize: '22.5px',
-                            marginTop: '0.3rem'
-                        }
                     }}
                 >
                     { content }
