@@ -4,7 +4,6 @@ import { useMediaQuery } from 'react-responsive';
 //MUI Import
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 
 //MyComponents Import
 import RedactModalContent from './RedactModalContent'

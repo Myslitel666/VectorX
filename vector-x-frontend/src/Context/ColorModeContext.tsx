@@ -11,6 +11,7 @@ export interface ColorModeContextProps {
     theme: Theme;
     themeMode: 'light' | 'dark';
     primaryColor: string;
+    iconColor: string;
     defaultAvatars: {
         light: string,
         dark: string
@@ -89,6 +90,8 @@ export const ColorModeProvider: React.FC<ColorModeProviderProps> = ({ children }
         dark: '/images/default-avatars/dark.jpg'
     }
 
+    const iconColor = theme.palette.mode === 'dark' ? 'white' : '#5F5F5F';
+
     const contextValue = useMemo(() => {
         return {
             //methods
@@ -99,7 +102,8 @@ export const ColorModeProvider: React.FC<ColorModeProviderProps> = ({ children }
             theme,
             themeMode,
             primaryColor,
-            defaultAvatars
+            iconColor,
+            defaultAvatars,
         };
     }, [themeMode, primaryColor]);
 

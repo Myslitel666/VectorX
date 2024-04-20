@@ -5,16 +5,19 @@ import { useMediaQuery } from 'react-responsive';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import PaletteIcon from '@mui/icons-material/PaletteOutlined';
+import BrushOutlinedIcon from '@mui/icons-material/BrushOutlined';
+import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeContext';
 
 //MyComponents Import
-import CustomizationModalContent from '../CustomizationModal/CustomizationModalContent'
+import CustomizationModalContent from '../CustomizationModal/CustomizationModalContent';
 
 export default function BasicModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const isDesktop = useMediaQuery({ minWidth: 600 });
+    const { iconColor }: ColorModeContextProps = useColorMode();
 
     const style = {
         position: 'absolute' as 'absolute',
@@ -34,10 +37,18 @@ export default function BasicModal() {
             <Button
                 onClick={handleOpen}
             >
-                <SettingsOutlinedIcon
+                <PaletteIcon
                     sx={{
-                        color: 'text.primary',
+                        color: iconColor,
                         fontSize: '1.9rem',
+                    }}
+                />
+                <BrushOutlinedIcon
+                    sx={{
+                        color: iconColor,
+                        fontSize: '1.9rem',
+                        marginLeft: '-0.6rem',
+                        transform: 'rotate(-18deg)'
                     }}
                 />
             </Button>

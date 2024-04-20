@@ -1,6 +1,6 @@
 //React Import
 import * as React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 //MUI Import
 import List from '@mui/material/List';
@@ -14,11 +14,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useTheme } from '@mui/material/styles';
 
 //MyComponents Import
-import AvatarUserMenu from '../Header/AvatarUserMenu'
+import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeContext';
+import AvatarUserMenu from '../Header/AvatarUserMenu';
 
 export default function NestedList() {
     const [open, setOpen] = React.useState(true);
     const navigate = useNavigate();
+    const { iconColor }: ColorModeContextProps = useColorMode();
 
     const handleClick = () => {
         setOpen(!open);
@@ -62,7 +64,11 @@ export default function NestedList() {
                 >
                     <ListItemButton >
                             <ListItemIcon >
-                                <LogoutIcon sx={{ fontSize: '2.1rem' }} />
+                            <LogoutIcon sx={{
+                                fontSize: '2.1rem',
+                                color: iconColor,
+                            }}
+                            />
                             </ListItemIcon>
                             <ListItemText primary="Log Out" />
                     </ListItemButton>
