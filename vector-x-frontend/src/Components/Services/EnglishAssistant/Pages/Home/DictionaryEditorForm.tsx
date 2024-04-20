@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 //MyComponents Import
 import { useHomeContext } from './HomeContext'
 import { useUserContext } from '../../../../../Context/UserContext';
+import { useColorLabel } from '../../../../../Context/UseColorLabel';
 import MyInputBase from '../../../../Common/User Interface/MyInputBase';
 import MyButton from '../../../../Common/User Interface/MyButton';
 
@@ -24,6 +25,9 @@ const DictionaryEditorForm: React.FC = () => {
     //Работа с контекстом пользователя
     const { getUser } = useUserContext();
     const user = getUser();
+
+    //Работа с контекстом цветовой темы
+    const { getColorFromLabel } = useColorLabel('green');
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
     const [feedbackMessage, setFeedbackMessage] = useState('');
@@ -154,7 +158,7 @@ const DictionaryEditorForm: React.FC = () => {
                 <Box>
                     <Typography sx={{
                         marginTop: '-0.2rem',
-                        color: isError ? 'red' : 'green',
+                        color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
                     }}
                     >
                         { feedbackMessage }

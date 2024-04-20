@@ -44,11 +44,6 @@ const Profile: React.FC = () => {
         }
     }, [location.pathname]);
 
-    //useEffect(() => {
-    //    console.log(user.userId);
-    //    console.log(user.avatar);
-    //}, []);
-
     interface AttributeValueProps  {
         attribute: string;
         value: string;

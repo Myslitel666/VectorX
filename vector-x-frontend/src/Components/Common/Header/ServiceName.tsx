@@ -45,10 +45,6 @@ const ServiceName: React.FC<ContentProps> = ({
     //Работа с контекстом
     const { getUser } = useUserContext();
 
-    const handleMouseClick = () => {
-        console.log(getUser())
-    };
-
     return (
         <Tooltip
             title={content}
@@ -63,7 +59,6 @@ const ServiceName: React.FC<ContentProps> = ({
                     color={primaryMainColor}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    onClick={handleMouseClick }
                     sx={{
                         ...serviceNameSx,
                         cursor: 'pointer',

@@ -25,11 +25,6 @@ export default function NestedList() {
         return subString + image;
     };
 
-    useEffect(() => {
-        console.log(user.userId);
-        console.log(user.avatar);
-    }, []);
-
     return (
         <>
             <Avatar
