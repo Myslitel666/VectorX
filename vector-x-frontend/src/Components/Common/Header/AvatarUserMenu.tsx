@@ -1,3 +1,6 @@
+//React Import
+import React, { useEffect, useState } from 'react';
+
 //MUI Import
 import Avatar from '@mui/material/Avatar';
 import { useTheme } from '@mui/material/styles';
@@ -9,15 +12,29 @@ import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeC
 export default function NestedList() {
     const { themeMode, defaultAvatars }: ColorModeContextProps = useColorMode();
     const { getUser } = useUserContext();
-    const theme = useTheme();
     let user = getUser();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
+
+    const addImagePrefix = (image: string) => {
+        const subString = 'data:image/png;base64,';
+
+        if (image.startsWith(subString)) {
+            return image;
+        }
+
+        return subString + image;
+    };
+
+    useEffect(() => {
+        
+        console.log(user.avatar)
+    },[user, defaultAvatarPath])
 
     return (
         <>
             <Avatar
                 alt="Avatar"
-                src = {user.avatar ? user.avatar : defaultAvatarPath}
+                src={user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath }
                 sx={{
                     left: '-0.3rem'
                 }}
