@@ -3,12 +3,18 @@ import { ThemeProvider, createTheme, Theme } from '@mui/material';
 import '../../src/Font.css';
 
 export interface ColorModeContextProps {
+    //methods
     toggleColorMode: () => void;
     setThemeMode: (mode: 'light' | 'dark') => void;
-    theme: Theme;
     setPrimaryColor: (color: string) => void;
+    //properies
+    theme: Theme;
     themeMode: 'light' | 'dark';
     primaryColor: string;
+    defaultAvatars: {
+        light: string,
+        dark: string
+    }
 }
 
 const ColorModeContext = createContext<ColorModeContextProps | undefined>(undefined);
@@ -78,8 +84,23 @@ export const ColorModeProvider: React.FC<ColorModeProviderProps> = ({ children }
         localStorage.setItem('themeMode', themeMode);
     }, [themeMode]);
 
+    const defaultAvatars = {
+        light: '/images/default-avatars/light.jpg',
+        dark: '/images/default-avatars/dark.jpg'
+    }
+
     const contextValue = useMemo(() => {
-        return { toggleColorMode, setThemeMode, theme, setPrimaryColor, themeMode, primaryColor };
+        return {
+            //methods
+            toggleColorMode,
+            setThemeMode,
+            setPrimaryColor,
+            //properties
+            theme,
+            themeMode,
+            primaryColor,
+            defaultAvatars
+        };
     }, [themeMode, primaryColor]);
 
     return (

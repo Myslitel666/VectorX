@@ -68,7 +68,7 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/hom
                         }}
                     >
                         <Box sx={{
-                            marginTop: '0.1rem'
+                            marginTop: '-0.1rem'
                         }}>
                             <CustomizationModal />
                         </Box>

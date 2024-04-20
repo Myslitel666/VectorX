@@ -1,5 +1,5 @@
 //React Import
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 //ImageUploading Import
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 //MyComponent Import
@@ -16,11 +16,11 @@ import { updateMessage, resetMessage, updateUnlockSaveButton } from './Store/sli
 import { RootState } from '../Profile/Store/store'; // Импорт типа RootState из файла store
 
 const MyImageUploading: React.FC = () => {
-    const { themeMode }: ColorModeContextProps = useColorMode();
+    const { themeMode, defaultAvatars }: ColorModeContextProps = useColorMode();
     const { getUser, updateAvatar } = useUserContext();
     const { getColorFromLabel } = useColorLabel('green');
     let user = getUser();
-    let defaultAvatarPath = themeMode === 'dark' ? '/images/default-avatars/dark.jpg' : '/images/default-avatars/light.jpg';
+    let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
@@ -45,8 +45,8 @@ const MyImageUploading: React.FC = () => {
         }
     ]);
     // dark and light default avatars
-    const [darkDefaultAvatar, setDarkDefaultAvatar] = React.useState<ImageListType>([{data_url: '/images/default-avatars/dark.jpg'}]);
-    const [lightDefaultAvatar, setLightDefaultAvatar] = React.useState<ImageListType>([{ data_url: '/images/default-avatars/light.jpg' }]);
+    const [darkDefaultAvatar] = React.useState<ImageListType>([{ data_url: defaultAvatars.dark}]);
+    const [lightDefaultAvatar] = React.useState<ImageListType>([{ data_url: defaultAvatars.light }]);
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
     const [initialImage, setInitialImage] = React.useState<string>(image[0]['data_url']);
 

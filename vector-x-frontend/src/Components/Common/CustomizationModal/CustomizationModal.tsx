@@ -40,7 +40,7 @@ export default function BasicModal() {
                 <SettingsOutlinedIcon
                     sx={{
                         color: 'text.primary',
-                        fontSize: '2.1rem'
+                        fontSize: '1.9rem',
                     }}
                 />
             </Button>

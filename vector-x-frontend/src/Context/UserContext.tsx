@@ -9,10 +9,11 @@ type User = {
 }
 
 export interface UserContextProps {
+    //methods
+    getUser: () => User;
     setUser: (userId: number, userRole: string, username: string, avatar: string) => void;
     updateUsername: (desiredUsername: string) => void;
     updateAvatar: (avatar: string) => void;
-    getUser: () => User;
     logoutUser: () => void;
     isLogged: () => boolean;
 }
