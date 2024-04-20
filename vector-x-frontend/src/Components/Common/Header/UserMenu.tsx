@@ -1,4 +1,4 @@
-//React Import
+﻿//React Import
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,12 +16,14 @@ import { useTheme } from '@mui/material/styles';
 
 //MyComponents Import
 import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeContext';
+import { useUserContext } from '../../../Context/UserContext';
 import AvatarUserMenu from '../Header/AvatarUserMenu';
 
 export default function NestedList() {
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
     const { iconColor }: ColorModeContextProps = useColorMode();
+    const { getUser } = useUserContext();
 
     const handleClick = () => {
         setOpen(!open);
@@ -38,6 +40,7 @@ export default function NestedList() {
     };
 
     const theme = useTheme();
+    const user = getUser();
 
     return (
         <List
@@ -60,7 +63,15 @@ export default function NestedList() {
                 <ListItemIcon>
                     <AvatarUserMenu />
                 </ListItemIcon>
-                <ListItemText primary="Inbox" />
+                <ListItemText
+                    primary = { user.username }
+                    sx={{
+                        marginLeft: '-1rem',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                    }}
+                />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
             <Collapse in={open} timeout="auto" unmountOnExit>
