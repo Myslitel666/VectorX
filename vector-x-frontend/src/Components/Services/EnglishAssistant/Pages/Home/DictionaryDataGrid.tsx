@@ -67,6 +67,7 @@ const columnsMobile: GridColDef[] = [
         field: 'exampleOfUse',
         headerName: 'Example of use',
         width: 270,
+        cellClassName: 'wrap-cell',
     },
 ];
 
@@ -132,7 +133,7 @@ export default function DictionaryDataGrid() {
                         cursor: 'pointer'
                     },
                     "& .wrap-cell": {
-                        cursor: 'pointer'
+                        cursor: 'pointer',
                     },
                 }}
             />

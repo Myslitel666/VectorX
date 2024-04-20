@@ -25,11 +25,20 @@ export default function NestedList() {
         return subString + image;
     };
 
+    // В некоторых случаях в качестве изображения передаётся строка 'null'
+    const isNull = (image: string) => {
+        if (image === null || image === 'null' || image === '') {
+            return true;
+        }
+
+        return false;
+    };
+
     return (
         <>
             <Avatar
                 alt="Avatar"
-                src={user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath }
+                src={isNull(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)}
                 sx={{
                     left: '-0.3rem'
                 }}

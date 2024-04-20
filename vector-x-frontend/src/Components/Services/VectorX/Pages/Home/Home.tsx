@@ -7,7 +7,6 @@ import Courses from '../../Pages/Home/Courses'
 import PopularCourses from '../../Pages/Home/PopularCourses'
 import CoursesFilter from '../../Pages/Home/CoursesFilter'
 import Box from '@mui/material/Box';
-import { useUserContext } from '../../../../../Context/UserContext';
 
 const Home: React.FC = () => {
 

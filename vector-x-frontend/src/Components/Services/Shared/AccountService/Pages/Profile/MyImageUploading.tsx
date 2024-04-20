@@ -38,10 +38,19 @@ const MyImageUploading: React.FC = () => {
         return subString + image;
     };
 
+    // В некоторых случаях в качестве изображения передаётся строка 'null'
+    const isNull = (image: string) => {
+        if (image === null || image === 'null' || image === '') {
+            return true;
+        }
+
+        return false;
+    };
+
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
         {
-            data_url: user.avatar ? addImagePrefix(user.avatar) : defaultAvatarPath
+            data_url: isNull(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)
         }
     ]);
     // dark and light default avatars
@@ -88,6 +97,8 @@ const MyImageUploading: React.FC = () => {
     }, [defaultAvatarPath])
 
     useEffect(() => {
+        console.log(image[0]['data_url'])
+
         if (initialImage === image[0]['data_url']) {
             dispatch(updateUnlockSaveButton(false));
         }
