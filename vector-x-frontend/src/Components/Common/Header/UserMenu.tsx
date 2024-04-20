@@ -11,6 +11,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined';
 import { useTheme } from '@mui/material/styles';
 
 //MyComponents Import
@@ -28,6 +29,10 @@ export default function NestedList() {
 
     const logoutClick = () => {
         navigate('/auth');
+    };
+
+    const profileClick = () => {
+        navigate('/profile');
     };
 
     const theme = useTheme();
@@ -60,9 +65,22 @@ export default function NestedList() {
                 <List
                     component="div"
                     disablePadding
-                    onClick = { logoutClick }
                 >
-                    <ListItemButton >
+                    <ListItemButton
+                        onClick={profileClick}
+                    >
+                        <ListItemIcon >
+                            <ConstructionOutlinedIcon sx={{
+                                fontSize: '2.1rem',
+                                color: iconColor,
+                            }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile" />
+                    </ListItemButton>
+                    <ListItemButton
+                        onClick={logoutClick}
+                    >
                             <ListItemIcon >
                             <LogoutIcon sx={{
                                 fontSize: '2.1rem',
