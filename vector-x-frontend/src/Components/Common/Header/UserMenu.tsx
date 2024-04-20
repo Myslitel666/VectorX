@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 //MUI Import
 import List from '@mui/material/List';
-import Link from '@mui/material/Link';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';

@@ -33,9 +33,6 @@ export default function BasicModal() {
         <div>
             <Button
                 onClick={handleOpen}
-                sx={{
-                    //maxWidth: '0.5rem'
-                }}
             >
                 <SettingsOutlinedIcon
                     sx={{

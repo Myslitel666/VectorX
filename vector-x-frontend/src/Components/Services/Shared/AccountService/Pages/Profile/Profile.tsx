@@ -123,9 +123,9 @@ const Profile: React.FC = () => {
     return (
         <Provider store={store} >
             <Header />
-            <Box 
+            <Box
                 display='flex'
-                sx = {{
+                sx={{
                     '@media screen and (max-width: 850px)': {
                         display: 'flow',
                     },
@@ -135,10 +135,10 @@ const Profile: React.FC = () => {
 
                 }}>
                     <MyAccountTypography />
-                    <Avatar/>
+                    <Avatar />
                 </Box>
-                <Box 
-                    sx = {{
+                <Box
+                    sx={{
                         paddingLeft: '5rem',
                         width: '100%',
                         '@media screen and (max-width: 850px)': {
@@ -172,50 +172,50 @@ const Profile: React.FC = () => {
                         />
                         <RedactModal selectedField={selectedField} />
                     </Box>
-                    <AttributeValue 
-                        attribute = "Username:"
-                        value = {user.username}
-                        sx = {{
+                    <AttributeValue
+                        attribute="Username:"
+                        value={user.username}
+                        sx={{
                             marginTop: '0.5rem',
                         }}
                     />
-                    <AttributeValue 
-                        attribute = "Role:"
-                        value = {user.userRole}
-                            sx={{
-                                marginTop: '0.5rem',
-                            }}
+                    <AttributeValue
+                        attribute="Role:"
+                        value={user.userRole}
+                        sx={{
+                            marginTop: '0.5rem',
+                        }}
                     />
-                    <AttributeValue 
-                        attribute = "Password:"
-                        value= '●●●●●●●●●'
-                        sx = {{marginTop: '0.5rem',}}
+                    <AttributeValue
+                        attribute="Password:"
+                        value='●●●●●●●●●'
+                        sx={{ marginTop: '0.5rem', }}
                     />
-                    <Link href='/english-assistant/home'>
+                    <Box sx={{
+                        maxWidth: '23.5rem',
+                    }}>
                         <Tooltip title="Learn English" placement="bottom">
-                            <Box sx={{
-                                maxWidth: '23.5rem',
-                            }}>
-                            <MyTypography
-                                sx={{
-                                    marginTop: '0.5rem',
-                                    fontSize: '2.25rem',
-                                    cursor: 'pointer',
-                                    float: 'left',
-                                }}
-                            >
-                                EnglishAssistant Pro
-                            </MyTypography>
-                            <MyTypography>
-                                <ExitToAppIcon sx={{
-                                    fontSize: '2.33rem',
-                                    marginLeft: '0.4rem',
-                                    marginTop: '1rem'
-                                }} />
+                            <Link href='/english-assistant/home'>
+                                <MyTypography
+                                    sx={{
+                                        marginTop: '0.5rem',
+                                        fontSize: '2.25rem',
+                                        cursor: 'pointer',
+                                        float: 'left',
+                                    }}
+                                >
+                                    EnglishAssistant Pro
                                 </MyTypography>
-                            </Box>
+                                <MyTypography>
+                                    <ExitToAppIcon sx={{
+                                        fontSize: '2.33rem',
+                                        marginLeft: '0.4rem',
+                                        marginTop: '1rem'
+                                    }} />
+                                </MyTypography>
+                            </Link>
                         </Tooltip>
-                    </Link>
+                    </Box>
                 </Box>
             </Box>
         </Provider>

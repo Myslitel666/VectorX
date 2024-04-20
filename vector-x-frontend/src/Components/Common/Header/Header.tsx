@@ -60,24 +60,45 @@ const Header: React.FC<ContentProps> = ({ serviceName = 'Vector X', href = '/hom
                         content={serviceName}
                         href={href}
                     />
-                    <Box 
-                        display='flex'
-                        sx={{
-                            marginLeft: 'auto',
-                            marginRight: '9rem'
-                        }}
-                    >
-                        <Box sx={{
-                            marginTop: '-0.1rem'
-                        }}>
-                            <CustomizationModal />
+
+                    {isLogged() ? 
+                        <Box
+                            display='flex'
+                            sx={{
+                                marginLeft: 'auto',
+                                marginRight: '9rem'
+                            }}
+                        >
+                            <Box sx={{
+                                marginTop: '-0.2rem'
+                            }}>
+                                <CustomizationModal />
+                            </Box>
+                            <Box sx={{
+                                marginRight: '5rem'
+                            }}>
+                                <UserMenu />
+                            </Box>
                         </Box>
-                        <Box sx={{
-                            marginRight: '5rem'
-                        }}>
-                            {isLogged() ? <UserMenu /> : <Login />}
+
+                        :
+
+                        <Box
+                            display='flex'
+                            sx={{
+                                marginLeft: 'auto',
+                            }}
+                        >
+                            <Box sx={{
+                                marginTop: '-0.15rem'
+                            }}>
+                                <CustomizationModal />
+                            </Box>
+                            <Login />
                         </Box>
-                    </Box>
+                    }
+
+                    
                 </Toolbar>
             </AppBar>
         </Box>
