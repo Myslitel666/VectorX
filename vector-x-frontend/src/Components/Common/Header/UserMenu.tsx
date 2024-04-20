@@ -19,7 +19,7 @@ import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeC
 import AvatarUserMenu from '../Header/AvatarUserMenu';
 
 export default function NestedList() {
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
     const { iconColor }: ColorModeContextProps = useColorMode();
 
@@ -29,10 +29,12 @@ export default function NestedList() {
 
     const logoutClick = () => {
         navigate('/auth');
+        setOpen(!open);
     };
 
     const profileClick = () => {
         navigate('/profile');
+        setOpen(!open);
     };
 
     const theme = useTheme();
