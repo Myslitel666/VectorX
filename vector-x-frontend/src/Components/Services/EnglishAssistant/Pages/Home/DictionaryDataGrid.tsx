@@ -10,7 +10,6 @@ import { useTheme } from '@mui/material';
 //My Components Import
 import { useHomeContext } from '../Home/HomeContext'
 import { useUserContext } from '../../../../../Context/UserContext'
-import '../Home/DictionaryDataGrid.css'
 
 const columnsDesktop: GridColDef[] = [
     {
@@ -102,6 +101,8 @@ export default function DictionaryDataGrid() {
                 rows={rows}
                 columns={columns}
                 rowHeight={90}
+                getEstimatedRowHeight={() => 90}
+                getRowHeight={() => 'auto'}
                 onRowSelectionModelChange={(newSelectionModel) => {
                     if (newSelectionModel.length > 0) {
                         const selectedRow = rows.find(row => row.id === newSelectionModel[0]);
@@ -114,6 +115,10 @@ export default function DictionaryDataGrid() {
                     }
                 }}
                 sx={{
+                    //Стиль, который добавляет отступ для верхнего и нижнего края в строке таблицы
+                    '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
+                        py: '15px',
+                    },
                     '@media screen and (max-width: 1400px)': {
                         height: '36.05rem',
                     },
@@ -134,6 +139,8 @@ export default function DictionaryDataGrid() {
                     },
                     "& .wrap-cell": {
                         cursor: 'pointer',
+                        //Стиль, который переносит слово на новую строку, если оно не помещается в ширину столбца
+                        overflowWrap: 'break-word',
                     },
                 }}
             />
