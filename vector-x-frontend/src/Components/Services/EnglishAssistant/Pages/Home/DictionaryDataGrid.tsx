@@ -141,6 +141,8 @@ export default function DictionaryDataGrid() {
                         cursor: 'pointer',
                         //Стиль, который переносит слово на новую строку, если оно не помещается в ширину столбца
                         overflowWrap: 'break-word',
+                        display: 'flex',
+                        alignItems: 'center', //Центрирование по горизонтали
                     },
                 }}
             />
