@@ -100,8 +100,6 @@ export default function DictionaryDataGrid() {
             <DataGrid
                 rows={rows}
                 columns={columns}
-                rowHeight={90}
-                getEstimatedRowHeight={() => 90}
                 getRowHeight={() => 'auto'}
                 onRowSelectionModelChange={(newSelectionModel) => {
                     if (newSelectionModel.length > 0) {
