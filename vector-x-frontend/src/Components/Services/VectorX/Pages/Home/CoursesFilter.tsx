@@ -1,5 +1,5 @@
 ﻿//React Import
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 //MUI Import
 import SearchCriteria from '../../../../Common/User Interface/MyAutoComplete';

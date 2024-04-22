@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace VectorXBackend.DTOs.Requests.AccountService;
+namespace VectorXBackend.DTOs.SharedDTOs;
 
 public partial class UserDto
 {

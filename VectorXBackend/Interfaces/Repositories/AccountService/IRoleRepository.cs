@@ -7,5 +7,7 @@ namespace VectorXBackend.Interfaces.Repositories.AccountService
         Task<Role> GetRoleById(int roleId);
 
         Task<Role> GetIdByRole(string role);
+
+        Task<List<Role>> GetRolesByIds(int[] roleIds);
     }
 }

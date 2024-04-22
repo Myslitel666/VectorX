@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 
 //MUI Import
 import { useTheme } from '@mui/material';
@@ -13,18 +13,65 @@ import { ColorModeContextProps, useColorMode } from '../../../../../../Context/C
 import MyLink from '../../../../../Common/User Interface/MyLink';
 
 export default function BasicModal() {
-    const theme = useTheme();
-    const { themeMode }: ColorModeContextProps = useColorMode();
-    const { iconColor }: ColorModeContextProps = useColorMode();
 
-    // Массив пользователей с информацией о username, role и avatars
-    const users = [
-        { username: 'React.dev', role: 'learner', avatars: '/images/testCourses/react.png' },
-        { username: 'Svelte.dev', role: 'learner', avatars: '/images/testCourses/svelte.png' },
-        { username: 'Admin', role: 'admin', avatars: '/images/default-avatars/light.jpg' },
-        { username: 'Python Master', role: 'master', avatars: '/images/testCourses/python.png' },
-        { username: 'Desmos Master', role: 'master', avatars: '/images/testCourses/desmos.png' }
-    ];
+    interface User {
+        username: string;
+        role: string;
+        avatar: string;
+    }
+
+    const theme = useTheme();
+    const { themeMode, iconColor, defaultAvatars }: ColorModeContextProps = useColorMode();
+    let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
+    const [users, setUsers] = useState<User[]>([]);
+
+    const apiUrl = process.env.REACT_APP_API_URL as string;
+
+    async function getCachedUsers(userIds: number[]) {
+        const response = await fetch(`${apiUrl}/api/auth/getCachedUsers`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userIds: userIds,
+            }),
+        });
+
+        const data = await response.json();
+        setUsers(data.userDtos);
+    };
+
+    const addImagePrefix = (image: string) => {
+        const subString = 'data:image/png;base64,';
+
+        if (image.startsWith(subString)) {
+            return image;
+        }
+
+        return subString + image;
+    };
+
+    // В некоторых случаях в качестве изображения передаётся строка 'null'
+    const isNull = (image: string) => {
+        if (image === null || image === 'null' || image === '') {
+            return true;
+        }
+
+        return false;
+    };
+
+    useEffect(() => {
+        const cachedUserIdsString = localStorage.getItem('cachedUserIds');
+
+        // Проверяем, есть ли данные в localStorage по ключу 'cachedUserIds'
+        if (cachedUserIdsString !== null) {
+            // Преобразуем строку в массив
+            const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
+
+            getCachedUsers(cachedUserIds);
+        }
+    }, [])
 
     // Создаем массив состояний для каждого Box'а
     const [isHovered, setIsHovered] = useState(Array(users.length).fill(false));
@@ -68,7 +115,7 @@ export default function BasicModal() {
                 >
                     <Avatar
                         alt="Avatar"
-                        src={user.avatars}
+                        src={isNull(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)}
                         sx={{
                             display: 'flex',
                             alignItems: 'center',

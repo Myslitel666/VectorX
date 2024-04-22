@@ -1,5 +1,6 @@
 ﻿using VectorXBackend.DTOs.Requests.AccountService;
 using VectorXBackend.DTOs.Responses.AccountService;
+using VectorXBackend.DTOs.SharedDTOs;
 
 namespace VectorXBackend.Interfaces.Services
 {
@@ -16,5 +17,7 @@ namespace VectorXBackend.Interfaces.Services
         Task<UserDataRedactDto> RedactUserData(PasswordRedactDto passwordRedactDto);
 
         Task<UserDataRedactDto> RedactUserData(AvatarRedactDto avatarRedactDto);
+
+        Task<CachedUsersDto> GetCachedUsers(CachedUserIdsDto cachedUserIdsDto);
     }
 }

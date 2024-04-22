@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VectorXBackend.Context;
-using VectorXBackend.DTOs.Requests.AccountService;
 using VectorXBackend.DTOs.Requests.EnglishAssistant;
+using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Interfaces.Services;
 
 namespace VectorXBackend.Controllers.EnglishAssistant

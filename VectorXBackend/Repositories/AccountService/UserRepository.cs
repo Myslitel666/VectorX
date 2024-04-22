@@ -40,6 +40,13 @@ namespace VectorXBackend.Repositories.AccountService
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<List<User>> GetUsersByIds(int[] userIds)
+        {
+            return await _dbContext.Users
+                .Where(user => userIds.Contains(user.UserId))
+                .ToListAsync();
+        }
+
         public async Task RedactUserData(UsernameRedactDto usernameRedactDto)
         {
             var user = await GetUserById(usernameRedactDto.UserId); // Извлекаем пользователя по Id

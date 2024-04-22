@@ -3,6 +3,7 @@ using VectorXBackend.Interfaces.Repositories.AccountService;
 using VectorXBackend.Models.Entities;
 using VectorXBackend.DTOs.Requests.AccountService;
 using VectorXBackend.DTOs.Responses.AccountService;
+using VectorXBackend.DTOs.SharedDTOs;
 
 namespace VectorXBackend.Services
 {
@@ -341,6 +342,46 @@ namespace VectorXBackend.Services
                     FeedbackMessage = $"✗Failed to update avatar. Error: {ex.Message}"
                 };
             }
+        }
+
+        public async Task<CachedUsersDto> GetCachedUsers(CachedUserIdsDto cachedUserIdsDto)
+        {
+            //Извлекаем список пользователей по Id (в случае его отсутствия получим null)
+            var cachedUsers = await _userRepository.GetUsersByIds(cachedUserIdsDto.UserIds);
+
+            var cachedUsersDto = new CachedUsersDto();
+
+            if (cachedUsers != null)
+            {
+                //Создаём массив идентификаторов ролей пользователей
+                var rolesIdsUsers = new int[cachedUsers.Count];
+
+                //Заполняем массив идентификаторами ролей пользователей
+                for (int i = 0; i < cachedUsers.Count; i++)
+                {
+                    rolesIdsUsers[i] = cachedUsers[i].RoleId;
+                }
+
+                var rolesUsers = await _roleRepository.GetRolesByIds(rolesIdsUsers); //Извлекаем роли пользователей по их Id
+                var userDtos = new UserDto[cachedUsers.Count];
+
+                //Заполняем массив UserDto элементов
+                for (int i = 0; i < cachedUsers.Count; i++)
+                {
+                    //var role = rolesUsers.FirstOrDefault(role => role.RoleId == cachedUsers[i].RoleId);
+                    userDtos[i] = new UserDto
+                    {
+                        UserId = cachedUsers[i].UserId,
+                        Username = cachedUsers[i].Username,
+                        Role = rolesUsers.FirstOrDefault(role => role.RoleId == cachedUsers[i].RoleId).RoleName,
+                        Avatar = cachedUsers[i].Avatar
+                    };
+                }
+
+                cachedUsersDto.UserDtos = userDtos;
+            }
+
+            return cachedUsersDto;
         }
     }
 }

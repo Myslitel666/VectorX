@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VectorXBackend.Interfaces.Services;
-using VectorXBackend.DTOs.Requests.AccountService;
+using VectorXBackend.DTOs.SharedDTOs;
 
 namespace VectorXBackend.Controllers.AccountService
 {

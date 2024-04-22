@@ -25,5 +25,12 @@ namespace VectorXBackend.Repositories.AccountService
             return await _dbContext.Roles
             .FirstOrDefaultAsync(role => role.RoleId == roleId);
         }
+
+        public async Task<List<Role>> GetRolesByIds(int[] roleIds)
+        {
+            return await _dbContext.Roles
+                .Where(role => roleIds.Contains(role.RoleId))
+                .ToListAsync();
+        }
     }
 }
