@@ -3,6 +3,7 @@
 //MUI Import
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
@@ -15,6 +16,7 @@ import MyLink from '../../../../../Common/User Interface/MyLink';
 export default function BasicModal() {
 
     interface User {
+        userId: number;
         username: string;
         role: string;
         avatar: string;
@@ -72,6 +74,10 @@ export default function BasicModal() {
             getCachedUsers(cachedUserIds);
         }
     }, [])
+
+    useEffect(() => {
+        setIsHovered(Array(users.length).fill(false));
+    }, [users])
 
     // Создаем массив состояний для каждого Box'а
     const [isHovered, setIsHovered] = useState(Array(users.length).fill(false));
@@ -139,23 +145,27 @@ export default function BasicModal() {
                         </Typography>
                     </Box>
                     {/* Значок корзины */}
-                    <Tooltip
-                        title='Clear'
-                        arrow
-                    >
-                        <DeleteIcon
-                            sx={{
-                                display: isHovered[index] ? 'visible' : 'none',
-                                color: iconColor,
-                                position: 'absolute',
-                                top: '50%',
-                                right: '0',
-                                transform: 'translateY(-50%)',
-                                marginRight: '2.5rem',
-                                fontSize: '1.66rem'
-                            }}
-                        />
-                    </Tooltip>
+                    {isHovered[index] ?
+                        <Tooltip
+                            title='Clear'
+                            arrow
+                        >
+                            <DeleteIcon
+                                sx={{
+                                    display: isHovered[index] ? 'visible' : 'none',
+                                    color: iconColor,
+                                    position: 'absolute',
+                                    top: '50%',
+                                    right: '0',
+                                    transform: 'translateY(-50%)',
+                                    marginRight: '2.5rem',
+                                    fontSize: '1.66rem'
+                                }}
+                            />
+                        </Tooltip>
+                        :
+                        <></>
+                    }
                 </Box>
             ))}
         </>
