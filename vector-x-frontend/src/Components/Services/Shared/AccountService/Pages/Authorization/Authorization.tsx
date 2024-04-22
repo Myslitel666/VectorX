@@ -16,8 +16,9 @@ import MyTypography from '../../../../../Common/User Interface/MyTypography'
 import Header from '../../../../../Common/Header/Header';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import MyLink from '../../../../../Common/User Interface/MyLink';
-import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import PasswordTextField from '../../../../../Common/User Interface/PasswordTextField'
+import QuikAccessAccountModal from './QuickAccountAccessModal'
+import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 
 const Authorization: React.FC = () => {
@@ -121,7 +122,7 @@ const Authorization: React.FC = () => {
                     height="4.75rem"
                     borderRadius="50%"
                     bgcolor="primary.main"
-                    sx={{ transition: 'background-color 1s ease' } }
+                    sx={{ transition: 'background-color 1s ease' }}
                 >
                     <LockIcon style={{
                             fill: KeyIconColor,
@@ -137,8 +138,11 @@ const Authorization: React.FC = () => {
                 >
                     Authorization
                 </MyTypography>
+                <Typography fontSize='0.75rem'>
+                    Have you logged in from your device recently?
+                    <QuikAccessAccountModal/>
+                </Typography>
                 <Typography sx={{
-                    textAlign: 'left',
                     color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
                 }}
                 >
