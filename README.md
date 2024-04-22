@@ -1,6 +1,6 @@
 1. Установите Node.js, Microsoft SQL Server, SSMS и dotnet v7.0;
 
-2. Выполните import database файла \VectorXBack-end\Data\VectorX.bacpac на свой SQL Server.
+2. Выполните import database файла \VectorXBackend\Data\VectorX.bacpac на свой SQL Server.
 
 3. В терминале адайте переменную среды IP_ADDRESS, содержащую Server domain, с помощью setx IP_ADDRESS [domain], которая используется в launchSettings.json для конфигурации web-приложения. В целях локального развёртывания достаточно указать IP-address Вашего устройства, подключённого к сети (Команда ipconfig в терминале Windows; IPv4) или 'localhost';
 
