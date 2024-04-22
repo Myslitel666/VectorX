@@ -66,15 +66,6 @@ const Authorization: React.FC = () => {
             const userIds = [userId];
             localStorage.setItem('cachedUserIds', JSON.stringify(userIds));
         }
-
-        const cachedUserTest = localStorage.getItem('cachedUserIds');
-        if (cachedUserTest !== null) {
-            const cachedUserIds: number[] = JSON.parse(cachedUserTest);
-            console.log('cachedUserIds: ' + cachedUserIds)
-        }
-        else {
-            console.log('cachedUserIds: null')
-        }
     };
 
     async function signIn() {

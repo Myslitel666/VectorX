@@ -50,7 +50,7 @@ export default function BasicModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <QuikAccpuntAccessModalContent />
+                    <QuikAccpuntAccessModalContent setOpen = {setOpen} />
                 </Box>
             </Modal>
         </>
