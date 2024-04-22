@@ -8,7 +8,7 @@ echo Opening the project in Visual Studio...
 start /B EnglishAssistantPro.sln
 
 rem Переход в каталог с back-end
-cd /d "C:\Users\user\source\repos\VectorX\VectorXBack-end"
+cd /d "C:\Users\user\source\repos\VectorX\VectorXBackend"
 
 rem Запуск dotnet run
 echo Executing dotnet run...

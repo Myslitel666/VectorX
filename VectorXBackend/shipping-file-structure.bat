@@ -1,4 +1,4 @@
-cd /d "C:\Users\user\source\repos\VectorX\VectorXBack-end"
+cd /d "C:\Users\user\source\repos\VectorX\VectorXBackend"
 
 dir /s /b > fileStructure.txt
 echo.

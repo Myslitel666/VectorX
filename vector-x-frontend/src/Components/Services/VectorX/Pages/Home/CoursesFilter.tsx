@@ -1,4 +1,7 @@
-﻿//MUI Import
+﻿//React Import
+import React, { useState, useEffect } from 'react'
+
+//MUI Import
 import SearchCriteria from '../../../../Common/User Interface/MyAutoComplete';
 import MyButton from '../../../../Common/User Interface/MyButton';
 import Box from '@mui/material/Box';
@@ -12,12 +15,17 @@ import { SearchIcon } from '../Home/Icons'
 const CoursesFilter: React.FC = () =>
 { 
     const isMobile = useMediaQuery('(max-width:800px)');
+    const [selectedField, setSelectedField] = useState('Course name');
 
     const searchCriteriaDropList = [
         { title: 'Course name' },
         { title: 'Author' },
         { title: 'Subject' },
     ]
+
+    const handleSelectedFieldChange = (selectedValue: string) => {
+        setSelectedField(selectedValue); // обновляем значение выбранного поля
+    };
 
     return (
         <>
@@ -59,7 +67,9 @@ const CoursesFilter: React.FC = () =>
                         </Typography>
                         <SearchCriteria
                             label="Search criteria"
-                            dropList = {searchCriteriaDropList}
+                            dropList={searchCriteriaDropList}
+                            onFieldSelectionChange={handleSelectedFieldChange}
+                            defaultValue={searchCriteriaDropList.find(option => option.title === selectedField)}
                             sx={{
                                 marginBottom: '1rem',
                                 marginRight: '0.7rem',
