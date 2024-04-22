@@ -31,6 +31,7 @@ const Authorization: React.FC = () => {
     const borderBoxColor = theme.palette.action.disabled;
     const navigate = useNavigate();
     const location = useLocation();
+    const [rememberUserChecked, setChecked] = useState(true);
     const { getColorFromLabel } = useColorLabel('green');
 
     //Работа с контекстом
@@ -41,6 +42,39 @@ const Authorization: React.FC = () => {
     const updateFeedbackMessage = (isError: boolean, message: string) => {
         setIsError(isError);
         setFeedbackMessage(message);
+    };
+
+    const rememberUser = (userId: number) => {
+        // Извлекаем данные из localStorage
+        const cachedUserIdsString = localStorage.getItem('cachedUserIds');
+
+        // Проверяем, есть ли данные в localStorage по ключу 'cachedUserIds'
+        if (cachedUserIdsString !== null) {
+            // Преобразуем строку в массив
+            const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
+
+            // Проверяем, есть ли userId в массиве userIds
+            if (!cachedUserIds.includes(userId)) {
+                // Если userId не найден в массиве, добавляем его в массив
+                cachedUserIds.push(userId);
+
+                // Обновляем данные в localStorage
+                localStorage.setItem('cachedUserIds', JSON.stringify(cachedUserIds));
+            }
+        } else {
+            // Если данных по ключу 'cachedUserIds' нет, создаем новый массив с userId и сохраняем в localStorage
+            const userIds = [userId];
+            localStorage.setItem('cachedUserIds', JSON.stringify(userIds));
+        }
+
+        const cachedUserTest = localStorage.getItem('cachedUserIds');
+        if (cachedUserTest !== null) {
+            const cachedUserIds: number[] = JSON.parse(cachedUserTest);
+            console.log('cachedUserIds: ' + cachedUserIds)
+        }
+        else {
+            console.log('cachedUserIds: null')
+        }
     };
 
     async function signIn() {
@@ -59,6 +93,10 @@ const Authorization: React.FC = () => {
         updateFeedbackMessage(data.isError, data.feedbackMessage);
 
         if (!data.isError) {
+            if (rememberUserChecked) { 
+                rememberUser(data.user.userId);
+            }
+
             setTimeout(() => {
                 setUser(data.user.userId, data.user.role, data.user.username, data.user.avatar);
             }, 500);
@@ -168,7 +206,8 @@ const Authorization: React.FC = () => {
                     <FormControlLabel
                         control={
                             <Checkbox
-                                defaultChecked
+                                checked={rememberUserChecked} // Привязываем состояние к свойству checked чекбокса
+                                onChange={(e) => setChecked(e.target.checked)}
                                 sx={{
                                     transition: 'background-color 1s ease, color 1s ease, border-color 1s ease'
                                 }}
