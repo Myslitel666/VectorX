@@ -1,9 +1,5 @@
-//React Import
-import React, { useEffect, useState } from 'react';
-
 //MUI Import
 import Avatar from '@mui/material/Avatar';
-import { useTheme } from '@mui/material/styles';
 
 //MyComponents Import
 import { useUserContext } from '../../../Context/UserContext';
