@@ -23,8 +23,8 @@ import { useUserContext } from '../../../../../../Context/UserContext';
 
 const Authorization: React.FC = () => {
     const theme = useTheme();
-    const [username, setUsername] = useState('kfgkjfgkyfk');
-    const [password, setPassword] = useState('aaaaaa1nfgghfgh');
+    const [username, setUsername] = useState('Admin');
+    const [password, setPassword] = useState('Admin1');
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [isError, setIsError] = useState(true);
     const KeyIconColor = theme.palette.background.default;

@@ -18,7 +18,7 @@ export default function BasicModal() {
     const isDesktop = useMediaQuery({ minWidth: 600 });
 
     const style = {
-        maxHeight: '32.25rem',
+        maxHeight: '32.5rem',
         overflowY: 'auto', // Включение скроллинга при необходимости
         position: 'absolute' as 'absolute',
         top: '50%',

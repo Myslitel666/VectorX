@@ -194,7 +194,7 @@ const Profile: React.FC = () => {
                     <Box sx={{
                         maxWidth: '23.5rem',
                     }}>
-                        <Tooltip title="Learn English" placement="bottom">
+                        <Tooltip title="Learn English" placement="bottom" arrow>
                             <Link href='/english-assistant/home'>
                                 <MyTypography
                                     sx={{

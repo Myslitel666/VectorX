@@ -42,12 +42,10 @@ const ServiceName: React.FC<ContentProps> = ({
     const primaryMainColor = theme.palette.primary.main;
     const primaryDarkColor = theme.palette.primary.dark;
 
-    //Работа с контекстом
-    const { getUser } = useUserContext();
-
     return (
         <Tooltip
             title={content}
+            arrow
             placement="right"
         >
             <Link
