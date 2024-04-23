@@ -10,15 +10,20 @@ import { UserProvider } from '../src/Context/UserContext';
 import EnglishAssistantHome from './Components/Services/EnglishAssistant/Pages/Home/Home';
 import Home from './Components/Services/VectorX/Pages/Home/Home';
 import Registration from './Components/Services/Shared/AccountService/Pages/Registration/Registration';
-import Authorization from './Components/Services/Shared/AccountService/Pages/Authorization/Authorization';
+import Authorization from './Components/Services/Shared/AccountService/Pages/Authorization/Auth';
 import Profile from './Components/Services/Shared/AccountService/Pages/Profile/Profile'
 import Redirect from '../src/Components/Common/Redirect'
 
 //CSS Import
 import '../src/App.css'
 
+//Redux
+import { Provider } from 'react-redux';
+import store from './Store/store'; // Путь к файлу store
+
 function App() {
     return (
+        <Provider store={store} >
         <ColorModeProvider>
         <UserProvider>
             <CssBaseline />
@@ -52,6 +57,7 @@ function App() {
                 </Router>
         </UserProvider>
         </ColorModeProvider>
+        </Provider>
     );
 }
 

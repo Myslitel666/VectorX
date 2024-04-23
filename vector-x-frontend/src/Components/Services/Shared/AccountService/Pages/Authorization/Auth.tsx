@@ -21,7 +21,14 @@ import QuikAccessAccountModal from './QuickAccountAccessModal'
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 
-const Authorization: React.FC = () => {
+//Redux
+import { useDispatch } from 'react-redux';
+import { setStoredUsers } from '../../../../../../Store/slices/cachedUsersSlice'; // Action Import
+
+//fetch import
+import { getCachedUsers } from './fetch/getCachedUsers';
+
+const Auth: React.FC = () => {
     const theme = useTheme();
     const [username, setUsername] = useState('Admin');
     const [password, setPassword] = useState('Admin1');
@@ -36,6 +43,9 @@ const Authorization: React.FC = () => {
 
     //Работа с контекстом
     const { setUser, logoutUser } = useUserContext();
+
+    //Redux
+    const dispatch = useDispatch(); // Получаем диспетчер Redux
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
@@ -84,7 +94,7 @@ const Authorization: React.FC = () => {
         updateFeedbackMessage(data.isError, data.feedbackMessage);
 
         if (!data.isError) {
-            if (rememberUserChecked) { 
+            if (rememberUserChecked) {
                 rememberUser(data.user.userId);
             }
 
@@ -121,6 +131,21 @@ const Authorization: React.FC = () => {
         }
     }, [location.pathname]);
 
+    useEffect(() => {
+        const cachedUserIdsString = localStorage.getItem('cachedUserIds');
+
+        // Проверяем, есть ли данные в localStorage по ключу 'cachedUserIds'
+        if (cachedUserIdsString !== null) {
+            // Преобразуем строку в массив
+            const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
+
+            getCachedUsers(cachedUserIds)
+                .then(users => {
+                    dispatch(setStoredUsers(users));
+                });
+        }
+    }, [])
+
     const handleAuthoriazation = () => {
         if (username === '') updateFeedbackMessage(true, '✗Enter the "Username"')
         else if (password === '') updateFeedbackMessage(true, '✗Enter the "Password"')
@@ -131,7 +156,7 @@ const Authorization: React.FC = () => {
 
     return (
         <>
-            <Header/>
+            <Header />
             <Box
                 width='23.5rem'
                 margin='8rem auto 0'
@@ -154,10 +179,10 @@ const Authorization: React.FC = () => {
                     sx={{ transition: 'background-color 1s ease' }}
                 >
                     <LockIcon style={{
-                            fill: KeyIconColor,
-                            width: '2.88rem',
-                            height: '2.88rem'
-                        }}
+                        fill: KeyIconColor,
+                        width: '2.88rem',
+                        height: '2.88rem'
+                    }}
                     />
                 </Box>
                 <MyTypography
@@ -169,7 +194,7 @@ const Authorization: React.FC = () => {
                 </MyTypography>
                 <Typography fontSize='0.75rem'>
                     Have you logged in from your device recently?
-                    <QuikAccessAccountModal/>
+                    <QuikAccessAccountModal />
                 </Typography>
                 <Typography sx={{
                     color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
@@ -206,7 +231,7 @@ const Authorization: React.FC = () => {
                         }
                         label=''
                     />
-                    <Typography sx={{marginLeft: '-1.4rem', fontSize: '0.8rem'}}>
+                    <Typography sx={{ marginLeft: '-1.4rem', fontSize: '0.8rem' }}>
                         Remember me
                     </Typography>
                 </Box>
@@ -247,4 +272,4 @@ const Authorization: React.FC = () => {
     )
 }
 
-export default Authorization
+export default Auth

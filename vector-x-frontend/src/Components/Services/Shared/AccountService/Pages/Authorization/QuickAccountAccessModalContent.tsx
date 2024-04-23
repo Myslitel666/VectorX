@@ -15,38 +15,28 @@ import { ColorModeContextProps, useColorMode } from '../../../../../../Context/C
 import { useUserContext } from '../../../../../../Context/UserContext';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 
-const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>> })> = ({ setOpen }) => {
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
+import { setStoredUsers } from '../../../../../../Store/slices/cachedUsersSlice'; // Action Import
 
-    interface User {
-        userId: number;
-        username: string;
-        role: string;
-        avatar: string;
-    }
+//fetch import
+import { getCachedUsers } from './fetch/getCachedUsers';
+
+//interfaces import
+import * as Types from '../../Interfaces/Interfaces';
+
+const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>> })> = ({ setOpen }) => {
 
     const theme = useTheme();
     const { themeMode, iconColor, defaultAvatars }: ColorModeContextProps = useColorMode();
-    const { setUser, logoutUser } = useUserContext();
-    const [users, setUsers] = useState<User[]>([]);
+    const { setUser } = useUserContext();
     const navigate = useNavigate();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
 
-    const apiUrl = process.env.REACT_APP_API_URL as string;
-
-    async function getCachedUsers(userIds: number[]) {
-        const response = await fetch(`${apiUrl}/api/auth/getCachedUsers`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userIds: userIds,
-            }),
-        });
-
-        const data = await response.json();
-        setUsers(data.userDtos);
-    };
+    //Redux
+    const dispatch = useDispatch(); // Получаем диспетчер Redux
+    const users = useSelector((state: RootState) => state.cachedUsers.users);
 
     const addImagePrefix = (image: string) => {
         const subString = 'data:image/png;base64,';
@@ -94,21 +84,12 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
             // Преобразуем строку в массив
             const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
 
-            getCachedUsers(cachedUserIds);
+            getCachedUsers(cachedUserIds)
+                .then(users => {
+                    dispatch(setStoredUsers(users));
+                });
         }
     };
-
-    useEffect(() => {
-        const cachedUserIdsString = localStorage.getItem('cachedUserIds');
-
-        // Проверяем, есть ли данные в localStorage по ключу 'cachedUserIds'
-        if (cachedUserIdsString !== null) {
-            // Преобразуем строку в массив
-            const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
-
-            getCachedUsers(cachedUserIds);
-        }
-    }, [])
 
     useEffect(() => {
         setIsHoveredBox(Array(users.length).fill(false));
@@ -222,23 +203,23 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                         marginBottom='1rem'
                     >
                         Your saved accounts will be displayed here.
-                </Typography>
-                <Box
-                    display='flex'
-                    justifyContent='center'
-                >
-                    <MyButton
-                        variant='contained'
-                        size="large"
-                        sx={{
-                            height: '3.4rem',
-                            width: '10rem',
-                            marginBottom: '-0.4rem'
-                        }}
-                        onClick={() => { setOpen(false) }}
+                    </Typography>
+                    <Box
+                        display='flex'
+                        justifyContent='center'
                     >
-                        OK, Accept
-                    </MyButton>
+                        <MyButton
+                            variant='contained'
+                            size="large"
+                            sx={{
+                                height: '3.4rem',
+                                width: '10rem',
+                                marginBottom: '-0.4rem'
+                            }}
+                            onClick={() => { setOpen(false) }}
+                        >
+                            OK, Accept
+                        </MyButton>
                     </Box>
                 </>
             }
