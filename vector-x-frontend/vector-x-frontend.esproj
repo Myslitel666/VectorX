@@ -12,5 +12,6 @@
     <Folder Include="src\Components\Services\EnglishAssistant\Common\" />
     <Folder Include="src\Components\Services\Shared\AccountService\Pages\Profile\Store\slices\" />
     <Folder Include="src\Components\Services\Shared\AccountService\Interfaces\" />
+    <Folder Include="src\Components\Services\Shared\AccountService\Pages\AdminPanel\" />
   </ItemGroup>
 </Project>

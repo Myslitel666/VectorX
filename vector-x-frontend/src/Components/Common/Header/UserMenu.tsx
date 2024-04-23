@@ -11,6 +11,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ShieldIcon from '@mui/icons-material/Shield';
 import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined';
 import { useTheme } from '@mui/material/styles';
 
@@ -29,13 +30,18 @@ export default function UserMenu() {
         setOpen(!open);
     };
 
-    const logoutClick = () => {
-        navigate('/auth');
+    const profileClick = () => {
+        navigate('/profile');
         setOpen(!open);
     };
 
-    const profileClick = () => {
-        navigate('/profile');
+    const adminPanelClick = () => {
+        navigate('/admin-panel');
+        setOpen(!open);
+    };
+
+    const logoutClick = () => {
+        navigate('/auth');
         setOpen(!open);
     };
 
@@ -98,6 +104,26 @@ export default function UserMenu() {
                             }}
                         />
                     </ListItemButton>
+                    {
+                        user.userRole === 'admin' && 
+                            <ListItemButton
+                                onClick={adminPanelClick}
+                            >
+                                <ListItemIcon >
+                                    <ShieldIcon sx={{
+                                        fontSize: '2.1rem',
+                                        color: iconColor,
+                                    }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary="Admin Panel"
+                                    sx={{
+                                        color: theme.palette.text.primary
+                                    }}
+                                />
+                            </ListItemButton> 
+                    }
                     <ListItemButton
                         onClick={logoutClick}
                     >

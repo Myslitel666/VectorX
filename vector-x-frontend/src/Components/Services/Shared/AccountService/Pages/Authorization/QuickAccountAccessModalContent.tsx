@@ -23,9 +23,6 @@ import { setStoredUsers } from '../../../../../../Store/slices/cachedUsersSlice'
 //fetch import
 import { getCachedUsers } from './fetch/getCachedUsers';
 
-//interfaces import
-import * as Types from '../../Interfaces/Interfaces';
-
 const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>> })> = ({ setOpen }) => {
 
     const theme = useTheme();
