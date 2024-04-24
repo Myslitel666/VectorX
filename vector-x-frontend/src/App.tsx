@@ -15,6 +15,8 @@ import Profile from './Components/Services/Shared/AccountService/Pages/Profile/P
 import AdminPanel from './Components/Services/Shared/AccountService/Pages/AdminPanel/AdminPanel';
 import EnglishAssistantHome from './Components/Services/EnglishAssistant/Pages/Home/Home';
 
+import WebSocketClient from './WebSocketClient';
+
 //CSS Import
 import '../src/App.css'
 
@@ -57,6 +59,10 @@ function App() {
                     <Route
                         path="/english-assistant/home"
                         element={<EnglishAssistantHome />}
+                    />
+                    <Route
+                        path="/web-socket"
+                        element={<WebSocketClient />}
                     />
                 </Routes>
             </Router>

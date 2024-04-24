@@ -35,6 +35,7 @@ app.MapHub<ChatHub>("/hub");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseWebSockets();
 app.UseCors(MyAllowSpecificOrigins); //Use CORS
 app.MapControllers();
 app.Run();
