@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+п»їimport { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Определение начального состояния среза
+// РћРїСЂРµРґРµР»РµРЅРёРµ РЅР°С‡Р°Р»СЊРЅРѕРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ СЃСЂРµР·Р°
 interface CachedUsersState {
     users: User[];
 }
@@ -26,6 +26,6 @@ const cachedUsersSlice = createSlice({
     },
 });
 
-export const { setStoredUsers } = cachedUsersSlice.actions; // Экспорт экшенов
+export const { setStoredUsers } = cachedUsersSlice.actions; // Р­РєСЃРїРѕСЂС‚ СЌРєС€РµРЅРѕРІ
 
-export default cachedUsersSlice.reducer; // Экспорт редьюсера
+export default cachedUsersSlice.reducer; // Р­РєСЃРїРѕСЂС‚ СЂРµРґСЊСЋСЃРµСЂР°
