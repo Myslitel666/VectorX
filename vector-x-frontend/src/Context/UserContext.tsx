@@ -46,6 +46,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const storedAvatar = localStorage.getItem('avatar');
     const [avatar, setAvatar] = useState(storedAvatar ? storedAvatar : '');
 
+    const [socket, setSocket] = useState<WebSocket | null>(null);
+
     const getUser = (): User => {
         return {
             userId: userId,
@@ -96,6 +98,36 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         getUser: getUser,
         logoutUser: logoutUser,
         isLogged: isLogged
+    };
+
+    useEffect(() => {
+        // Проверяем, авторизован ли пользователь
+        if (userId !== -1 && userId !== 0) {
+            const url = `ws://localhost:5115/ws/getRandomUserData`;
+
+            // Открываем WebSocket с указанным URL
+            const newSocket = new WebSocket(url);
+
+            newSocket.onopen = () => {
+                console.log('WebSocket connected');
+            };
+
+            newSocket.onmessage = (event) => {
+                // Получаем данные от сервера и обновляем состояние
+                const data = event.data;
+
+                setUser(data.userId, data.role, data.username, data.avatar);
+            };
+
+            setSocket(newSocket); // Устанавливаем новый сокет в состояние
+        }
+    }, [userId]);
+
+    const sendMessage = () => {
+        if (socket) { // Проверяем, существует ли сокет
+            // Допустим, у вас есть какое-то сообщение, которое вы хотите отправить серверу
+            socket.send(userId.toString());
+        }
     };
 
     return (
