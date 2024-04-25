@@ -1,5 +1,5 @@
 ﻿//React Import
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect, Dispatch } from 'react';
 
 type User = {
     userId: number;
@@ -97,38 +97,42 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         updateAvatar: updateAvatar,
         getUser: getUser,
         logoutUser: logoutUser,
-        isLogged: isLogged
+        isLogged: isLogged,
     };
 
     useEffect(() => {
         // Проверяем, авторизован ли пользователь
         if (userId !== -1 && userId !== 0) {
-            const url = `ws://localhost:5115/ws/getRandomUserData`;
-
+            //setNeedToCloseSocket(false);
             // Открываем WebSocket с указанным URL
+            const url = `ws://localhost:5115/ws/getRandomUserData`;
             const newSocket = new WebSocket(url);
 
             newSocket.onopen = () => {
                 console.log('WebSocket connected');
+                if (newSocket) { // Проверяем, существует ли сокет
+                    // Допустим, у вас есть какое-то сообщение, которое вы хотите отправить серверу
+                    newSocket.send(userId.toString());
+                }
             };
 
             newSocket.onmessage = (event) => {
                 // Получаем данные от сервера и обновляем состояние
-                const data = event.data;
-
-                setUser(data.userId, data.role, data.username, data.avatar);
+                const userData = JSON.parse(event.data);
+                console.log(userData);
+                setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
             };
 
             setSocket(newSocket); // Устанавливаем новый сокет в состояние
+
+            // Функция, вызываемая при размонтировании компонента
+            return () => {
+                if (newSocket) {
+                    newSocket.close();
+                }
+            };
         }
     }, [userId]);
-
-    const sendMessage = () => {
-        if (socket) { // Проверяем, существует ли сокет
-            // Допустим, у вас есть какое-то сообщение, которое вы хотите отправить серверу
-            socket.send(userId.toString());
-        }
-    };
 
     return (
         <UserContext.Provider value={contextValue}>

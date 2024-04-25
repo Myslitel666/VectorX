@@ -106,7 +106,7 @@ namespace VectorXBackend.Controllers
                 var buffer = new byte[1024 * 4];
                 var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
-                while (!receiveResult.CloseStatus.HasValue)
+                while (webSocket.State == WebSocketState.Open)
                 {
                     // Получаем строку от клиента
                     var receivedMessage = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
@@ -130,40 +130,37 @@ namespace VectorXBackend.Controllers
             }
         }
 
-        //Метод для тестирования возможности обновить данные пользователя по соскету в режиме реальног овремени
+        //Метод для тестирования возможности обновить данные пользователя по соскету в режиме реального времени
         [Route("getRandomUserData")]
-        public async Task GetRandomUserData(int userId)
+        public async Task GetRandomUserData()
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+                var startTime = DateTime.Now;
+                var interval = TimeSpan.FromSeconds(1); // Интервал для обновления времени
+                var buffer = new byte[1024 * 4];
+                var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
-                while (webSocket.State == WebSocketState.Open)
+                while (!receiveResult.CloseStatus.HasValue)
                 {
-                    var buffer = new byte[1024 * 4];
-                    var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
-                    var userId2 = int.Parse(Encoding.UTF8.GetString(buffer, 0, result.Count));
+                    var userId = int.Parse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count));
 
                     // Обработка userId
-                    var randomUser = new UserDto2() { UserId = userId2, Role = "master", Username = "Random Username", Avatar = "" };
+                    var randomUser = new UserDto2() { 
+                        UserId = userId, 
+                        Role = "master", 
+                        Username = "Username" + (DateTime.Now - startTime).TotalSeconds.ToString(), 
+                        Avatar = "" };
 
-                    // Преобразуем ответ в JSON
                     var responseJson = JsonSerializer.Serialize(randomUser);
+                    var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
 
-                    // Преобразуем JSON в байты
-                    var responseBytes = Encoding.UTF8.GetBytes(responseJson);
+                    await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
 
-                    // Ожидаем заданный интервал перед отправкой следующего сообщения
-                    var interval = TimeSpan.FromSeconds(1);
-                    //await Task.Delay(interval);
-
-                    // Отправляем данные обратно клиенту по WebSocket
-                    await webSocket.SendAsync(new ArraySegment<byte>(responseBytes), WebSocketMessageType.Text, true, CancellationToken.None);
-
-                    result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    await Task.Delay(interval);
                 }
-                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed by server", CancellationToken.None);
+                await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
             }
             else
             {
