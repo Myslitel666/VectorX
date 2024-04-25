@@ -5,6 +5,8 @@ using System.Threading;
 
 namespace VectorXBackend.Controllers
 {
+    [Route("ws")]
+    [ApiController]
     public class WebSocketController : ControllerBase
     {
         private static async Task Echo(WebSocket webSocket, DateTime startTime)
@@ -35,7 +37,46 @@ namespace VectorXBackend.Controllers
             await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
         }
 
-        [Route("/ws")]
+        private static async Task SendTime(WebSocket webSocket, DateTime startTime)
+        {
+            var buffer = new byte[1024 * 4];
+            var interval = TimeSpan.FromSeconds(1); // Интервал для обновления времени
+
+            try
+            {
+                while (webSocket.State == WebSocketState.Open)
+                {
+                    // Вычисляем время, прошедшее с момента открытия сокета
+                    var elapsedTime = DateTime.Now - startTime;
+
+                    // Формируем сообщение с текущим временем
+                    var message = $"Hello from server! Current time: {DateTime.Now}";
+
+                    // Преобразуем сообщение в байты
+                    var bytes = System.Text.Encoding.UTF8.GetBytes(message);
+
+                    // Отправляем сообщение обратно клиенту
+                    await webSocket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                    // Ожидаем заданный интервал перед отправкой следующего сообщения
+                    await Task.Delay(interval);
+                }
+            }
+            catch (WebSocketException)
+            {
+                // Обработка ошибок в случае прерывания соединения
+            }
+            finally
+            {
+                // Закрываем сокет после завершения цикла
+                if (webSocket.State == WebSocketState.Open)
+                {
+                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed by server", CancellationToken.None);
+                }
+            }
+        }
+
+        [Route("time-connection")]
         public async Task Get()
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
@@ -45,7 +86,7 @@ namespace VectorXBackend.Controllers
                 // Сохраняем время начала обработки запроса
                 var startTime = DateTime.Now;
 
-                await Echo(webSocket, startTime);
+                await SendTime(webSocket, startTime);
             }
             else
             {

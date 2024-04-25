@@ -5,7 +5,7 @@ const WebSocketClient: React.FC = () => {
     const [socket, setSocket] = useState<WebSocket | null>(null); // ќбъ€вл€ем переменную socket
 
     useEffect(() => {
-        const newSocket = new WebSocket('ws://localhost:5115/ws');
+        const newSocket = new WebSocket('ws://localhost:5115/ws/time-connection');
 
         newSocket.onopen = () => {
             console.log('WebSocket connected');
