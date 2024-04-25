@@ -42,31 +42,6 @@ namespace VectorXBackend.Controllers
             await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
         }
 
-        private static async Task SendString(WebSocket webSocket)
-        {
-            var buffer = new byte[1024 * 4];
-            var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
-            while (!receiveResult.CloseStatus.HasValue)
-            {
-                // Получаем строку от клиента
-                var receivedMessage = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
-
-                //Условные преобразования
-                receivedMessage += "New String";
-
-                // Отправляем эту же строку обратно клиенту
-                var bytesToSend = Encoding.UTF8.GetBytes(receivedMessage);
-                await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
-
-                // Продолжаем получать следующие сообщения от клиента
-                receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-            }
-
-            // Если соединение закрыто, закрываем сокет
-            await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
-        }
-
         private static async Task SendTime(WebSocket webSocket, DateTime startTime)
         {
             var interval = TimeSpan.FromSeconds(1); // Интервал для обновления времени
@@ -126,7 +101,28 @@ namespace VectorXBackend.Controllers
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                await SendString(webSocket);
+                var startTime = DateTime.Now;
+                var interval = TimeSpan.FromSeconds(1); // Интервал для обновления времени
+                var buffer = new byte[1024 * 4];
+                var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                while (!receiveResult.CloseStatus.HasValue)
+                {
+                    // Получаем строку от клиента
+                    var receivedMessage = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+
+                    //Условные преобразования
+                    receivedMessage += (DateTime.Now - startTime).TotalSeconds.ToString();
+
+                    // Отправляем эту же строку обратно клиенту
+                    var bytesToSend = Encoding.UTF8.GetBytes(receivedMessage);
+                    await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                    await Task.Delay(interval);
+                }
+
+                // Если соединение закрыто, закрываем сокет
+                await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
             }
             else
             {

@@ -9,6 +9,11 @@ const WebSocketClient: React.FC = () => {
 
         newSocket.onopen = () => {
             console.log('WebSocket connected');
+            if (newSocket) { // ѕровер€ем, существует ли сокет
+                // ƒопустим, у вас есть какое-то сообщение, которое вы хотите отправить серверу
+                const messageToSend = 'Hello from client!';
+                newSocket.send(messageToSend);
+            }
         };
 
         newSocket.onmessage = (event) => {
@@ -18,19 +23,10 @@ const WebSocketClient: React.FC = () => {
         setSocket(newSocket); // ”станавливаем новый сокет в состо€ние
     }, []);
 
-    const sendMessage = () => {
-        if (socket) { // ѕровер€ем, существует ли сокет
-            // ƒопустим, у вас есть какое-то сообщение, которое вы хотите отправить серверу
-            const messageToSend = 'Hello from client!';
-            socket.send(messageToSend);
-        }
-    };
-
     return (
         <div>
             <h1>WebSocket Client</h1>
             <p>Message from server: {message}</p>
-            <button onClick={sendMessage}>Send Message</button>
         </div>
     );
 };
