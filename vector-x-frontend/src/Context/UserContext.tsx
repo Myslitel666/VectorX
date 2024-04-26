@@ -1,5 +1,5 @@
 ﻿//React Import
-import React, { createContext, useContext, ReactNode, useState, useEffect, Dispatch } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
 type User = {
     userId: number;
@@ -100,39 +100,39 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         isLogged: isLogged,
     };
 
-    useEffect(() => {
-        // Проверяем, авторизован ли пользователь
-        if (userId !== -1 && userId !== 0) {
-            //setNeedToCloseSocket(false);
-            // Открываем WebSocket с указанным URL
-            const url = `ws://localhost:5115/ws/getRandomUserData`;
-            const newSocket = new WebSocket(url);
+    //useEffect(() => {
+    //    // Проверяем, авторизован ли пользователь
+    //    if (userId !== -1 && userId !== 0) {
+    //        //setNeedToCloseSocket(false);
+    //        // Открываем WebSocket с указанным URL
+    //        const url = `ws://localhost:5115/ws/getRandomUserData`;
+    //        const newSocket = new WebSocket(url);
 
-            newSocket.onopen = () => {
-                console.log('WebSocket connected');
-                if (newSocket) { // Проверяем, существует ли сокет
-                    // Допустим, у вас есть какое-то сообщение, которое вы хотите отправить серверу
-                    newSocket.send(userId.toString());
-                }
-            };
+    //        newSocket.onopen = () => {
+    //            console.log('WebSocket connected');
+    //            if (newSocket) { // Проверяем, существует ли сокет
+    //                // Допустим, у вас есть какое-то сообщение, которое вы хотите отправить серверу
+    //                newSocket.send(userId.toString());
+    //            }
+    //        };
 
-            newSocket.onmessage = (event) => {
-                // Получаем данные от сервера и обновляем состояние
-                const userData = JSON.parse(event.data);
-                console.log(userData);
-                setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
-            };
+    //        newSocket.onmessage = (event) => {
+    //            // Получаем данные от сервера и обновляем состояние
+    //            const userData = JSON.parse(event.data);
+    //            console.log(userData);
+    //            setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
+    //        };
 
-            setSocket(newSocket); // Устанавливаем новый сокет в состояние
+    //        setSocket(newSocket); // Устанавливаем новый сокет в состояние
 
-            // Функция, вызываемая при размонтировании компонента
-            return () => {
-                if (newSocket) {
-                    newSocket.close();
-                }
-            };
-        }
-    }, [userId]);
+    //        // Функция, вызываемая при размонтировании компонента
+    //        return () => {
+    //            if (newSocket) {
+    //                newSocket.close();
+    //            }
+    //        };
+    //    }
+    //}, [userId]);
 
     return (
         <UserContext.Provider value={contextValue}>

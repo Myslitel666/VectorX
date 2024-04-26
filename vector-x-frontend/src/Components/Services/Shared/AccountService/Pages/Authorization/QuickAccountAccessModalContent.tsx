@@ -104,7 +104,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                 marginTop='1rem'
                 marginBottom='-0.75rem'
             >
-                Quik Account Access
+                Quick Account Access
             </Typography>
             {users.map((user, index) => (
                 <Box
@@ -163,33 +163,34 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                             Password: ●●●●●●●●●
                         </Typography>
                     </Box>
-                    {/* Значок корзины */}
-                    <Tooltip
-                        title='Clear'
-                        arrow
-                        sx={{
-                            display: isHoveredBox[index] ? 'visible' : 'none',
-                        }}
-                    >
-                        <DeleteIcon
-                            sx={{
-                                color: iconColor,
-                                position: 'absolute',
-                                top: '50%',
-                                right: '0',
-                                transform: 'translateY(-50%)',
-                                marginRight: '2.5rem',
-                                fontSize: '1.66rem'
-                            }}
-                            onMouseEnter={() => {
-                                setIsHoveredClear(true);
-                            }}
-                            onMouseLeave={() => {
-                                setIsHoveredClear(false);
-                            }}
-                            onClick={() => handleDeleteIconClick(user.userId)} // Передаем userId при клике
-                        />
-                    </Tooltip>
+                    <Box sx={{
+                        opacity: isHoveredBox[index] ? 1 : 0,
+                        transition: 'opacity 0.4s ease'
+                    }}>
+                        <Tooltip
+                            title='Clear'
+                            arrow
+                        >
+                            <DeleteIcon
+                                sx={{
+                                    color: iconColor,
+                                    position: 'absolute',
+                                    top: '50%',
+                                    right: '0',
+                                    transform: 'translateY(-50%)',
+                                    marginRight: '1.75rem',
+                                    fontSize: '1.66rem',
+                                }}
+                                onMouseEnter={() => {
+                                    setIsHoveredClear(true);
+                                }}
+                                onMouseLeave={() => {
+                                    setIsHoveredClear(false);
+                                }}
+                                onClick={() => handleDeleteIconClick(user.userId)} // Передаем userId при клике
+                            />
+                        </Tooltip>
+                    </Box>
                 </Box>
             ))}
             {users.length === 0 &&
