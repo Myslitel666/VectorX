@@ -1,4 +1,4 @@
-1. Установите Node.js, Microsoft SQL Server, SSMS и dotnet v7.0;
+1. Установите Node.js, Microsoft SQL Server, SSMS и dotnet v8.0;
 
 2. Выполните import database файла \VectorXBackend\Data\VectorX.bacpac на свой SQL Server.
 
