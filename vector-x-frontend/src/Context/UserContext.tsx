@@ -121,14 +121,15 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                const userData = JSON.parse(event.data);
                console.log(userData);
                setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
+               newSocket.send(userId.toString());
            };
 
            setSocket(newSocket); // Устанавливаем новый сокет в состояние
 
-           // Функция, вызываемая при размонтировании компонента
            return () => {
                if (newSocket) {
-                   newSocket.close();
+                    newSocket.close();
+                    console.log('Web Socket Closed')
                }
            };
        }

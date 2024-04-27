@@ -22,9 +22,9 @@ namespace VectorXBackend.Controllers
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _roleRepository = roleRepository ?? throw new ArgumentNullException(nameof(_roleRepository));
         }
-        //Метод для тестирования возможности обновить данные пользователя по соскету в режиме реального времени
-        [Route("getRandomUserData")]
-        public async Task GetRandomUserData()
+        //Метод для тестирования возможности обновить данные пользователя по соскету (при определённом событии) в режиме реального времени
+        [Route("updateUserData")]
+        public async Task UpdateUserData()
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
@@ -34,7 +34,7 @@ namespace VectorXBackend.Controllers
                 var buffer = new byte[1024 * 4];
                 var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
-                while (!receiveResult.CloseStatus.HasValue)
+                while (webSocket.State == WebSocketState.Open)
                 {
                     var userId = int.Parse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count));
 
@@ -57,6 +57,52 @@ namespace VectorXBackend.Controllers
                     await Task.Delay(interval);
                 }
                 await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
+            }
+            else
+            {
+                // Если запрос не является WebSocket-запросом, возвращаем ошибку
+                HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            }
+        }
+        //Метод для тестирования возможности обновить данные пользователя по соскету в режиме реального времени
+        [Route("getRandomUserData")]
+        public async Task GetRandomUserData()
+        {
+            if (HttpContext.WebSockets.IsWebSocketRequest)
+            {
+                using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+                var startTime = DateTime.Now;
+                var interval = TimeSpan.FromSeconds(1); // Интервал для обновления времени
+                var buffer = new byte[1024 * 4];
+                var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                while (webSocket.State == WebSocketState.Open)
+                {
+
+                    // Проверяем, было ли закрыто соединение в процессе получения данных
+                    var userId = int.Parse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count));
+
+                    var existingUser = await _userRepository.GetUserById(userId);
+                    var role = await _roleRepository.GetRoleById(existingUser.RoleId);
+                    // Обработка userId
+                    var randomUser = new UserDto()
+                    {
+                        UserId = userId,
+                        Role = role.RoleName,
+                        Username = existingUser.Username + (DateTime.Now - startTime).TotalSeconds.ToString(),
+                        Avatar = existingUser.Avatar
+                    };
+
+                    var responseJson = JsonSerializer.Serialize(randomUser);
+                    var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
+
+                    await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                    receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+
+                    await Task.Delay(interval);
+
+                }
             }
             else
             {
