@@ -8,7 +8,7 @@
 
 5. Создайте .env файл в корне проекта vector-x-frontend, и поместите в него следующее содержимое:
    REACT_APP_API_URL = "http://[domain]:[port]"
-   REACT_APP_WS_URL = "ws://[domain]:[port]"
+   REACT_APP_WS_URL = "ws://[domain]:[port]" (с новой строки)
 
 6. Выполните команду npm i в корне проекта vector-x-frontend, чтобы установить необходимые зависимости в React Project.
 
