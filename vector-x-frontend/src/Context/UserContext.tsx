@@ -76,10 +76,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem('avatar', avatar);
     };
 
-    useEffect(() => {
-
-    }, [avatar]);
-
     const logoutUser = () => {
         setUser(-1, '', '', '')
     }
@@ -103,37 +99,42 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     useEffect(() => {
        // Проверяем, авторизован ли пользователь
        if (userId !== -1 && userId !== 0) {
-           //setNeedToCloseSocket(false);
-           // Открываем WebSocket с указанным URL
-           const url = `ws://localhost:5115/ws/getRandomUserData`;
-           const newSocket = new WebSocket(url);
+            // Открываем WebSocket с указанным URL
+            const url = `ws://localhost:5115/ws/getRandomUserData`;
+            const newSocket = new WebSocket(url);
+            setSocket(newSocket); // Устанавливаем новый сокет в состояние
 
-           newSocket.onopen = () => {
-               console.log('WebSocket connected');
-               if (newSocket) { // Проверяем, существует ли сокет
-                   // Допустим, у вас есть какое-то сообщение, которое вы хотите отправить серверу
-                   newSocket.send(userId.toString());
-               }
-           };
-
-           newSocket.onmessage = (event) => {
-               // Получаем данные от сервера и обновляем состояние
-               const userData = JSON.parse(event.data);
-               console.log(userData);
-               setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
-               newSocket.send(userId.toString());
-           };
-
-           setSocket(newSocket); // Устанавливаем новый сокет в состояние
+            newSocket.onopen = () => {
+                console.log('WebSocket connected');
+            };
 
            return () => {
-               if (newSocket) {
-                    newSocket.close();
-                    console.log('Web Socket Closed')
-               }
+                if (newSocket) {
+                    if (newSocket.readyState === WebSocket.OPEN) {
+                        // Закрываем сокет только если он был успешно открыт
+                        newSocket.close();
+                    }
+                } 
            };
        }
     }, [userId]);
+
+    useEffect(() => {
+        if (socket) {
+            socket.onopen = () => {
+                console.log('WebSocket connected');
+                socket.send(userId.toString());
+            };
+            
+            socket.onmessage = (event) => {
+                // Получаем данные от сервера и обновляем состояние
+                const userData = JSON.parse(event.data);
+                console.log(userData);
+                setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
+                socket.send(userId.toString());
+            };
+        }
+    }, [socket]);
 
     return (
         <UserContext.Provider value={contextValue}>

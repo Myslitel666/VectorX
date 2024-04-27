@@ -78,7 +78,6 @@ namespace VectorXBackend.Controllers
 
                 while (webSocket.State == WebSocketState.Open)
                 {
-
                     // Проверяем, было ли закрыто соединение в процессе получения данных
                     var userId = int.Parse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count));
 
@@ -102,6 +101,10 @@ namespace VectorXBackend.Controllers
 
                     await Task.Delay(interval);
 
+                }
+                if (receiveResult.CloseStatus != null)
+                {
+                    await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
                 }
             }
             else
