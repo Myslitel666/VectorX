@@ -47,6 +47,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const [avatar, setAvatar] = useState(storedAvatar ? storedAvatar : '');
 
     const [socket, setSocket] = useState<WebSocket | null>(null);
+    const wsUrl = process.env.REACT_APP_WS_URL as string;
 
     const getUser = (): User => {
         return {
@@ -87,21 +88,17 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         return false;
     }
 
-    const updateSocket = () => {
-        
-    }
-
     useEffect(() => {
         // Проверяем, авторизован ли пользователь
         if (userId !== -1 && userId !== 0) {
-             // Открываем WebSocket с указанным URL
-             const url = `ws://localhost:5115/ws/getRandomUserData`;
-             const newSocket = new WebSocket(url);
-             setSocket(newSocket); // Устанавливаем новый сокет в состояние
- 
-             newSocket.onopen = () => {
-                 console.log('WebSocket connected');
-             };
+            // Открываем WebSocket с указанным URL
+            const url = `${wsUrl}/getRandomUserData`;
+            const newSocket = new WebSocket(url);
+            setSocket(newSocket); // Устанавливаем новый сокет в состояние
+
+            newSocket.onopen = () => {
+                console.log('WebSocket connected');
+            };
  
             return () => {
                  if (newSocket) {
