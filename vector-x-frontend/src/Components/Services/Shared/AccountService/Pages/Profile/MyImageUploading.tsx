@@ -97,8 +97,7 @@ const MyImageUploading: React.FC = () => {
     }, [defaultAvatarPath])
 
     useEffect(() => {
-        console.log(image[0]['data_url'])
-
+        
         if (initialImage === image[0]['data_url']) {
             dispatch(updateUnlockSaveButton(false));
         }

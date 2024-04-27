@@ -87,6 +87,50 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         return false;
     }
 
+    const updateSocket = () => {
+        
+    }
+
+    useEffect(() => {
+        // Проверяем, авторизован ли пользователь
+        if (userId !== -1 && userId !== 0) {
+             // Открываем WebSocket с указанным URL
+             const url = `ws://localhost:5115/ws/getRandomUserData`;
+             const newSocket = new WebSocket(url);
+             setSocket(newSocket); // Устанавливаем новый сокет в состояние
+ 
+             newSocket.onopen = () => {
+                 console.log('WebSocket connected');
+             };
+ 
+            return () => {
+                 if (newSocket) {
+                     if (newSocket.readyState === WebSocket.OPEN) {
+                         // Закрываем сокет только если он был успешно открыт
+                         newSocket.close();
+                     }
+                 } 
+            };
+        }
+     }, [userId]);
+ 
+     useEffect(() => {
+         if (socket) {
+             socket.onopen = () => {
+                 console.log('WebSocket connected');
+                 socket.send(userId.toString());
+             };
+             
+             socket.onmessage = (event) => {
+                 // Получаем данные от сервера и обновляем состояние
+                 const userData = JSON.parse(event.data);
+                 console.log(userData);
+                 setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
+                 socket.send(userId.toString());
+             };
+         }
+     }, [socket]);
+
     const contextValue: UserContextProps = {
         setUser: setUser,
         updateUsername: updateUsername,
@@ -95,46 +139,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         logoutUser: logoutUser,
         isLogged: isLogged,
     };
-
-    useEffect(() => {
-       // Проверяем, авторизован ли пользователь
-       if (userId !== -1 && userId !== 0) {
-            // Открываем WebSocket с указанным URL
-            const url = `ws://localhost:5115/ws/getRandomUserData`;
-            const newSocket = new WebSocket(url);
-            setSocket(newSocket); // Устанавливаем новый сокет в состояние
-
-            newSocket.onopen = () => {
-                console.log('WebSocket connected');
-            };
-
-           return () => {
-                if (newSocket) {
-                    if (newSocket.readyState === WebSocket.OPEN) {
-                        // Закрываем сокет только если он был успешно открыт
-                        newSocket.close();
-                    }
-                } 
-           };
-       }
-    }, [userId]);
-
-    useEffect(() => {
-        if (socket) {
-            socket.onopen = () => {
-                console.log('WebSocket connected');
-                socket.send(userId.toString());
-            };
-            
-            socket.onmessage = (event) => {
-                // Получаем данные от сервера и обновляем состояние
-                const userData = JSON.parse(event.data);
-                console.log(userData);
-                setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
-                socket.send(userId.toString());
-            };
-        }
-    }, [socket]);
 
     return (
         <UserContext.Provider value={contextValue}>

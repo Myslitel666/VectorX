@@ -18,20 +18,33 @@ namespace VectorXBackend.Repositories.AccountService
 
         public async Task<User> GetUserByUsername(string username)
         {
-            return await _dbContext.Users
-            .FirstOrDefaultAsync(user => user.Username == username);
+            //Обновляем context, чтобы предупредить кэширование данных, если они извлекаются в цикле через Socket
+            using (var dbContext = new VectorXContext())
+            {
+                return await dbContext.Users
+                .FirstOrDefaultAsync(user => user.Username == username);
+            }
         }
 
         public async Task<User> GetUserById(int userId)
         {
-            return await _dbContext.Users
-            .FirstOrDefaultAsync(user => user.UserId == userId);
+            //Обновляем context, чтобы предупредить кэширование данных, если они извлекаются в цикле через Socket
+            using (var dbContext = new VectorXContext())
+            {
+                return await dbContext.Users
+                    .AsNoTracking() // Использовать AsNoTracking() для предотвращения кэширования
+                    .FirstOrDefaultAsync(user => user.UserId == userId);
+            }
         }
 
         public async Task<User> GetUserByPassword(string password)
         {
-            return await _dbContext.Users
-            .FirstOrDefaultAsync(user => user.Password == password);
+            //Обновляем context, чтобы предупредить кэширование данных, если они извлекаются в цикле через Socket
+            using (var dbContext = new VectorXContext())
+            {
+                return await dbContext.Users
+                .FirstOrDefaultAsync(user => user.Password == password);
+            }
         }
 
         public async Task AddUser(User user)
