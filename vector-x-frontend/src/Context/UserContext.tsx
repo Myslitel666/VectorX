@@ -5,7 +5,8 @@ type User = {
     userId: number;
     userRole: string;
     username: string;
-    avatar: string
+    avatar: string;
+    browserId: string;
 }
 
 export interface UserContextProps {
@@ -46,6 +47,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const storedAvatar = localStorage.getItem('avatar');
     const [avatar, setAvatar] = useState(storedAvatar ? storedAvatar : '');
 
+    const [browserId, setBrowserId] = useState(getBrowserId());
+
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const wsUrl = process.env.REACT_APP_WS_URL as string;
 
@@ -54,7 +57,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             userId: userId,
             userRole: userRole,
             username: username,
-            avatar: avatar
+            avatar: avatar,
+            browserId: browserId
         };
     };
 
@@ -123,6 +127,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             const userData = JSON.parse(event.data);
             console.log('Данные пришли');
             console.log(userData);
+            console.log('browserId: ' + browserId);
             setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
             socket.send(userId.toString());
         };
@@ -154,3 +159,14 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         </UserContext.Provider>
     );
 }
+
+const getBrowserId = (): string  => {
+    let browserId = localStorage.getItem('browserId');
+    
+    if (browserId === null) {
+        localStorage.setItem('browserId', navigator.userAgent)
+        browserId = navigator.userAgent;
+    }
+
+    return browserId;
+};
