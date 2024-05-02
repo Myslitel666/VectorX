@@ -92,6 +92,20 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         return false;
     }
 
+    const sendConnectionData = () => {
+        //Отправляем данные о соединении
+        const userConnectionInfo = {
+            UserId: userId,
+            BrowserId: browserId
+        }
+        console.log('userConnectionInfo');
+        console.log(userConnectionInfo);
+        const jsonData = JSON.stringify(userConnectionInfo);
+        if (socket) {
+            socket.send(jsonData);
+        }
+    }
+
     useEffect(() => {
         // Проверяем, авторизован ли пользователь
         if (userId !== -1 && userId !== 0) {
@@ -119,17 +133,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     if (socket) {
         socket.onopen = () => {
             console.log('WebSocket connected');
-            //Отправляем данные о соединении
-            const userConnectionInfo = {
-                UserId: userId,
-                BrowserId: browserId
-            }
-            const jsonData = JSON.stringify(userConnectionInfo);
-
-            console.log('userConnectionInfo');
-            console.log(userConnectionInfo);
-
-            socket.send(jsonData);
+            //Отправляем данные о соединении на сервер
+            sendConnectionData();
         };
         
         socket.onmessage = (event) => {
@@ -139,25 +144,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             console.log(userData);
             setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
 
-            //Отправляем данные о соединении
-            const userConnectionInfo = {
-                UserId: userId,
-                BrowserId: browserId
-            }
-            console.log('userConnectionInfo');
-            console.log(userConnectionInfo);
-            const jsonData = JSON.stringify(userConnectionInfo);
-            socket.send(jsonData);
+            //Отправляем данные о соединении на сервер
+            sendConnectionData();
         };
-
-        // socket.onerror = (event) => {
-        //     console.error('WebSocket error:', event);
-        //     // Здесь вы можете принять решение о повторном подключении или другие действия
-        //   };
 
         socket.onclose = (event) => {
             console.log('WebSocket closed');
-            console.log(event);
         };
     }
     }, [socket]);
