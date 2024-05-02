@@ -92,7 +92,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         // Проверяем, авторизован ли пользователь
         if (userId !== -1 && userId !== 0) {
             // Открываем WebSocket с указанным URL
-            const url = `${wsUrl}/getRandomUserData`;
+            const url = `${wsUrl}/connect`;
             const newSocket = new WebSocket(url);
             setSocket(newSocket); // Устанавливаем новый сокет в состояние
 
@@ -111,22 +111,33 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         }
      }, [userId]);
  
-     useEffect(() => {
-         if (socket) {
-             socket.onopen = () => {
-                 console.log('WebSocket connected');
-                 socket.send(userId.toString());
-             };
-             
-             socket.onmessage = (event) => {
-                 // Получаем данные от сервера и обновляем состояние
-                 const userData = JSON.parse(event.data);
-                 console.log(userData);
-                 setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
-                 socket.send(userId.toString());
-             };
-         }
-     }, [socket]);
+    useEffect(() => {
+    if (socket) {
+        socket.onopen = () => {
+            console.log('WebSocket connected');
+            socket.send(userId.toString());
+        };
+        
+        socket.onmessage = (event) => {
+            // Получаем данные от сервера и обновляем состояние
+            const userData = JSON.parse(event.data);
+            console.log('Данные пришли');
+            console.log(userData);
+            setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
+            socket.send(userId.toString());
+        };
+
+        // socket.onerror = (event) => {
+        //     console.error('WebSocket error:', event);
+        //     // Здесь вы можете принять решение о повторном подключении или другие действия
+        //   };
+
+        socket.onclose = (event) => {
+            console.log('WebSocket closed');
+            console.log(event);
+        };
+    }
+    }, [socket]);
 
     const contextValue: UserContextProps = {
         setUser: setUser,
