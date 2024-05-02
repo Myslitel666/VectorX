@@ -30,13 +30,11 @@ namespace VectorXBackend.Controllers
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                var interval = TimeSpan.FromSeconds(1); // Интервал для обновления времени
                 var buffer = new byte[1024 * 4];
                 var cancellationTokenSource = new CancellationTokenSource();
                 var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
                 var userId = int.Parse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count));
-                ///
                 // Получаем Scoped сервис IUserRepository через делегат
                 var scope = _serviceProvider.CreateScope();
                 var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
@@ -77,15 +75,11 @@ namespace VectorXBackend.Controllers
                         break;
                     }
                 }
-                //receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
-                //await Task.Delay(interval);
 
                 if (receiveResult.CloseStatus != null)
                 {
                     await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
                 }
-                ///
             }
             else
             {

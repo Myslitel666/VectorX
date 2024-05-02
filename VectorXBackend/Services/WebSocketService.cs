@@ -22,7 +22,7 @@ namespace VectorXBackend.Services
 
         public async Task AddSocket(int userId, WebSocket socket)
         {
-            _sockets.TryAdd(userId, socket);
+            _sockets.AddOrUpdate(userId, socket, (key, existingSocket) => socket);
         }
 
         public async Task RemoveSocket(int userId)
