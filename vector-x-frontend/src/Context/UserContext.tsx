@@ -96,7 +96,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         //Отправляем данные о соединении
         const userConnectionInfo = {
             UserId: userId,
-            BrowserId: browserId
+            BrowserId: browserId,
         }
         console.log('userConnectionInfo');
         console.log(userConnectionInfo);

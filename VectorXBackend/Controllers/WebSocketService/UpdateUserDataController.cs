@@ -54,12 +54,14 @@ namespace VectorXBackend.Controllers.WebSocketService
                     {
                         // Обработка исключения, возникающего при попытке чтения из закрытого сокета
                         // Например, прерывание цикла или другие действия
+                        await _webSocketService.RemoveSocket(userConnectionInfo);
                         break;
                     }
 
                     // Если клиент закрыл соединение, выходим из цикла
                     if (receiveResult.CloseStatus != null)
                     {
+                        await _webSocketService.RemoveSocket(userConnectionInfo);
                         break;
                     }
                 }
