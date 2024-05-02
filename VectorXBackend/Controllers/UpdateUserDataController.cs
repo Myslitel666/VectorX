@@ -36,26 +36,12 @@ namespace VectorXBackend.Controllers
 
                 if (int.TryParse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count), out int userId))
                 {
-                    // Получаем Scoped сервис IUserRepository через делегат
-                    var scope = _serviceProvider.CreateScope();
-                    var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-                    var roleRepository = scope.ServiceProvider.GetRequiredService<IRoleRepository>();
+                    //Осуществляем отправку данных пользователю
+                    await SendUserData(userId, webSocket);
 
-                    var existingUser = await userRepository.GetUserById(userId);
-                    var role = await roleRepository.GetRoleById(existingUser.RoleId);
-                    var updatedUser = new UserDto()
-                    {
-                        UserId = userId,
-                        Role = role.RoleName,
-                        Username = existingUser.Username, // Не добавляем здесь время
-                        Avatar = existingUser.Avatar
-                    };
-
-                    var responseJson = JsonSerializer.Serialize(updatedUser);
-                    var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
-
-                    await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
+                    //Добавляем сокет пользователя в Web Socket Service, чтобы администратор смог вносить обновления
                     await _webSocketService.AddSocket(userId, webSocket);
+
                     // Здесь мы запускаем бесконечный цикл, который ждет входящих сообщений от клиента
                     while (!cancellationTokenSource.Token.IsCancellationRequested)
                     {
@@ -101,32 +87,39 @@ namespace VectorXBackend.Controllers
                 //Проверяем userId на корректность
                 if (int.TryParse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count), out int userId))
                 {
+                    //Извлекаем Web Socket пользователя по его id, и отправляем новые данные
                     var userWebSocket = await _webSocketService.HandleAdminUpdate(userId);
-
-                    // Получаем Scoped сервис IUserRepository через делегат
-                    var scope = _serviceProvider.CreateScope();
-                    var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-                    var roleRepository = scope.ServiceProvider.GetRequiredService<IRoleRepository>();
-
-                    var existingUser = await userRepository.GetUserById(userId);
-                    var role = await roleRepository.GetRoleById(existingUser.RoleId);
-                    var updatedUser = new UserDto()
-                    {
-                        UserId = userId,
-                        Role = role.RoleName,
-                        Username = existingUser.Username, // Не добавляем здесь время
-                        Avatar = existingUser.Avatar
-                    };
-
-                    var responseJson = JsonSerializer.Serialize(updatedUser);
-                    var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
-
-                    await userWebSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
+                    await SendUserData(userId, userWebSocket);
                 }
             }
             else
             {
                 HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+            }
+        }
+
+        private async Task SendUserData(int userId, WebSocket webSocket)
+        {
+            // Получаем Scoped сервис IUserRepository через делегат
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+                var roleRepository = scope.ServiceProvider.GetRequiredService<IRoleRepository>();
+
+                var existingUser = await userRepository.GetUserById(userId);
+                var role = await roleRepository.GetRoleById(existingUser.RoleId);
+                var updatedUser = new UserDto()
+                {
+                    UserId = userId,
+                    Role = role.RoleName,
+                    Username = existingUser.Username, // Не добавляем здесь время
+                    Avatar = existingUser.Avatar
+                };
+
+                var responseJson = JsonSerializer.Serialize(updatedUser);
+                var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
+
+                await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
             }
         }
     }
