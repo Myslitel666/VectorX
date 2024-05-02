@@ -41,7 +41,7 @@ namespace VectorXBackend.Controllers.WebSocketService
                 await SendUserData(userConnectionInfo.UserId, webSocket);
 
                 //Добавляем сокет пользователя в Web Socket Service, чтобы администратор смог вносить обновления
-                await _webSocketService.AddSocket(userConnectionInfo.UserId, webSocket);
+                await _webSocketService.AddOrUpdateSocket(userConnectionInfo, webSocket);
 
                 // Здесь мы запускаем бесконечный цикл, который ждет входящих сообщений от клиента
                 while (!cancellationTokenSource.Token.IsCancellationRequested)
@@ -87,9 +87,12 @@ namespace VectorXBackend.Controllers.WebSocketService
                 //Проверяем userId на корректность
                 if (int.TryParse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count), out int userId))
                 {
-                    //Извлекаем Web Socket пользователя по его id, и отправляем новые данные
-                    var userWebSocket = await _webSocketService.HandleAdminUpdate(userId);
-                    await SendUserData(userId, userWebSocket);
+                    //Извлекаем Web Socket'ы пользователя по его id, и отправляем новые данные
+                    var userWebSocket = await _webSocketService.GetWebSockets(userId);
+                    for (int i = 0; i < userWebSocket.Count; i++)
+                    {
+                        await SendUserData(userId, userWebSocket[i]);
+                    }
                 }
             }
             else

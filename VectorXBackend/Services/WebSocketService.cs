@@ -6,32 +6,36 @@ using VectorXBackend.Interfaces.Repositories.AccountService;
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Interfaces.Services;
 using VectorXBackend.Services;
-using VectorXBackend.Context;
+using VectorXBackend.DTOs.Requests.WebSocketService;
 
-namespace VectorXBackend.Services
+namespace VectorXBackend.Services;
+
+public class WebSocketService : IWebSocketService
 {
-    public class WebSocketService : IWebSocketService
+    private readonly ConcurrentDictionary<UserConnectionInfo, WebSocket> _sockets = new ConcurrentDictionary<UserConnectionInfo, WebSocket>();
+
+    public async Task AddOrUpdateSocket(UserConnectionInfo userConnectionInfo, WebSocket socket)
     {
-        private readonly ConcurrentDictionary<int, WebSocket> _sockets = new ConcurrentDictionary<int, WebSocket>();
+        _sockets.AddOrUpdate(userConnectionInfo, socket, (key, existingSocket) => socket);
+    }
 
-        public async Task AddSocket(int userId, WebSocket socket)
-        {
-            _sockets.AddOrUpdate(userId, socket, (key, existingSocket) => socket);
-        }
+    public async Task RemoveSocket(UserConnectionInfo userConnectionInfo)
+    {
+        _sockets.TryRemove(userConnectionInfo, out _);
+    }
 
-        public async Task RemoveSocket(int userId)
-        {
-            _sockets.TryRemove(userId, out _);
-        }
+    public async Task<List<WebSocket>> GetWebSockets(int userId)
+    {
+        List<WebSocket> userSockets = new List<WebSocket>();
 
-        public async Task<WebSocket> HandleAdminUpdate(int userId)
+        foreach (var socket in _sockets)
         {
-            if (_sockets.TryGetValue(userId, out WebSocket socket))
+            if (socket.Key.UserId == userId)
             {
-                return socket;
+                userSockets.Add(socket.Value);
             }
-
-            return null;
         }
+
+        return userSockets;
     }
 }

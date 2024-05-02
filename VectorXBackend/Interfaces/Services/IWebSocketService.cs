@@ -1,13 +1,14 @@
 using System.Net.WebSockets;
+using VectorXBackend.DTOs.Requests.WebSocketService;
 
 namespace VectorXBackend.Interfaces.Services
 {
     public interface IWebSocketService
     {
-        Task AddSocket(int userId, WebSocket socket);
+        Task AddOrUpdateSocket(UserConnectionInfo userConnectionInfo, WebSocket socket);
 
-        Task RemoveSocket(int userId);
+        Task RemoveSocket(UserConnectionInfo userConnectionInfo);
 
-        Task<WebSocket> HandleAdminUpdate(int userId);
+        Task<List<WebSocket>> GetWebSockets(int userId);
     }
 }
