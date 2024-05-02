@@ -9,7 +9,7 @@ using VectorXBackend.Services;
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Interfaces.Repositories.AccountService;
 
-namespace VectorXBackend.Controllers
+namespace VectorXBackend.Controllers.WebSocketService
 {
     [Route("ws")]
     [ApiController]

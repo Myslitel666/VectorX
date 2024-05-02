@@ -13,12 +13,6 @@ namespace VectorXBackend.Services
     public class WebSocketService : IWebSocketService
     {
         private readonly ConcurrentDictionary<int, WebSocket> _sockets = new ConcurrentDictionary<int, WebSocket>();
-        private readonly IServiceProvider _serviceProvider;
-
-        public WebSocketService(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-        }
 
         public async Task AddSocket(int userId, WebSocket socket)
         {
