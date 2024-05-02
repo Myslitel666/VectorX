@@ -34,45 +34,47 @@ namespace VectorXBackend.Controllers
                 var cancellationTokenSource = new CancellationTokenSource();
                 var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
-                var userId = int.Parse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count));
-                // Получаем Scoped сервис IUserRepository через делегат
-                var scope = _serviceProvider.CreateScope();
-                var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-                var roleRepository = scope.ServiceProvider.GetRequiredService<IRoleRepository>();
-
-                var existingUser = await userRepository.GetUserById(userId);
-                var role = await roleRepository.GetRoleById(existingUser.RoleId);
-                var updatedUser = new UserDto()
+                if (int.TryParse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count), out int userId))
                 {
-                    UserId = userId,
-                    Role = role.RoleName,
-                    Username = existingUser.Username, // Не добавляем здесь время
-                    Avatar = existingUser.Avatar
-                };
+                    // Получаем Scoped сервис IUserRepository через делегат
+                    var scope = _serviceProvider.CreateScope();
+                    var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+                    var roleRepository = scope.ServiceProvider.GetRequiredService<IRoleRepository>();
 
-                var responseJson = JsonSerializer.Serialize(updatedUser);
-                var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
+                    var existingUser = await userRepository.GetUserById(userId);
+                    var role = await roleRepository.GetRoleById(existingUser.RoleId);
+                    var updatedUser = new UserDto()
+                    {
+                        UserId = userId,
+                        Role = role.RoleName,
+                        Username = existingUser.Username, // Не добавляем здесь время
+                        Avatar = existingUser.Avatar
+                    };
 
-                await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
-                await _webSocketService.AddSocket(userId, webSocket);
-                // Здесь мы запускаем бесконечный цикл, который ждет входящих сообщений от клиента
-                while (!cancellationTokenSource.Token.IsCancellationRequested)
-                {
-                    try
-                    {
-                        receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationTokenSource.Token);
-                    }
-                    catch (WebSocketException ex)
-                    {
-                        // Обработка исключения, возникающего при попытке чтения из закрытого сокета
-                        // Например, прерывание цикла или другие действия
-                        break;
-                    }
+                    var responseJson = JsonSerializer.Serialize(updatedUser);
+                    var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
 
-                    // Если клиент закрыл соединение, выходим из цикла
-                    if (receiveResult.CloseStatus != null)
+                    await webSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
+                    await _webSocketService.AddSocket(userId, webSocket);
+                    // Здесь мы запускаем бесконечный цикл, который ждет входящих сообщений от клиента
+                    while (!cancellationTokenSource.Token.IsCancellationRequested)
                     {
-                        break;
+                        try
+                        {
+                            receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationTokenSource.Token);
+                        }
+                        catch (WebSocketException ex)
+                        {
+                            // Обработка исключения, возникающего при попытке чтения из закрытого сокета
+                            // Например, прерывание цикла или другие действия
+                            break;
+                        }
+
+                        // Если клиент закрыл соединение, выходим из цикла
+                        if (receiveResult.CloseStatus != null)
+                        {
+                            break;
+                        }
                     }
                 }
 
@@ -96,29 +98,31 @@ namespace VectorXBackend.Controllers
                 var buffer = new byte[1024 * 4];
                 var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
-                var userId = int.Parse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count));
-
-                var userWebSocket = await _webSocketService.HandleAdminUpdate(userId);
-
-                // Получаем Scoped сервис IUserRepository через делегат
-                var scope = _serviceProvider.CreateScope();
-                var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-                var roleRepository = scope.ServiceProvider.GetRequiredService<IRoleRepository>();
-
-                var existingUser = await userRepository.GetUserById(userId);
-                var role = await roleRepository.GetRoleById(existingUser.RoleId);
-                var updatedUser = new UserDto()
+                //Проверяем userId на корректность
+                if (int.TryParse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count), out int userId))
                 {
-                    UserId = userId,
-                    Role = role.RoleName,
-                    Username = existingUser.Username, // Не добавляем здесь время
-                    Avatar = existingUser.Avatar
-                };
+                    var userWebSocket = await _webSocketService.HandleAdminUpdate(userId);
 
-                var responseJson = JsonSerializer.Serialize(updatedUser);
-                var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
+                    // Получаем Scoped сервис IUserRepository через делегат
+                    var scope = _serviceProvider.CreateScope();
+                    var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+                    var roleRepository = scope.ServiceProvider.GetRequiredService<IRoleRepository>();
 
-                await userWebSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
+                    var existingUser = await userRepository.GetUserById(userId);
+                    var role = await roleRepository.GetRoleById(existingUser.RoleId);
+                    var updatedUser = new UserDto()
+                    {
+                        UserId = userId,
+                        Role = role.RoleName,
+                        Username = existingUser.Username, // Не добавляем здесь время
+                        Avatar = existingUser.Avatar
+                    };
+
+                    var responseJson = JsonSerializer.Serialize(updatedUser);
+                    var bytesToSend = Encoding.UTF8.GetBytes(responseJson);
+
+                    await userWebSocket.SendAsync(new ArraySegment<byte>(bytesToSend), WebSocketMessageType.Text, true, CancellationToken.None);
+                }
             }
             else
             {
