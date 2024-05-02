@@ -19,7 +19,7 @@ const AdminPanel: React.FC = () => {
     const user = getUser();
 
     // Состояние для хранения id пользователя
-    const [userId, setUserId] = useState('');
+    const [userIds, setUserId] = useState('');
     const [socket, setSocket] = useState<WebSocket | null>(null); 
     const wsUrl = process.env.REACT_APP_WS_URL as string;
 
@@ -30,7 +30,7 @@ const AdminPanel: React.FC = () => {
 
         newSocket.onopen = () => {
             console.log('WebSocket connected');
-            newSocket.send(userId.toString());
+            newSocket.send(userIds.toString());
         };
     };
 
@@ -50,14 +50,14 @@ const AdminPanel: React.FC = () => {
                 Admin Panel
             </Typography>
             <TextField
-                label="User ID"
+                label="User IDs"
                 variant="outlined"
-                value={userId}
+                value={userIds}
                 onChange={(e) => setUserId(e.target.value)}
                 fullWidth
                 margin="normal"
             />
-            <Button variant="contained" onClick={handleButtonClick}>Send User ID</Button>
+            <Button variant="contained" onClick={handleButtonClick}>Send User IDs</Button>
         </>
     )
 }

@@ -84,16 +84,23 @@ namespace VectorXBackend.Controllers.WebSocketService
                 var buffer = new byte[1024 * 4];
                 var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
 
-                //Проверяем userId на корректность
-                if (int.TryParse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count), out int userId))
+                //Извлекаем список userId
+                string userIdsString = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+                string[] userIds = userIdsString.Split(' ');
+
+                foreach (string userIdStr in userIds)
                 {
-                    //Извлекаем Web Socket'ы пользователя по его id, и отправляем новые данные
-                    var userWebSocket = await _webSocketService.GetWebSockets(userId);
-                    for (int i = 0; i < userWebSocket.Count; i++)
+                    if (int.TryParse(userIdStr, out int userId))
                     {
-                        await SendUserData(userId, userWebSocket[i]);
+                        // Извлекаем Web Socket'ы пользователя по его id, и отправляем новые данные
+                        var userWebSockets = await _webSocketService.GetWebSockets(userId);
+                        foreach (var userWebSocket in userWebSockets)
+                        {
+                            await SendUserData(userId, userWebSocket);
+                        }
                     }
                 }
+
             }
             else
             {
