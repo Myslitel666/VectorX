@@ -105,12 +105,12 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             };
  
             return () => {
-                 if (newSocket) {
-                     if (newSocket.readyState === WebSocket.OPEN) {
-                         // Закрываем сокет только если он был успешно открыт
-                         newSocket.close();
-                     }
-                 } 
+                if (newSocket) {
+                    if (newSocket.readyState === WebSocket.OPEN) {
+                        // Закрываем сокет только если он был успешно открыт
+                        newSocket.close();
+                    }
+                } 
             };
         }
      }, [userId]);
@@ -119,7 +119,17 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     if (socket) {
         socket.onopen = () => {
             console.log('WebSocket connected');
-            socket.send(userId.toString());
+            //Отправляем данные о соединении
+            const userConnectionInfo = {
+                UserId: userId,
+                BrowserId: browserId
+            }
+            const jsonData = JSON.stringify(userConnectionInfo);
+
+            console.log('userConnectionInfo');
+            console.log(userConnectionInfo);
+
+            socket.send(jsonData);
         };
         
         socket.onmessage = (event) => {
@@ -127,9 +137,17 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             const userData = JSON.parse(event.data);
             console.log('Данные пришли');
             console.log(userData);
-            console.log('browserId: ' + browserId);
             setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
-            socket.send(userId.toString());
+
+            //Отправляем данные о соединении
+            const userConnectionInfo = {
+                UserId: userId,
+                BrowserId: browserId
+            }
+            console.log('userConnectionInfo');
+            console.log(userConnectionInfo);
+            const jsonData = JSON.stringify(userConnectionInfo);
+            socket.send(jsonData);
         };
 
         // socket.onerror = (event) => {

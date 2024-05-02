@@ -8,6 +8,7 @@ using VectorXBackend.Interfaces.Services;
 using VectorXBackend.Services;
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Interfaces.Repositories.AccountService;
+using VectorXBackend.DTOs.Requests.WebSocketService;
 
 namespace VectorXBackend.Controllers.WebSocketService
 {
@@ -33,34 +34,33 @@ namespace VectorXBackend.Controllers.WebSocketService
                 var buffer = new byte[1024 * 4];
                 var cancellationTokenSource = new CancellationTokenSource();
                 var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                var receivedData = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+                var userConnectionInfo = JsonSerializer.Deserialize<UserConnectionInfo>(receivedData);
 
-                if (int.TryParse(Encoding.UTF8.GetString(buffer, 0, receiveResult.Count), out int userId))
+                //Осуществляем отправку данных пользователю
+                await SendUserData(userConnectionInfo.UserId, webSocket);
+
+                //Добавляем сокет пользователя в Web Socket Service, чтобы администратор смог вносить обновления
+                await _webSocketService.AddSocket(userConnectionInfo.UserId, webSocket);
+
+                // Здесь мы запускаем бесконечный цикл, который ждет входящих сообщений от клиента
+                while (!cancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    //Осуществляем отправку данных пользователю
-                    await SendUserData(userId, webSocket);
-
-                    //Добавляем сокет пользователя в Web Socket Service, чтобы администратор смог вносить обновления
-                    await _webSocketService.AddSocket(userId, webSocket);
-
-                    // Здесь мы запускаем бесконечный цикл, который ждет входящих сообщений от клиента
-                    while (!cancellationTokenSource.Token.IsCancellationRequested)
+                    try
                     {
-                        try
-                        {
-                            receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationTokenSource.Token);
-                        }
-                        catch (WebSocketException ex)
-                        {
-                            // Обработка исключения, возникающего при попытке чтения из закрытого сокета
-                            // Например, прерывание цикла или другие действия
-                            break;
-                        }
+                        receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationTokenSource.Token);
+                    }
+                    catch (WebSocketException ex)
+                    {
+                        // Обработка исключения, возникающего при попытке чтения из закрытого сокета
+                        // Например, прерывание цикла или другие действия
+                        break;
+                    }
 
-                        // Если клиент закрыл соединение, выходим из цикла
-                        if (receiveResult.CloseStatus != null)
-                        {
-                            break;
-                        }
+                    // Если клиент закрыл соединение, выходим из цикла
+                    if (receiveResult.CloseStatus != null)
+                    {
+                        break;
                     }
                 }
 
