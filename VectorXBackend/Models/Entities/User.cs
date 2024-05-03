@@ -15,6 +15,8 @@ public partial class User
 
     public byte[]? Avatar { get; set; }
 
+    public bool IsBlocked { get; set; }
+
     public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<UserJargon> UserJargons { get; set; } = new List<UserJargon>();

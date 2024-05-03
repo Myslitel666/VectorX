@@ -15,4 +15,6 @@ public partial class UserDto
     public byte[]? Avatar { get; set; }
 
     public string? Password { get; set; }
+
+    public bool IsBlocked { get; set; }
 }

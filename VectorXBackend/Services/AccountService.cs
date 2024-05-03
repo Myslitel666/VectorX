@@ -133,6 +133,7 @@ namespace VectorXBackend.Services
                         RoleId = role.RoleId,
                         Username = userDto.Username,
                         Password = userDto.Password,
+                        IsBlocked = false
                     };
                     await _userRepository.AddUser(user);
 
