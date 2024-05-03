@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Link from '@mui/material/Link';
 
 //MyComponents Import
-import { useUserContext } from '../../../../../../Context/UserContext'
+import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import MyImageUploading from './MyImageUploading';
 import MyTypography from '../../../../../Common/User Interface/MyTypography';
@@ -37,19 +37,10 @@ const Profile: React.FC = () => {
     //Попытка получить доступ к контенту из адресной строки браузера
     //Profile Section доступен только для зарегистрированных пользователей
     useEffect(() => {
-        if (location.pathname === '/profile') {
-            if (!isLogged()) {
-                navigate('/auth');
-            }
-        }
-    }, [location.pathname]);
-
-    useEffect(() => {
-        console.log('Я в useEffect')
-        if (user.isBlocked) {
+        if (!isLogged()) {
             navigate('/auth');
         }
-    }, [user.isBlocked]);
+    }, [location.pathname, user.isBlocked]);
 
     interface AttributeValueProps  {
         attribute: string;

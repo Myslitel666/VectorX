@@ -9,21 +9,20 @@ import { HomeProvider } from './HomeContext'
 import { useUserContext } from '../../../../../Context/UserContext';
 
 const Home: React.FC = () => {
+    //Работа с контекстом
+    const { getUser, isLogged } = useUserContext();
+    let user = getUser();
+
     const navigate = useNavigate();
     const location = useLocation();
-
-    //Работа с контекстом
-    const { isLogged } = useUserContext();
 
     //Попытка получить доступ к контенту из адресной строки браузера
     //English Assistant Pro доступен только для зарегистрированных пользователей
     useEffect(() => {
-        if (location.pathname === '/english-assistant/home') {
-            if (!isLogged()) {
-                navigate('/auth');
-            }
+        if (!isLogged()) {
+            navigate('/auth');
         }
-    }, [location.pathname]);
+    }, [location.pathname, user.isBlocked]);
 
     return (
         <HomeProvider>
