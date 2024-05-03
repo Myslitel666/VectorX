@@ -14,6 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ColorModeContextProps, useColorMode } from '../../../../../../Context/ColorModeContext';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import MyButton from '../../../../../Common/User Interface/MyButton';
+import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +31,8 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
     const { setUser } = useUserContext();
     const navigate = useNavigate();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const { getColorFromLabel } = useColorLabel('red');
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
@@ -88,6 +91,17 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
         }
     };
 
+    useEffect(() => {
+        // Очистить сообщение обратной связи по истечении времени
+        const timeoutId = setTimeout(() => {
+            setFeedbackMessage('');
+        }, 1750);
+
+        // Очистить таймаут, чтобы избежать утечек при размонтировании компонента
+        return () => clearTimeout(timeoutId);
+    }, [feedbackMessage]);
+
+
     //Снимаем наведении мыши, если Box был удалён
     useEffect(() => {
         setIsHoveredBox(Array(users.length).fill(false));
@@ -135,12 +149,17 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                     onClick={() => {
                         if (!isHoveredClear) {
                             setUser(user);
-                            navigate('/home');
+                            if (user.isBlocked === false) {
+                                navigate('/home');
+                            }
+                            else {
+                                setFeedbackMessage('The user was blocked')
+                            }
                         }
                     }}
                 >
                     {user.isBlocked ? 
-                            <Avatar
+                        <Avatar
                             alt="Avatar"
                             src={defaultAvatarPath}
                             sx={{
@@ -150,7 +169,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                                 height: '6rem'
                             }}
                         />
-                    :
+                        :
                         <Avatar
                             alt="Avatar"
                             src={isNull(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)}
@@ -167,6 +186,12 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                             marginLeft: '0.66rem',
                         }}
                     >
+                        <Typography sx={{
+                            color: getColorFromLabel('red')
+                        }}
+                        >
+                            {user.isBlocked && feedbackMessage}
+                        </Typography>
                         <Typography>
                             Username: {user.isBlocked ? 'DELETED' : user.username}
                         </Typography>

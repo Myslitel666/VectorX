@@ -85,7 +85,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
 
     const isLogged = (): boolean => {
-        if (userId !== -1) {
+        if (userId !== -1 && isBlocked !== true) {
             return true
         }
         return false;
@@ -107,7 +107,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     useEffect(() => {
         // Проверяем, авторизован ли пользователь
-        if (userId !== -1 && userId !== 0) {
+        if (userId !== -1 && userId !== 0 && isBlocked !== true) {
             // Открываем WebSocket с указанным URL
             const url = `${wsUrl}/connect`;
             const newSocket = new WebSocket(url);
@@ -126,7 +126,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                 } 
             };
         }
-     }, [userId]);
+    }, [userId]);
  
     useEffect(() => {
     if (socket) {
