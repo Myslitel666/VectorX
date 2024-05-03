@@ -34,41 +34,45 @@ namespace VectorXBackend.Controllers.WebSocketService
                 var buffer = new byte[1024 * 4];
                 var cancellationTokenSource = new CancellationTokenSource();
                 var receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                var receivedData = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
-                var userConnectionInfo = JsonSerializer.Deserialize<UserConnectionInfo>(receivedData);
-
-                //Осуществляем отправку данных пользователю
-                await SendUserData(userConnectionInfo.UserId, webSocket);
-
-                //Добавляем сокет пользователя в Web Socket Service, чтобы администратор смог вносить обновления
-                await _webSocketService.AddOrUpdateSocket(userConnectionInfo, webSocket);
-
-                // Здесь мы запускаем бесконечный цикл, который ждет входящих сообщений от клиента
-                while (!cancellationTokenSource.Token.IsCancellationRequested)
+                // Проверяем, что полученные данные не пустые
+                if (receiveResult.Count > 0)
                 {
-                    try
+                    var receivedData = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+                    var userConnectionInfo = JsonSerializer.Deserialize<UserConnectionInfo>(receivedData);
+
+                    //Осуществляем отправку данных пользователю
+                    await SendUserData(userConnectionInfo.UserId, webSocket);
+
+                    //Добавляем сокет пользователя в Web Socket Service, чтобы администратор смог вносить обновления
+                    await _webSocketService.AddOrUpdateSocket(userConnectionInfo, webSocket);
+
+                    // Здесь мы запускаем бесконечный цикл, который ждет входящих сообщений от клиента
+                    while (!cancellationTokenSource.Token.IsCancellationRequested)
                     {
-                        receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationTokenSource.Token);
-                    }
-                    catch (WebSocketException ex)
-                    {
-                        // Обработка исключения, возникающего при попытке чтения из закрытого сокета
-                        // Например, прерывание цикла или другие действия
-                        await _webSocketService.RemoveSocket(userConnectionInfo);
-                        break;
+                        try
+                        {
+                            receiveResult = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationTokenSource.Token);
+                        }
+                        catch (WebSocketException ex)
+                        {
+                            // Обработка исключения, возникающего при попытке чтения из закрытого сокета
+                            // Например, прерывание цикла или другие действия
+                            await _webSocketService.RemoveSocket(userConnectionInfo);
+                            break;
+                        }
+
+                        // Если клиент закрыл соединение, выходим из цикла
+                        if (receiveResult.CloseStatus != null)
+                        {
+                            await _webSocketService.RemoveSocket(userConnectionInfo);
+                            break;
+                        }
                     }
 
-                    // Если клиент закрыл соединение, выходим из цикла
                     if (receiveResult.CloseStatus != null)
                     {
-                        await _webSocketService.RemoveSocket(userConnectionInfo);
-                        break;
+                        await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
                     }
-                }
-
-                if (receiveResult.CloseStatus != null)
-                {
-                    await webSocket.CloseAsync(receiveResult.CloseStatus.Value, receiveResult.CloseStatusDescription, CancellationToken.None);
                 }
             }
             else
