@@ -91,17 +91,6 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
         }
     };
 
-    useEffect(() => {
-        // Очистить сообщение обратной связи по истечении времени
-        const timeoutId = setTimeout(() => {
-            setFeedbackMessage('');
-        }, 1750);
-
-        // Очистить таймаут, чтобы избежать утечек при размонтировании компонента
-        return () => clearTimeout(timeoutId);
-    }, [feedbackMessage]);
-
-
     //Снимаем наведении мыши, если Box был удалён
     useEffect(() => {
         setIsHoveredBox(Array(users.length).fill(false));
@@ -111,6 +100,10 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
     // Создаем массив состояний для каждого Box'а
     const [isHoveredBox, setIsHoveredBox] = useState(Array(users.length).fill(false));
     const [isHoveredClear, setIsHoveredClear] = useState(false);
+    const [boxStates, setBoxStates] = useState<Array<{ lastClickedTime: Date | null; errorMessage: string }>>(
+        Array(users.length).fill({ lastClickedTime: null, errorMessage: '' })
+    );
+    
 
     return (
         <>
@@ -148,12 +141,24 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                     }}
                     onClick={() => {
                         if (!isHoveredClear) {
-                            setUser(user);
-                            if (user.isBlocked === false) {
-                                navigate('/home');
+                            if (user.isBlocked) {
+                                setBoxStates(prevBoxStates => {
+                                    const updatedBoxStates = [...prevBoxStates];
+                                    updatedBoxStates[index] = { lastClickedTime: new Date(), errorMessage: '✗The user was blocked' };
+                                    return updatedBoxStates;
+                                });
+                    
+                                setTimeout(() => {
+                                    setBoxStates(prevBoxStates => {
+                                        const updatedBoxStates = [...prevBoxStates];
+                                        updatedBoxStates[index] = { lastClickedTime: null, errorMessage: '' };
+                                        return updatedBoxStates;
+                                    });
+                                }, 1000);
                             }
                             else {
-                                setFeedbackMessage('The user was blocked')
+                                setUser(user);
+                                navigate('/home');
                             }
                         }
                     }}
@@ -186,12 +191,14 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                             marginLeft: '0.66rem',
                         }}
                     >
-                        <Typography sx={{
-                            color: getColorFromLabel('red')
-                        }}
-                        >
-                            {user.isBlocked && feedbackMessage}
-                        </Typography>
+                        {boxStates[index].errorMessage &&
+                            <Typography sx={{
+                                color: getColorFromLabel('red'),
+                            }}
+                            >
+                                {boxStates[index].errorMessage}
+                            </Typography>
+                        }
                         <Typography>
                             Username: {user.isBlocked ? 'DELETED' : user.username}
                         </Typography>

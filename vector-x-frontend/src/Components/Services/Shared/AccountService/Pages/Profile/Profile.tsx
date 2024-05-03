@@ -44,6 +44,13 @@ const Profile: React.FC = () => {
         }
     }, [location.pathname]);
 
+    useEffect(() => {
+        console.log('Я в useEffect')
+        if (user.isBlocked) {
+            navigate('/auth');
+        }
+    }, [user.isBlocked]);
+
     interface AttributeValueProps  {
         attribute: string;
         value: string;
