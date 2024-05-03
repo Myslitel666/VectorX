@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import UsersDataGrid from './UsersDataGrid';
 import { useTheme } from '@mui/material';
 
 //MyComponents Import
@@ -50,19 +50,6 @@ const AdminPanel: React.FC = () => {
     const handleButtonClick = () => {
         connectWebSocket();
     };
-
-    const rows = [
-        { id: 1, name: 'John Doe', age: 30 },
-        { id: 2, name: 'Jane Smith', age: 25 },
-        // Другие строки
-      ];
-      
-      const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
-        { field: 'name', headerName: 'Name', width: 130 },
-        { field: 'age', headerName: 'Age', width: 90 },
-        // Другие столбцы
-      ];
 
     useEffect(() => {
         if (user.userRole !== 'admin') {
@@ -145,17 +132,7 @@ const AdminPanel: React.FC = () => {
                         Filter
                     </Button>
                 </Box>
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    getRowHeight={() => 'auto'}
-                    sx={{
-                        //Стиль, который добавляет отступ для верхнего и нижнего края в строке таблицы
-                        '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
-                            py: '15px',
-                        },
-                    }}
-                />
+                <UsersDataGrid/>
                 <Box 
                     display='none' // В любой момент можно отобразить строку для быстрого ввода id'шников в целях тестирования Web Socket Manager'а
                     sx = {{
