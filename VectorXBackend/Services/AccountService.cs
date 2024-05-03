@@ -387,7 +387,8 @@ namespace VectorXBackend.Services
                         UserId = cachedUsers[i].UserId,
                         Username = cachedUsers[i].Username,
                         UserRole = rolesUsers.FirstOrDefault(role => role.RoleId == cachedUsers[i].RoleId).RoleName,
-                        Avatar = cachedUsers[i].Avatar
+                        Avatar = cachedUsers[i].Avatar,
+                        IsBlocked = cachedUsers[i].IsBlocked,
                     };
                 }
 

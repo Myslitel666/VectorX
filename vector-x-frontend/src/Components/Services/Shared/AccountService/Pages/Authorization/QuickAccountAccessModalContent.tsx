@@ -88,6 +88,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
         }
     };
 
+    //Снимаем наведении мыши, если Box был удалён
     useEffect(() => {
         setIsHoveredBox(Array(users.length).fill(false));
         setIsHoveredClear(false);
@@ -138,26 +139,39 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                         }
                     }}
                 >
-                    <Avatar
-                        alt="Avatar"
-                        src={isNull(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)}
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: '6rem',
-                            height: '6rem'
-                        }}
-                    />
+                    {user.isBlocked ? 
+                            <Avatar
+                            alt="Avatar"
+                            src={defaultAvatarPath}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                width: '6rem',
+                                height: '6rem'
+                            }}
+                        />
+                    :
+                        <Avatar
+                            alt="Avatar"
+                            src={isNull(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                width: '6rem',
+                                height: '6rem'
+                            }}
+                        />
+                    }
                     <Box
                         sx={{
                             marginLeft: '0.66rem',
                         }}
                     >
                         <Typography>
-                            Username: {user.username}
+                            Username: {user.isBlocked ? 'DELETED' : user.username}
                         </Typography>
                         <Typography>
-                            Role: {user.userRole}
+                            Role: {user.isBlocked ? 'unknown' : user.userRole}
                         </Typography>
                         <Typography>
                             Password: ●●●●●●●●●

@@ -150,6 +150,7 @@ const Auth: React.FC = () => {
                 .then(users => {
                     dispatch(setStoredUsers(users));
                 });
+
         }
     }, [])
 
