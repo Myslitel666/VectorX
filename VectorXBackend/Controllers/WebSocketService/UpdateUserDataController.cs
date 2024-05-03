@@ -123,7 +123,7 @@ namespace VectorXBackend.Controllers.WebSocketService
                 var updatedUser = new UserDto()
                 {
                     UserId = userId,
-                    Role = role.RoleName,
+                    UserRole = role.RoleName,
                     Username = existingUser.Username, // Не добавляем здесь время
                     Avatar = existingUser.Avatar
                 };

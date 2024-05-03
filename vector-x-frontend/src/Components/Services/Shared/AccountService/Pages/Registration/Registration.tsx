@@ -60,7 +60,13 @@ const Registration: React.FC = () => {
 
         if (!data.isError) {
             setTimeout(() => {
-                setUser(data.user.userId, data.user.role, data.user.username, '');
+                const user = {
+                    userId: data.user.userId,
+                    username: data.user.username,
+                    userRole: data.user.userRole,
+                    avatar: ''
+                }
+                setUser(user);
             }, 500);
         }
     };

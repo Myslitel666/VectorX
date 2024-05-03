@@ -8,7 +8,7 @@ public partial class UserDto
 {
     public int UserId { get; set; }
 
-    public string? Role { get; set; }
+    public string? UserRole { get; set; }
 
     public string? Username { get; set; }
 

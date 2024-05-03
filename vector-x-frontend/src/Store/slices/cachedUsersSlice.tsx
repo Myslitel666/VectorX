@@ -1,4 +1,5 @@
 ﻿import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { User } from '../../Components/Services/Shared/AccountService/Interfaces/Interfaces'
 
 // Определение начального состояния среза
 interface CachedUsersState {
@@ -8,13 +9,6 @@ interface CachedUsersState {
 const initialState: CachedUsersState = {
     users: [],
 };
-
-interface User {
-    userId: number;
-    username: string;
-    role: string;
-    avatar: string;
-}
 
 const cachedUsersSlice = createSlice({
     name: 'cachedUsers',

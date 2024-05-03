@@ -99,7 +99,13 @@ const Auth: React.FC = () => {
             }
 
             setTimeout(() => {
-                setUser(data.user.userId, data.user.role, data.user.username, data.user.avatar);
+                const user = {
+                    userId: data.user.userId,
+                    username: data.user.username,
+                    userRole: data.user.userRole,
+                    avatar: data.user.avatar
+                }
+                setUser(user);
             }, 500);
         }
     };

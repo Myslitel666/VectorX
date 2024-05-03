@@ -56,7 +56,7 @@ namespace VectorXBackend.Services
                         var userResponseDto = new UserDto()
                         {
                             UserId = existingUser.UserId,
-                            Role = role.RoleName,
+                            UserRole = role.RoleName,
                             Username = existingUser.Username,
                             Avatar = existingUser.Avatar,
                         };
@@ -115,7 +115,7 @@ namespace VectorXBackend.Services
             try
             {
                 //Получаем идентификатор роли по её имени из базы данных
-                var role = await _roleRepository.GetIdByRole(userDto.Role);
+                var role = await _roleRepository.GetIdByRole(userDto.UserRole);
 
                 if (role == null)
                 {
@@ -130,22 +130,23 @@ namespace VectorXBackend.Services
                 {
                     var user = new User
                     {
-                        RoleId = role.RoleId,
                         Username = userDto.Username,
                         Password = userDto.Password,
+                        RoleId = role.RoleId,
                         IsBlocked = false
                     };
                     await _userRepository.AddUser(user);
 
                     //Извлекаем пользователя из списка по username для отправки на client
-                    var registeredUser = await _userRepository.GetUserByUsername(userDto.Username);
+                    //var registeredUser = await _userRepository.GetUserByUsername(userDto.Username);
 
-                    //Создаю экземпляр UserDto
+                    //Создаю экземпляр UserDto для отправки клиенту
                     var userResponseDto = new UserDto()
                     {
-                        UserId = registeredUser.UserId,
-                        Role = role.RoleName,
-                        Username = registeredUser.Username,
+                        UserId = user.UserId,
+                        Username = user.Username,
+                        UserRole = role.RoleName,
+                        IsBlocked = false
                     };
 
                     var response = new AuthResponseDto()
@@ -374,7 +375,7 @@ namespace VectorXBackend.Services
                     {
                         UserId = cachedUsers[i].UserId,
                         Username = cachedUsers[i].Username,
-                        Role = rolesUsers.FirstOrDefault(role => role.RoleId == cachedUsers[i].RoleId).RoleName,
+                        UserRole = rolesUsers.FirstOrDefault(role => role.RoleId == cachedUsers[i].RoleId).RoleName,
                         Avatar = cachedUsers[i].Avatar
                     };
                 }

@@ -133,7 +133,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                     }}
                     onClick={() => {
                         if (!isHoveredClear) {
-                            setUser(user.userId, user.role, user.username, user.avatar);
+                            setUser(user);
                             navigate('/home');
                         }
                     }}
@@ -157,7 +157,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                             Username: {user.username}
                         </Typography>
                         <Typography>
-                            Role: {user.role}
+                            Role: {user.userRole}
                         </Typography>
                         <Typography>
                             Password: ●●●●●●●●●

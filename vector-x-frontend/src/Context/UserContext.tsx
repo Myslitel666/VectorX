@@ -1,18 +1,13 @@
 ﻿//React Import
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
-type User = {
-    userId: number;
-    userRole: string;
-    username: string;
-    avatar: string;
-    browserId: string;
-}
+//Interfaces Import
+import { User } from '../Components/Services/Shared/AccountService/Interfaces/Interfaces'
 
 export interface UserContextProps {
     //methods
     getUser: () => User;
-    setUser: (userId: number, userRole: string, username: string, avatar: string) => void;
+    setUser: (user: User) => void;
     updateUsername: (desiredUsername: string) => void;
     updateAvatar: (avatar: string) => void;
     logoutUser: () => void;
@@ -62,13 +57,22 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         };
     };
 
-    const setUser = (userId: number, userRole: string, username: string, avatar: string) => {
-        setUserId(userId);
-        localStorage.setItem('userId', userId.toString());
-        setUserRole(userRole);
-        localStorage.setItem('userRole', userRole);
-        updateUsername(username);
-        updateAvatar(avatar);
+    //const setUser = (userId: number, userRole: string, username: string, avatar: string) => {
+    //    setUserId(userId);
+    //    localStorage.setItem('userId', userId.toString());
+    //    setUserRole(userRole);
+    //    localStorage.setItem('userRole', userRole);
+    //    updateUsername(username);
+    //    updateAvatar(avatar);
+    //}
+
+    const setUser = (user: User) => {
+        setUserId(user.userId);
+        localStorage.setItem('userId', user.userId.toString());
+        setUserRole(user.userRole);
+        localStorage.setItem('userRole', user.userRole);
+        updateUsername(user.username);
+        updateAvatar(user.avatar);
     }
 
     const updateUsername = (username: string) => {
@@ -82,7 +86,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     };
 
     const logoutUser = () => {
-        setUser(-1, '', '', '')
+        const user = {userId: -1, username: '', userRole: '', avatar: ''}
+        setUser(user)
     }
 
     const isLogged = (): boolean => {
@@ -142,7 +147,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             const userData = JSON.parse(event.data);
             console.log('Данные пришли');
             console.log(userData);
-            setUser(userData.UserId, userData.Role, userData.Username, userData.Avatar);
+            const user = {
+                userId: userData.UserId,
+                username: userData.Username,
+                userRole: userData.UserRole,
+                avatar: userData.Avatar
+            }
+            setUser(user);
 
             //Отправляем данные о соединении на сервер
             sendConnectionData();
