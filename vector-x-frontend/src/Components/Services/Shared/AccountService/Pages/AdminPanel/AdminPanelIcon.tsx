@@ -1,5 +1,5 @@
 interface RegisterIcoProps {
-    style?: React.CSSProperties; // Добавляем проп для стилей
+    style?: React.CSSProperties;
 }
 
 const AdminPanelIcon: React.FC<RegisterIcoProps> = ({ style }) => {
@@ -9,7 +9,7 @@ const AdminPanelIcon: React.FC<RegisterIcoProps> = ({ style }) => {
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 512 512"
 			style={{
-				...style, // Применяем переданные стили
+				...style,
 			}}
 		>
 			<g>

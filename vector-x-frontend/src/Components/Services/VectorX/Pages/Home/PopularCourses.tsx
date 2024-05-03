@@ -152,7 +152,10 @@ const PopularCourses: React.FC = () => {
                                     height: '24rem',
                                 }}
                             >
-                                <img src={course.imageUrl}
+                                <img 
+                                    src={course.imageUrl}
+                                    alt={course.courseName}
+                                    title={course.courseName}
                                     style={{
                                         maxWidth: '100%',
                                         maxHeight: '12rem',
