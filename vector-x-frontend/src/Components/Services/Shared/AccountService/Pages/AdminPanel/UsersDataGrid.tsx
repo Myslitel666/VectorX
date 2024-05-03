@@ -1,11 +1,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
+import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import AxeIcon from './AxeIcon';
+import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
 import {
   GridRowsProp,
   GridRowModesModel,
@@ -95,6 +97,7 @@ function EditToolbar(props: EditToolbarProps) {
 export default function FullFeaturedCrudGrid() {
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
+  const { iconColor, theme }: ColorModeContextProps = useColorMode();
 
   const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -172,39 +175,74 @@ export default function FullFeaturedCrudGrid() {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
         if (isInEditMode) {
-          return [
-            <GridActionsCellItem
-              icon={<SaveIcon />}
-              label="Save"
-              sx={{
-                color: 'primary.main',
-              }}
-              onClick={handleSaveClick(id)}
-            />,
-            <GridActionsCellItem
-              icon={<CancelIcon />}
-              label="Cancel"
-              className="textPrimary"
-              onClick={handleCancelClick(id)}
-              color="inherit"
-            />,
-          ];
+            return [
+                <Tooltip title = 'Save' arrow>
+                    <GridActionsCellItem
+                        icon={
+                            <SaveIcon 
+                                sx = {{
+                                    color: 'primary.main',
+                                    transition: 'color 1s ease',
+                                    fontSize: '1.66rem'
+                                }}
+                            />
+                        }
+                        label="Save"
+                        onClick={handleSaveClick(id)}
+                    />
+                </Tooltip>,
+                <Tooltip title = 'Cancel' arrow>
+                    <GridActionsCellItem
+                    icon={
+                        <CancelIcon 
+                            sx = {{
+                                fontSize: '1.66rem',
+                                color: iconColor,
+                            }}
+                        />
+                    }
+                    label="Cancel"
+                    className="textPrimary"
+                    onClick={handleCancelClick(id)}
+                />
+                </Tooltip>
+            ];
         }
 
         return [
-          <GridActionsCellItem
-            icon={<EditIcon />}
-            label="Edit"
-            className="textPrimary"
-            onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
-            color="inherit"
-          />,
+            <Tooltip title = 'Edit' arrow>
+                <GridActionsCellItem
+                    icon={
+                        <EditIcon 
+                            sx = {{
+                                fontSize: '1.5rem',
+                                color: iconColor
+                            }}
+                        />
+                    }
+                    label="Edit"
+                    className="textPrimary"
+                    onClick={handleEditClick(id)}
+                    color="inherit"
+                />
+            </Tooltip>,
+            <Tooltip title = 'Block' arrow>
+                <GridActionsCellItem
+                    icon={
+                        <AxeIcon 
+                            style = {{
+                                width: '2rem',
+                                height: '2rem',
+                                fill: theme.palette.primary.main,
+                                transition: 'fill 1s ease'
+                            }}
+                        />}
+                    label="Delete"
+                    onClick={handleDeleteClick(id)}
+                    color="inherit"
+                />
+            </Tooltip>
+          
         ];
       },
     },
@@ -213,7 +251,7 @@ export default function FullFeaturedCrudGrid() {
   return (
     <Box
       sx={{
-        height: 500,
+        height: 438,
         width: '100%',
         '& .actions': {
           color: 'text.secondary',
@@ -223,21 +261,21 @@ export default function FullFeaturedCrudGrid() {
         },
       }}
     >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
-        processRowUpdate={processRowUpdate}
-        slots={{
-          toolbar: EditToolbar as GridSlots['toolbar'],
-        }}
-        slotProps={{
-          toolbar: { setRows, setRowModesModel },
-        }}
-      />
+        <DataGrid
+            rows={rows}
+            columns={columns}
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={handleRowModesModelChange}
+            onRowEditStop={handleRowEditStop}
+            processRowUpdate={processRowUpdate}
+            slots={{
+            toolbar: EditToolbar as GridSlots['toolbar'],
+            }}
+            slotProps={{
+            toolbar: { setRows, setRowModesModel },
+            }}
+        />
     </Box>
   );
 }

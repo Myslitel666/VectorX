@@ -11,7 +11,7 @@ export const useColorLabel = (initialLabel: string) => {
         } else if (themeMode === 'light' && label === 'green') {
             return '#5bb056';
         } else if (themeMode === 'dark' && label === 'red') {
-            return '#cc0000';
+            return '#E10000';
         } else if (themeMode === 'light' && label === 'red') {
             return '#d84040';
         } else if (themeMode === 'dark' && label === 'purple') {
@@ -44,7 +44,7 @@ export const useColorLabel = (initialLabel: string) => {
     const getLabelFromColor = (): string => {
         if (primaryColor === '#2ef824' || primaryColor === '#5bb056') {
             return 'green';
-        } else if (primaryColor === '#cc0000' || primaryColor === '#d84040') {
+        } else if (primaryColor === '#E10000' || primaryColor === '#d84040') {
             return 'red';
         } else if (primaryColor === '#e03def' || primaryColor === '#9f59a5') {
             return 'purple';

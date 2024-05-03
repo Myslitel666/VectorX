@@ -8,7 +8,7 @@ import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeC
 interface IconProps {
     sx?: React.CSSProperties | {
         [key: string]: React.CSSProperties | undefined;
-    }; // Либо CSS-правила, либо media-теги
+    }; // РїРµСЂРµРґР°С‡Р° CSS-СЃС‚РёР»РµР№ Рё media-С‚РµРіРѕРІ
 }
 
 const CustomizationIcon: React.FC<IconProps> = ({ sx = { fontSize: '1.9rem' } }) => {
