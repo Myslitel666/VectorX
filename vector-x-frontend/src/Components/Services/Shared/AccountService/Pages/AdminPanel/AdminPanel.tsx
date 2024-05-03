@@ -51,6 +51,19 @@ const AdminPanel: React.FC = () => {
         connectWebSocket();
     };
 
+    const rows = [
+        { id: 1, name: 'John Doe', age: 30 },
+        { id: 2, name: 'Jane Smith', age: 25 },
+        // Другие строки
+      ];
+      
+      const columns = [
+        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'name', headerName: 'Name', width: 130 },
+        { field: 'age', headerName: 'Age', width: 90 },
+        // Другие столбцы
+      ];
+
     useEffect(() => {
         if (user.userRole !== 'admin') {
             navigate('/profile');
@@ -87,7 +100,7 @@ const AdminPanel: React.FC = () => {
                         bgcolor="primary.main"
                         sx={{ transition: 'background-color 1s ease',
                             marginRight: '0.66rem'
-                         }}
+                        }}
                     >
                         <AdminPanelIcon
                         style = {{
@@ -109,7 +122,8 @@ const AdminPanel: React.FC = () => {
                 <Box 
                     display='flex'
                     sx = {{
-                        marginTop: '2rem'
+                        marginTop: '2rem',
+                        marginBottom: '1rem'
                     }}
                 >
                     <TextField
@@ -119,24 +133,29 @@ const AdminPanel: React.FC = () => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         fullWidth
-                        sx = {{
-                            marginLeft: '1rem',
-                            marginRight: '1rem'
-                        }}
                     />
                     <Button 
-                        //variant="contained" 
                         sx = {{
                             fontSize: '2rem',
                             width: '8.5rem',
                             height: '2.5rem',
-                            marginRight: '1rem',
                             transition: 'color 1s ease'
                         }}
                     >
                         Filter
                     </Button>
                 </Box>
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    getRowHeight={() => 'auto'}
+                    sx={{
+                        //Стиль, который добавляет отступ для верхнего и нижнего края в строке таблицы
+                        '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
+                            py: '15px',
+                        },
+                    }}
+                />
                 <Box 
                     display='none' // В любой момент можно отобразить строку для быстрого ввода id'шников в целях тестирования Web Socket Manager'а
                     sx = {{
