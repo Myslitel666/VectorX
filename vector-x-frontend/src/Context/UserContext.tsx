@@ -42,10 +42,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const storedAvatar = localStorage.getItem('avatar');
     const [avatar, setAvatar] = useState(storedAvatar ? storedAvatar : '');
 
-    const [browserId, setBrowserId] = useState(getBrowserId());
-
     const [socket, setSocket] = useState<WebSocket | null>(null);
     const wsUrl = process.env.REACT_APP_WS_URL as string;
+
+    const [isBlocked, setIsBlocked] = useState(false);
+    const [browserId, setBrowserId] = useState(getBrowserId());
 
     const getUser = (): User => {
         return {
@@ -53,18 +54,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             userRole: userRole,
             username: username,
             avatar: avatar,
-            browserId: browserId
+            browserId: browserId,
+            isBlocked: isBlocked,
         };
     };
-
-    //const setUser = (userId: number, userRole: string, username: string, avatar: string) => {
-    //    setUserId(userId);
-    //    localStorage.setItem('userId', userId.toString());
-    //    setUserRole(userRole);
-    //    localStorage.setItem('userRole', userRole);
-    //    updateUsername(username);
-    //    updateAvatar(avatar);
-    //}
 
     const setUser = (user: User) => {
         setUserId(user.userId);
@@ -73,6 +66,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem('userRole', user.userRole);
         updateUsername(user.username);
         updateAvatar(user.avatar);
+        setIsBlocked(user.isBlocked);
     }
 
     const updateUsername = (username: string) => {
@@ -86,7 +80,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     };
 
     const logoutUser = () => {
-        const user = {userId: -1, username: '', userRole: '', avatar: ''}
+        const user = {userId: -1, username: '', userRole: '', avatar: '', isBlocked: false}
         setUser(user)
     }
 
@@ -151,7 +145,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                 userId: userData.UserId,
                 username: userData.Username,
                 userRole: userData.UserRole,
-                avatar: userData.Avatar
+                avatar: userData.Avatar,
+                isBlocked: userData.IsBlocked
             }
             setUser(user);
 

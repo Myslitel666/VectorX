@@ -64,7 +64,8 @@ const Registration: React.FC = () => {
                     userId: data.user.userId,
                     username: data.user.username,
                     userRole: data.user.userRole,
-                    avatar: ''
+                    avatar: '',
+                    isBlocked: false
                 }
                 setUser(user);
             }, 500);

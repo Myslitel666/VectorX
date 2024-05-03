@@ -45,6 +45,16 @@ namespace VectorXBackend.Services
                     };
                     return response;
                 }
+                //Если пользователь был заблокирован
+                else if (existingUser.IsBlocked == true)
+                {
+                    var response = new AuthResponseDto()
+                    {
+                        IsError = true,
+                        FeedbackMessage = "✗The user was blocked"
+                    };
+                    return response;
+                }
                 else
                 {
                     try
@@ -59,6 +69,7 @@ namespace VectorXBackend.Services
                             UserRole = role.RoleName,
                             Username = existingUser.Username,
                             Avatar = existingUser.Avatar,
+                            IsBlocked = existingUser.IsBlocked,
                         };
 
                         var response = new AuthResponseDto()
@@ -228,7 +239,7 @@ namespace VectorXBackend.Services
                 }
                 else
                 {
-                    try 
+                    try
                     {
                         await _userRepository.RedactUserData(usernameRedactDto);
 

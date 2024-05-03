@@ -103,7 +103,8 @@ const Auth: React.FC = () => {
                     userId: data.user.userId,
                     username: data.user.username,
                     userRole: data.user.userRole,
-                    avatar: data.user.avatar
+                    avatar: data.user.avatar,
+                    isBlocked: data.user.isBlocked
                 }
                 setUser(user);
             }, 500);

@@ -4,4 +4,5 @@ export interface User {
     userRole: string;
     avatar: string;
     browserId?: string;
+    isBlocked: boolean;
 }
