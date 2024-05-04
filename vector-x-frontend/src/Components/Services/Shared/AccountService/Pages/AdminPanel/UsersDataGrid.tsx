@@ -2,6 +2,7 @@
 import * as React from 'react';
 
 //MUI Import
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
@@ -22,6 +23,14 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 
+const avatars = [
+  '/images/testCourses/c++.png',
+  '/images/testCourses/chess.png',
+  '/images/testCourses/desmos.png',
+  '/images/testCourses/python.png',
+  '/images/testCourses/csharp.png',
+];
+
 const roles = ['learner', 'master', 'admin'];
 const randomRole = () => {
   return roles[0];
@@ -30,35 +39,35 @@ const randomRole = () => {
 const initialRows: GridRowsProp = [
   {
     id: 0,
-    name: 'John',
+    username: 'John',
     age: 25,
     joinDate: '25.12.2022',
     role: randomRole(),
   },
   {
     id: 1,
-    name: 'Dark',
+    username: 'Dark',
     age: 36,
     joinDate: '25.12.2022',
     role: randomRole(),
   },
   {
     id: 2,
-    name: 'Byte',
+    username: 'Byte',
     age: 19,
     joinDate: '25.12.2022',
     role: randomRole(),
   },
   {
     id: 3,
-    name: 'Frog',
+    username: 'Frog',
     age: 28,
     joinDate: '25.12.2022',
     role: randomRole(),
   },
   {
     id: 4,
-    name: 'Stack',
+    username: 'Stack',
     age: 23,
     joinDate: '25.12.2022',
     role: randomRole(),
@@ -107,7 +116,25 @@ export default function UsersDataGrid() {
   };
 
   const columns: GridColDef[] = [
-    { field: 'name', headerName: 'Name', width: 180, editable: true },
+    {
+      field: 'avatar',
+      headerName: 'Avatar',
+      width: 80,
+      editable: false,
+      renderCell: (params) => (
+        <Box sx = {{
+          display: 'flex',
+          alignItems: 'center',
+          height: '100%',
+        }}>
+          <Avatar 
+            alt={params.row.username} 
+            src={avatars[params.row.id]}
+        />
+        </Box>
+      ),
+    },
+    { field: 'username', headerName: 'Username', width: 180, editable: true },
     {
       field: 'age',
       headerName: 'Age',
@@ -130,7 +157,7 @@ export default function UsersDataGrid() {
       width: 220,
       editable: true,
       type: 'singleSelect',
-      valueOptions: ['Market', 'Finance', 'Development'],
+      valueOptions: ['learner', 'master', 'admin'],
     },
     {
       field: 'actions',
