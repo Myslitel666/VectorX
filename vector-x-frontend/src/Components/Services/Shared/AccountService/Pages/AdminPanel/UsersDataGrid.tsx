@@ -23,12 +23,45 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 
-const avatars = [
-  '/images/testCourses/c++.png',
-  '/images/testCourses/chess.png',
-  '/images/testCourses/desmos.png',
-  '/images/testCourses/python.png',
-  '/images/testCourses/csharp.png',
+//Interfaces Import
+import { User } from '../../Interfaces/Interfaces';
+
+const users: User[] = [
+  {
+    userId: 0,
+    username: 'John',
+    userRole: 'learner',
+    avatar: '/images/testCourses/c++.png',
+    isBlocked: false,
+  },
+  {
+    userId: 1,
+    username: 'Dark',
+    userRole: 'master',
+    avatar: '/images/testCourses/chess.png',
+    isBlocked: false,
+  },
+  {
+    userId: 2,
+    username: 'Byte',
+    userRole: 'admin',
+    avatar: '/images/testCourses/desmos.png',
+    isBlocked: false,
+  },
+  {
+    userId: 3,
+    username: 'Frog',
+    userRole: 'learner',
+    avatar: '/images/testCourses/python.png',
+    isBlocked: true,
+  },
+  {
+    userId: 4,
+    username: 'Stack',
+    userRole: 'master',
+    avatar: '/images/testCourses/csharp.png',
+    isBlocked: false,
+  },
 ];
 
 const roles = ['learner', 'master', 'admin'];
@@ -36,33 +69,7 @@ const randomRole = () => {
   return roles[0];
 };
 
-const initialRows: GridRowsProp = [
-  {
-    id: 0,
-    username: 'John',
-    role: randomRole(),
-  },
-  {
-    id: 1,
-    username: 'Dark',
-    role: randomRole(),
-  },
-  {
-    id: 2,
-    username: 'Byte',
-    role: randomRole(),
-  },
-  {
-    id: 3,
-    username: 'Frog',
-    role: randomRole(),
-  },
-  {
-    id: 4,
-    username: 'Stack',
-    role: randomRole(),
-  },
-];
+const initialRows = users;
 
 export default function UsersDataGrid() {
   const [rows, setRows] = React.useState(initialRows);
@@ -75,30 +82,24 @@ export default function UsersDataGrid() {
     }
   };
 
-  const handleEditClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+  const handleEditClick = (userId: number) => () => {
+    setRowModesModel({ ...rowModesModel, [userId]: { mode: GridRowModes.Edit } });
+  };
+  
+  const handleSaveClick = (userId: number) => () => {
+    setRowModesModel({ ...rowModesModel, [userId]: { mode: GridRowModes.View } });
   };
 
-  const handleSaveClick = (id: GridRowId) => () => {
-    setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleCancelClick = (id: GridRowId) => () => {
+  const handleCancelClick = (userId: number) => () => {
     setRowModesModel({
       ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      [userId]: { mode: GridRowModes.View, ignoreModifications: true },
     });
-
-    const editedRow = rows.find((row) => row.id === id);
-    if (editedRow!.isNew) {
-      setRows(rows.filter((row) => row.id !== id));
-    }
   };
 
-  const processRowUpdate = (newRow: GridRowModel) => {
-    const updatedRow = { ...newRow, isNew: false };
-    setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-    return updatedRow;
+  const processRowUpdate = (newRow: User) => {
+    setRows(rows.map((row) => (row.userId === newRow.userId ? newRow : row)));
+    return newRow;
   };
 
   const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
@@ -119,8 +120,8 @@ export default function UsersDataGrid() {
         }}>
           <Avatar 
             alt={params.row.username} 
-            src={avatars[params.row.id]}
-        />
+            src={params.row.avatar} 
+          />
         </Box>
       ),
       headerAlign: 'center',
@@ -131,9 +132,10 @@ export default function UsersDataGrid() {
       width: 250, 
       editable: true,
       headerAlign: 'center',
+      cellClassName: 'wrap-cell',
     },
     {
-      field: 'role',
+      field: 'userRole',
       headerName: 'Role',
       width: 135,
       editable: true,
@@ -148,8 +150,9 @@ export default function UsersDataGrid() {
       width: 100,
       cellClassName: 'actions',
       headerAlign: 'center',
-      getActions: ({ id }) => {
-        const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+      getActions: ({ row }) => {
+        const userId = row.userId;
+        const isInEditMode = rowModesModel[userId]?.mode === GridRowModes.Edit;
 
         if (isInEditMode) {
             return [
@@ -165,7 +168,7 @@ export default function UsersDataGrid() {
                             />
                         }
                         label="Save"
-                        onClick={handleSaveClick(id)}
+                        onClick={handleSaveClick(userId)}
                     />
                 </Tooltip>,
                 <Tooltip title = 'Cancel' arrow>
@@ -180,45 +183,44 @@ export default function UsersDataGrid() {
                     }
                     label="Cancel"
                     className="textPrimary"
-                    onClick={handleCancelClick(id)}
+                    onClick={handleCancelClick(userId)}
                 />
                 </Tooltip>
             ];
         }
 
         return [
-            <Tooltip title = 'Edit' arrow>
-                <GridActionsCellItem
-                    icon={
-                        <EditIcon 
-                            sx = {{
-                                fontSize: '1.5rem',
-                                color: iconColor
-                            }}
-                        />
-                    }
-                    label="Edit"
-                    className="textPrimary"
-                    onClick={handleEditClick(id)}
-                    color="inherit"
-                />
-            </Tooltip>,
-            <Tooltip title = 'Block' arrow>
-                <GridActionsCellItem
-                    icon={
-                        <AxeIcon 
-                            style = {{
-                                width: '2rem',
-                                height: '2rem',
-                                fill: theme.palette.primary.main,
-                                transition: 'fill 1s ease'
-                            }}
-                        />}
-                    label="Delete"
-                    color="inherit"
-                />
-            </Tooltip>
-          
+          <Tooltip title = 'Edit' arrow>
+              <GridActionsCellItem
+                  icon={
+                      <EditIcon 
+                          sx = {{
+                              fontSize: '1.5rem',
+                              color: iconColor
+                          }}
+                      />
+                  }
+                  label="Edit"
+                  className="textPrimary"
+                  onClick={handleEditClick(userId)}
+                  color="inherit"
+              />
+          </Tooltip>,
+          <Tooltip title = 'Block' arrow>
+              <GridActionsCellItem
+                  icon={
+                      <AxeIcon 
+                          style = {{
+                              width: '2rem',
+                              height: '2rem',
+                              fill: theme.palette.primary.main,
+                              transition: 'fill 1s ease'
+                          }}
+                      />}
+                  label="Delete"
+                  color="inherit"
+              />
+          </Tooltip>
         ];
       },
     },
@@ -249,12 +251,16 @@ export default function UsersDataGrid() {
             slotProps={{
               toolbar: { setRows, setRowModesModel },
             }}
+            getRowId={(row) => row.userId}
             sx={{
               '& .MuiDataGrid-cell': {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-              }
+              },
+              '& .MuiInputBase-input': {
+                textAlign: 'center',
+              },
             }}
         />
     </Box>
