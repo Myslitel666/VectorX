@@ -65,7 +65,10 @@ const AdminPanel: React.FC = () => {
                     margin: 'auto',
                     marginTop: '6rem',
                     alignItems: 'center',
-                    width: '63%',
+                    width: '35rem',
+                    '@media screen and (max-width: 575px)': {
+                        width: '26rem',
+                    },
                 }}
             >
                 <Box 

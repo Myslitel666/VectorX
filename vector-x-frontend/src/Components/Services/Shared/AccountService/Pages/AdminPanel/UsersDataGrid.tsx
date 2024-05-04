@@ -40,36 +40,26 @@ const initialRows: GridRowsProp = [
   {
     id: 0,
     username: 'John',
-    age: 25,
-    joinDate: '25.12.2022',
     role: randomRole(),
   },
   {
     id: 1,
     username: 'Dark',
-    age: 36,
-    joinDate: '25.12.2022',
     role: randomRole(),
   },
   {
     id: 2,
     username: 'Byte',
-    age: 19,
-    joinDate: '25.12.2022',
     role: randomRole(),
   },
   {
     id: 3,
     username: 'Frog',
-    age: 28,
-    joinDate: '25.12.2022',
     role: randomRole(),
   },
   {
     id: 4,
     username: 'Stack',
-    age: 23,
-    joinDate: '25.12.2022',
     role: randomRole(),
   },
 ];
@@ -119,7 +109,7 @@ export default function UsersDataGrid() {
     {
       field: 'avatar',
       headerName: 'Avatar',
-      width: 80,
+      width: 70,
       editable: false,
       renderCell: (params) => (
         <Box sx = {{
@@ -133,31 +123,23 @@ export default function UsersDataGrid() {
         />
         </Box>
       ),
+      headerAlign: 'center',
     },
-    { field: 'username', headerName: 'Username', width: 180, editable: true },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: 'number',
-      width: 80,
-      align: 'left',
-      headerAlign: 'left',
+    { 
+      field: 'username', 
+      headerName: 'Username', 
+      width: 250, 
       editable: true,
-    },
-    {
-      field: 'joinDate',
-      headerName: 'Join date',
-      type: 'string',
-      width: 180,
-      editable: true,
+      headerAlign: 'center',
     },
     {
       field: 'role',
-      headerName: 'Department',
-      width: 220,
+      headerName: 'Role',
+      width: 135,
       editable: true,
       type: 'singleSelect',
       valueOptions: ['learner', 'master', 'admin'],
+      headerAlign: 'center',
     },
     {
       field: 'actions',
@@ -165,6 +147,7 @@ export default function UsersDataGrid() {
       headerName: 'Actions',
       width: 100,
       cellClassName: 'actions',
+      headerAlign: 'center',
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
@@ -264,7 +247,14 @@ export default function UsersDataGrid() {
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}
             slotProps={{
-            toolbar: { setRows, setRowModesModel },
+              toolbar: { setRows, setRowModesModel },
+            }}
+            sx={{
+              '& .MuiDataGrid-cell': {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }
             }}
         />
     </Box>
