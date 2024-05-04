@@ -1,8 +1,9 @@
+//React Import
 import * as React from 'react';
+
+//MUI Import
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
@@ -14,18 +15,16 @@ import {
   GridRowModes,
   DataGrid,
   GridColDef,
-  GridToolbarContainer,
   GridActionsCellItem,
   GridEventListener,
   GridRowId,
   GridRowModel,
   GridRowEditStopReasons,
-  GridSlots,
 } from '@mui/x-data-grid';
 
-const roles = ['Market', 'Finance', 'Development'];
+const roles = ['learner', 'master', 'admin'];
 const randomRole = () => {
-  return 2;
+  return roles[0];
 };
 
 const initialRows: GridRowsProp = [
@@ -66,35 +65,7 @@ const initialRows: GridRowsProp = [
   },
 ];
 
-interface EditToolbarProps {
-  setRows: (newRows: (oldRows: GridRowsProp) => GridRowsProp) => void;
-  setRowModesModel: (
-    newModel: (oldModel: GridRowModesModel) => GridRowModesModel,
-  ) => void;
-}
-
-function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel } = props;
-
-  const handleClick = () => {
-    const id = 0;
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
-    setRowModesModel((oldModel) => ({
-      ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-    }));
-  };
-
-  return (
-    <GridToolbarContainer>
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
-    </GridToolbarContainer>
-  );
-}
-
-export default function FullFeaturedCrudGrid() {
+export default function UsersDataGrid() {
   const [rows, setRows] = React.useState(initialRows);
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
   const { iconColor, theme }: ColorModeContextProps = useColorMode();
@@ -111,10 +82,6 @@ export default function FullFeaturedCrudGrid() {
 
   const handleSaveClick = (id: GridRowId) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
-  };
-
-  const handleDeleteClick = (id: GridRowId) => () => {
-    setRows(rows.filter((row) => row.id !== id));
   };
 
   const handleCancelClick = (id: GridRowId) => () => {
@@ -238,7 +205,6 @@ export default function FullFeaturedCrudGrid() {
                             }}
                         />}
                     label="Delete"
-                    onClick={handleDeleteClick(id)}
                     color="inherit"
                 />
             </Tooltip>
@@ -251,7 +217,7 @@ export default function FullFeaturedCrudGrid() {
   return (
     <Box
       sx={{
-        height: 438,
+        height: 431,
         width: '100%',
         '& .actions': {
           color: 'text.secondary',
@@ -264,14 +230,12 @@ export default function FullFeaturedCrudGrid() {
         <DataGrid
             rows={rows}
             columns={columns}
+            rowHeight={64}
             editMode="row"
             rowModesModel={rowModesModel}
             onRowModesModelChange={handleRowModesModelChange}
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}
-            slots={{
-            toolbar: EditToolbar as GridSlots['toolbar'],
-            }}
             slotProps={{
             toolbar: { setRows, setRowModesModel },
             }}

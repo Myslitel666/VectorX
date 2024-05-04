@@ -154,7 +154,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                                         updatedBoxStates[index] = { lastClickedTime: null, errorMessage: '' };
                                         return updatedBoxStates;
                                     });
-                                }, 1000);
+                                }, 1750);
                             }
                             else {
                                 setUser(user);
