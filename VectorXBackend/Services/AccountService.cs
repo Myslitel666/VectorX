@@ -431,7 +431,7 @@ namespace VectorXBackend.Services
             var potentalUser = await _userRepository.GetUserByUsername(updateUserDataDto.DesiredUsername);
 
             //Если пользователь с данным username уже существует
-            if (potentalUser != null)
+            if ((potentalUser != null) && (potentalUser.UserId != updateUserDataDto.UserId))
             {
                 var response = new UserDataRedactDto()
                 {
@@ -454,7 +454,7 @@ namespace VectorXBackend.Services
                         var response = new UserDataRedactDto()
                         {
                             IsError = false,
-                            FeedbackMessage = $"{updateUserDataDto.DesiredUsername} ✓user data has been successfully modified"
+                            FeedbackMessage = $"✓{updateUserDataDto.DesiredUsername} user data has been successfully modified"
                         };
                         return response;
                     }
@@ -480,5 +480,4 @@ namespace VectorXBackend.Services
             }
         }
     }
-}
 }

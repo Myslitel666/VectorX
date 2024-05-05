@@ -13,7 +13,6 @@ import CancelIcon from '@mui/icons-material/Close';
 import AxeIcon from './AxeIcon';
 import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
 import {
-    GridRowsProp,
     GridRowModesModel,
     GridRowModes,
     DataGrid,
@@ -21,7 +20,6 @@ import {
     GridActionsCellItem,
     GridEventListener,
     GridRowId,
-    GridRowModel,
     GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 
@@ -37,7 +35,7 @@ import { setUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Ac
 import { User } from '../../Interfaces/Interfaces';
 
 //fetch import
-import { getUsers } from './fetch/adminPanelFetch';
+import { getUsers, updateUser } from './fetch/adminPanelFetch';
 
 //Utils Import
 import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
@@ -232,8 +230,18 @@ export default function UsersDataGrid() {
     useEffect(() => {
         if (editedRowId) {
             const editedRow = rows.find(row => row.userId === editedRowId);
-            updateFeedbackMessage(`✓${editedRow?.username} user data has been successfully modified`, false)
-            console.log('Edited Row:', editedRow); //Эту строку таблицы будем отправлять в базу
+            
+            const editingUser = {
+                userId: editedRow?.userId,
+                desiredUsername: editedRow?.username,
+                desiredUserRole: editedRow?.userRole
+            };
+            const data = updateUser(editingUser);
+
+            updateUser(editingUser)
+                .then(data => {
+                    updateFeedbackMessage(data.feedbackMessage, data.isError);
+                });
         }
     }, [rows]); //Отслеживаем изменения строк таблицы
 
