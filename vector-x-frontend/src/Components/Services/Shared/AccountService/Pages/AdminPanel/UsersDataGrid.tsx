@@ -56,6 +56,7 @@ export default function UsersDataGrid() {
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
 
     const [editedRowId, setEditedRowId] = React.useState<GridRowId | null>(null);
+    const [backupRowUserData, setBackupRowUserData] = React.useState<{ username: string, userRole: string } | null>(null);
     const [feedbackMessage, setFeedbackMessage] = React.useState('');
     const [isError, setIsError] = React.useState(false);
 
@@ -70,6 +71,8 @@ export default function UsersDataGrid() {
         }
         else if (params.reason === GridRowEditStopReasons.enterKeyDown) {
             setEditedRowId(params.id); //Сохраняем Id изменённой строки, чтобы отправить запрос в базу, когда изменения отобразятся в таблице
+            const backupRow = { username: params.row.username, userRole: params.row.userRole }
+            setBackupRowUserData(backupRow) //Сохраняем состояние строки на случай, если запрашиваемые изменения не корректны
         }
     };
 
@@ -229,6 +232,7 @@ export default function UsersDataGrid() {
 
     useEffect(() => {
         if (editedRowId) {
+            const editedRowIndex = rows.findIndex(row => row.userId === editedRowId);
             const editedRow = rows.find(row => row.userId === editedRowId);
             
             const editingUser = {
@@ -241,8 +245,24 @@ export default function UsersDataGrid() {
             updateUser(editingUser)
                 .then(data => {
                     updateFeedbackMessage(data.feedbackMessage, data.isError);
+
+                    if (data.isError) {
+                        const updatedRows = [...rows];
+                        updatedRows[editedRowIndex] = {
+                            ...updatedRows[editedRowIndex],
+                            username: backupRowUserData?.username || '',
+                            userRole: backupRowUserData?.userRole || ''
+                        };
+                        setRows(updatedRows);
+                    }
+                    else {
+                        //Сохраняем резервную корпию строки, чтобы откатить изменения, если следующий запрос окажется неудачным
+                        setBackupRowUserData({username: editedRow?.username || '', userRole: editedRow?.userRole || ''})
+                    }
                 });
         }
+
+        setEditedRowId(null);
     }, [rows]); //Отслеживаем изменения строк таблицы
 
     useEffect(() => {
@@ -270,8 +290,6 @@ export default function UsersDataGrid() {
                 sx={{
                     position: 'absolute',
                     top: '11rem',
-                    //left: '0.5rem',
-                    //textAlign: 'left',
                     color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
                 }}
             >
