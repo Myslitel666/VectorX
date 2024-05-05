@@ -97,8 +97,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             UserId: userId,
             BrowserId: browserId,
         }
-        console.log('userConnectionInfo');
-        console.log(userConnectionInfo);
         const jsonData = JSON.stringify(userConnectionInfo);
         if (socket) {
             socket.send(jsonData);

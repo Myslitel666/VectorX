@@ -18,7 +18,7 @@ import AdminPanelIcon from './AdminPanelIcon';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 
 //fetch import
-import {connectWebSocket} from './fetch/getUsers'
+import {connectWebSocket} from './fetch/adminPanelFetch'
 
 const AdminPanel: React.FC = () => {
     //Элементы для навигации

@@ -33,7 +33,7 @@ import { setUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Ac
 import { User } from '../../Interfaces/Interfaces';
 
 //fetch import
-import { getUsers } from './fetch/getUsers';
+import { getUsers } from './fetch/adminPanelFetch';
 
 //Utils Import
 import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
@@ -50,9 +50,14 @@ export default function UsersDataGrid() {
     const { themeMode, defaultAvatars }: ColorModeContextProps = useColorMode();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
 
+    const [editedRowId, setEditedRowId] = React.useState<GridRowId | null>(null);
+
     const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
             event.defaultMuiPrevented = true;
+        }
+        else if (params.reason === GridRowEditStopReasons.enterKeyDown) {
+            setEditedRowId(params.id); //Сохраняем Id изменённой строки, чтобы отправить запрос в базу, когда изменения отобразятся в таблице
         }
     };
 
@@ -62,6 +67,7 @@ export default function UsersDataGrid() {
 
     const handleSaveClick = (userId: number) => () => {
         setRowModesModel({ ...rowModesModel, [userId]: { mode: GridRowModes.View } });
+        setEditedRowId(userId); //Сохраняем Id изменённой строки, чтобы отправить запрос в базу, когда изменения отобразятся в таблице
     };
 
     const handleCancelClick = (userId: number) => () => {
@@ -200,9 +206,15 @@ export default function UsersDataGrid() {
     },];
 
     useEffect(() => {
+        if (editedRowId) {
+            const editedRow = rows.find(row => row.userId === editedRowId);
+            console.log('Edited Row:', editedRow); //Эту строку таблицы будем отправлять в базу
+        }
+    }, [rows]); //Отслеживаем изменения строк таблицы
+
+    useEffect(() => {
         getUsers()
             .then(u => {
-                console.log(u);
                 dispatch(setUsers(u));
                 setRows(u);
             });
