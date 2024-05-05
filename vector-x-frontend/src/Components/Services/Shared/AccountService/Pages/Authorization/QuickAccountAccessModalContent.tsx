@@ -90,12 +90,6 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
         }
     };
 
-    //Снимаем наведении мыши, если Box был удалён
-    useEffect(() => {
-        setIsHoveredBox(Array(users.length).fill(false));
-        setIsHoveredClear(false);
-    }, [users])
-
     // Создаем массив состояний для каждого Box'а
     const [isHoveredBox, setIsHoveredBox] = useState(Array(users.length).fill(false));
     const [isHoveredClear, setIsHoveredClear] = useState(false);
