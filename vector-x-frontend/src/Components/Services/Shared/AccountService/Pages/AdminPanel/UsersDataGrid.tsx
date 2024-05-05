@@ -35,7 +35,7 @@ import { setUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Ac
 import { User } from '../../Interfaces/Interfaces';
 
 //fetch import
-import { getUsers, updateUser } from './fetch/adminPanelFetch';
+import { getUsers, updateUser, connectWebSocket } from './fetch/adminPanelFetch';
 
 //Utils Import
 import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
@@ -258,6 +258,8 @@ export default function UsersDataGrid() {
                     else {
                         //Сохраняем резервную корпию строки, чтобы откатить изменения, если следующий запрос окажется неудачным
                         setBackupRowUserData({username: editedRow?.username || '', userRole: editedRow?.userRole || ''})
+                        //Отправляем пользователю новые данные через Web Socket во все активные сессии
+                        connectWebSocket(editedRowId.toString());
                     }
                 });
         }
