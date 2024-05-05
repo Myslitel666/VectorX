@@ -6,6 +6,7 @@ import {useEffect} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
@@ -24,6 +25,9 @@ import {
     GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 
+//MyComponents Import
+import { useColorLabel } from '../../../../../../Context/UseColorLabel';
+
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
@@ -39,6 +43,9 @@ import { getUsers } from './fetch/adminPanelFetch';
 import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
 
 export default function UsersDataGrid() {
+    //Работа с контекстом цветов
+    const { getColorFromLabel } = useColorLabel('green');
+
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const users = useSelector((state: RootState) => state.users.users);
@@ -51,6 +58,13 @@ export default function UsersDataGrid() {
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
 
     const [editedRowId, setEditedRowId] = React.useState<GridRowId | null>(null);
+    const [feedbackMessage, setFeedbackMessage] = React.useState('');
+    const [isError, setIsError] = React.useState(false);
+
+    const updateFeedbackMessage = (message: string, isError: boolean) => {
+        setFeedbackMessage(message);
+        setIsError(isError);
+    }
 
     const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -206,8 +220,19 @@ export default function UsersDataGrid() {
     },];
 
     useEffect(() => {
+        // Выполнить переход после успешной регистрации
+        const timeoutId = setTimeout(() => {
+            updateFeedbackMessage('', true);
+        }, 3000);
+
+        // Очистить таймаут, чтобы избежать утечек при размонтировании компонента
+        return () => clearTimeout(timeoutId);
+    }, [feedbackMessage, isError]);
+
+    useEffect(() => {
         if (editedRowId) {
             const editedRow = rows.find(row => row.userId === editedRowId);
+            updateFeedbackMessage(`✓${editedRow?.username} user data has been successfully modified`, false)
             console.log('Edited Row:', editedRow); //Эту строку таблицы будем отправлять в базу
         }
     }, [rows]); //Отслеживаем изменения строк таблицы
@@ -233,6 +258,17 @@ export default function UsersDataGrid() {
                 },
             }}
         >
+            <Typography 
+                sx={{
+                    position: 'absolute',
+                    top: '11rem',
+                    //left: '0.5rem',
+                    //textAlign: 'left',
+                    color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
+                }}
+            >
+                {feedbackMessage}
+            </Typography>
             <DataGrid
                 rows={rows}
                 columns={columns}

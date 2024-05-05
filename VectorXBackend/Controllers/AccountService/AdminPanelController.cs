@@ -25,5 +25,10 @@ namespace VectorXBackend.Controllers.AccountService
             return Ok(usersDto);
         }
 
+        [HttpPost("redactUserData")]
+        public async Task<IActionResult> RedactUserData()
+        {
+
+        }
     }
 }
