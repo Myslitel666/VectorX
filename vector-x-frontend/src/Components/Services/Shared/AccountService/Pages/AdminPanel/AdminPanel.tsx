@@ -17,6 +17,9 @@ import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import AdminPanelIcon from './AdminPanelIcon';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 
+//fetch import
+import {connectWebSocket} from './fetch/getUsers'
+
 const AdminPanel: React.FC = () => {
     //Элементы для навигации
     const navigate = useNavigate();
@@ -34,19 +37,9 @@ const AdminPanel: React.FC = () => {
     // Состояние для хранения id пользователя
     const [userIds, setUserId] = useState('');
     const [username, setUsername] = useState('');
-    const wsUrl = process.env.REACT_APP_WS_URL as string;
-
-    const connectWebSocket = () => {
-        const url = `${wsUrl}/admin/update`;
-        const newSocket = new WebSocket(url);
-
-        newSocket.onopen = () => {
-            newSocket.send(userIds.toString());
-        };
-    };
 
     const handleButtonClick = () => {
-        connectWebSocket();
+        connectWebSocket(userIds);
     };
 
     useEffect(() => {
