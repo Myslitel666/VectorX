@@ -1,19 +1,26 @@
 //React Import
 import React, { useEffect } from 'react';
+
 //ImageUploading Import
 import ImageUploading, { ImageListType } from 'react-images-uploading';
+
 //MyComponent Import
 import { useUserContext } from '../../../../../../Context/UserContext'
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
 import MyButton from '../../../../../Common/User Interface/MyButton';
+
 //MUI Import
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMessage, resetMessage, updateUnlockSaveButton } from './Store/slices/messageSlice'; // Action Import
 import { RootState } from '../Profile/Store/store'; // Импорт типа RootState из файла store
+
+//Utils Import
+import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
 
 const MyImageUploading: React.FC = () => {
     const { themeMode, defaultAvatars }: ColorModeContextProps = useColorMode();
@@ -28,29 +35,10 @@ const MyImageUploading: React.FC = () => {
     const isError = useSelector((state: RootState) => state.message.isError); 
     const unlockSaveButton = useSelector((state: RootState) => state.message.unlockSaveButton); 
 
-    const addImagePrefix = (image: string) => {
-        const subString = 'data:image/png;base64,';
-
-        if (image.startsWith(subString)) {
-            return image;
-        }
-
-        return subString + image;
-    };
-
-    // В некоторых случаях в качестве изображения передаётся строка 'null'
-    const isNull = (image: string) => {
-        if (image === null || image === 'null' || image === '') {
-            return true;
-        }
-
-        return false;
-    };
-
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
         {
-            data_url: isNull(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)
+            data_url: isNullImage(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)
         }
     ]);
     // dark and light default avatars

@@ -51,7 +51,6 @@ const Profile: React.FC = () => {
     }
 
     const MyAccountTypography: React.FC = () => {
-
         return (
             <>
                 <MyTypography
@@ -70,7 +69,6 @@ const Profile: React.FC = () => {
     }
 
     const Avatar: React.FC = () => {
-
         return (
             <>
                 <Box 

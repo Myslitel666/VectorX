@@ -35,6 +35,9 @@ import { User } from '../../Interfaces/Interfaces';
 //fetch import
 import { getUsers } from './fetch/getUsers';
 
+//Utils Import
+import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
+
 export default function UsersDataGrid() {
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
@@ -43,6 +46,9 @@ export default function UsersDataGrid() {
     const [rows, setRows] = React.useState(users);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
     const { iconColor, theme }: ColorModeContextProps = useColorMode();
+
+    const { themeMode, defaultAvatars }: ColorModeContextProps = useColorMode();
+    let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
 
     const handleRowEditStop: GridEventListener<'rowEditStop'> = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -88,7 +94,7 @@ export default function UsersDataGrid() {
             }}>
                 <Avatar 
                     alt={params.row.username} 
-                    src={params.row.avatar} 
+                    src = {isNullImage(params.row.avatar) ? defaultAvatarPath : addImagePrefix(params.row.avatar)}
                 />
             </Box>
         ),
