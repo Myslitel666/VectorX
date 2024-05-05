@@ -6,6 +6,7 @@ namespace VectorXBackend.Interfaces.Repositories.AccountService
 {
     public interface IUserRepository
     {
+        Task<List<User>> GetAllUsers();
         Task<User> GetUserByUsername(string username);
 
         Task<User> GetUserById(int userId);

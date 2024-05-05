@@ -357,12 +357,12 @@ namespace VectorXBackend.Services
             }
         }
 
-        public async Task<CachedUsersDto> GetCachedUsers(CachedUserIdsDto cachedUserIdsDto)
+        public async Task<UsersDto> GetCachedUsers(CachedUserIdsDto cachedUserIdsDto)
         {
             //Извлекаем список пользователей по Id (в случае его отсутствия получим null)
             var cachedUsers = await _userRepository.GetUsersByIds(cachedUserIdsDto.UserIds);
 
-            var cachedUsersDto = new CachedUsersDto();
+            var cachedUsersDto = new UsersDto();
 
             if (cachedUsers != null)
             {
@@ -396,6 +396,34 @@ namespace VectorXBackend.Services
             }
 
             return cachedUsersDto;
+        }
+
+        public async Task<UsersDto> GetAllUsers()
+        {
+            var rolesUsers = await _roleRepository.GetAllRoles(); //Извлекаем роли пользователей
+            var users = await _userRepository.GetAllUsers(); //Извлекаем всех пользователей
+
+            var usersDto = new UsersDto();
+
+            var userDtos = new UserDto[users.Count];
+
+            //Заполняем массив UserDto элементов
+            for (int i = 0; i < users.Count; i++)
+            {
+                //var role = rolesUsers.FirstOrDefault(role => role.RoleId == cachedUsers[i].RoleId);
+                userDtos[i] = new UserDto
+                {
+                    UserId = users[i].UserId,
+                    Username = users[i].Username,
+                    UserRole = rolesUsers.FirstOrDefault(role => role.RoleId == users[i].RoleId).RoleName,
+                    Avatar = users[i].Avatar,
+                    IsBlocked = users[i].IsBlocked,
+                };
+            }
+
+            usersDto.UserDtos = userDtos;
+
+            return usersDto;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace VectorXBackend.DTOs.Responses.AccountService
 {
-    public class CachedUsersDto
+    public class UsersDto
     {
         public UserDto[] UserDtos { get; set; }
     }

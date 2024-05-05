@@ -6,23 +6,24 @@ using VectorXBackend.DTOs.Responses.AccountService;
 
 namespace VectorXBackend.Controllers.AccountService
 {
-    [Route("api/auth")]
+    [Route("api/adminPanel")]
     [ApiController]
-    public class CachedUsersController : Controller
+    public class GetUsersController : Controller
     {
         private readonly IAccountService _accountService;
 
-        public CachedUsersController(IAccountService accountService)
+        public GetUsersController(IAccountService accountService)
         {
             _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
         }
 
-        [HttpPost("getCachedUsers")]
-        public async Task<IActionResult> GetCachedUsers([FromBody] CachedUserIdsDto cachedUserIdsDto)
+        [HttpGet("getUsers")]
+        public async Task<IActionResult> GetUsers()
         {
-            var cachedUsersDto = await _accountService.GetCachedUsers(cachedUserIdsDto);
+            var usersDto = await _accountService.GetAllUsers();
 
-            return Ok(cachedUsersDto);
+            return Ok(usersDto);
         }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VectorXBackend.Interfaces.Services;
 using VectorXBackend.DTOs.SharedDTOs;
+using VectorXBackend.DTOs.Requests.AccountService;
 
 namespace VectorXBackend.Controllers.AccountService
 {
@@ -21,6 +22,14 @@ namespace VectorXBackend.Controllers.AccountService
             var authResponse = await _accountService.AuthorizeUser(userDto);
 
             return Ok(authResponse);
+        }
+
+        [HttpPost("getCachedUsers")]
+        public async Task<IActionResult> GetCachedUsers([FromBody] CachedUserIdsDto cachedUserIdsDto)
+        {
+            var cachedUsersDto = await _accountService.GetCachedUsers(cachedUserIdsDto);
+
+            return Ok(cachedUsersDto);
         }
     }
 }

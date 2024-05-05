@@ -64,11 +64,6 @@ const users: User[] = [
   },
 ];
 
-const roles = ['learner', 'master', 'admin'];
-const randomRole = () => {
-  return roles[0];
-};
-
 const initialRows = users;
 
 export default function UsersDataGrid() {

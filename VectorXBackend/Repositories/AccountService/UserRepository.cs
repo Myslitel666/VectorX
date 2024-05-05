@@ -16,6 +16,11 @@ namespace VectorXBackend.Repositories.AccountService
             _dbContext = dbContext;
         }
 
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await _dbContext.Users.ToListAsync();
+        }
+
         public async Task<User> GetUserByUsername(string username)
         {
             //Обновляем context, чтобы предупредить кэширование данных, если они извлекаются в цикле через Socket

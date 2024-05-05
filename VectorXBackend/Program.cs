@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using VectorXBackend.Properties;
-using VectorXBackend.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +30,6 @@ var app = builder.Build();
 
 app.UseDefaultFiles(); //For SignalR
 app.UseStaticFiles(); //For SignalR
-app.MapHub<ChatHub>("/hub");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

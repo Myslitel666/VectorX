@@ -14,6 +14,11 @@ namespace VectorXBackend.Repositories.AccountService
             _dbContext = dbContext;
         }
 
+        public async Task<List<Role>> GetAllRoles()
+        {
+            return await _dbContext.Roles.ToListAsync();
+        }
+
         public async Task<Role> GetIdByRole(string roleName)
         {
             return await _dbContext.Roles
