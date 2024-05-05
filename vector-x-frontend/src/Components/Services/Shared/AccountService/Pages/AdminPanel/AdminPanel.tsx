@@ -30,7 +30,6 @@ const AdminPanel: React.FC = () => {
     const { getColorFromLabel } = useColorLabel('green');
     const theme = useTheme();
     const AdminPanelIconColor = theme.palette.background.default;
-    //const borderBoxColor = theme.palette.action.disabled;
 
     // Состояние для хранения id пользователя
     const [userIds, setUserId] = useState('');
@@ -42,7 +41,6 @@ const AdminPanel: React.FC = () => {
         const newSocket = new WebSocket(url);
 
         newSocket.onopen = () => {
-            console.log('WebSocket connected');
             newSocket.send(userIds.toString());
         };
     };

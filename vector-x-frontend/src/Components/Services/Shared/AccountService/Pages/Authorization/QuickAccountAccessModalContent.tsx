@@ -31,7 +31,6 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
     const { setUser } = useUserContext();
     const navigate = useNavigate();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
-    const [feedbackMessage, setFeedbackMessage] = useState('');
     const { getColorFromLabel } = useColorLabel('red');
 
     //Redux

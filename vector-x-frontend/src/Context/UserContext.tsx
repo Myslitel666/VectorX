@@ -113,9 +113,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             const newSocket = new WebSocket(url);
             setSocket(newSocket); // Устанавливаем новый сокет в состояние
 
-            newSocket.onopen = () => {
-                console.log('WebSocket connected');
-            };
+            newSocket.onopen = () => { };
  
             return () => {
                 if (newSocket) {
@@ -131,7 +129,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     useEffect(() => {
     if (socket) {
         socket.onopen = () => {
-            console.log('WebSocket connected');
             //Отправляем данные о соединении на сервер
             sendConnectionData();
         };
@@ -139,8 +136,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         socket.onmessage = (event) => {
             // Получаем данные от сервера и обновляем состояние
             const userData = JSON.parse(event.data);
-            console.log('Данные пришли');
-            console.log(userData);
             const user = {
                 userId: userData.UserId,
                 username: userData.Username,

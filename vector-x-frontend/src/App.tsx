@@ -24,7 +24,7 @@ import store from './Store/store'; // Путь к файлу store
 
 function App() {
     return (
-        <Provider store={store} >
+        <Provider store={store}>
         <ColorModeProvider>
         <UserProvider>
             <CssBaseline />
