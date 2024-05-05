@@ -1,6 +1,6 @@
 namespace VectorXBackend.DTOs.Requests.AccountService
 {
-    public class UserDataRedactDto
+    public class UpdateUserDataDto
     {
         public int UserId { get; set; }
 

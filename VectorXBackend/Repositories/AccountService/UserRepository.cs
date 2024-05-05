@@ -112,5 +112,17 @@ namespace VectorXBackend.Repositories.AccountService
 
             await _dbContext.SaveChangesAsync(); // Сохраняем изменения
         }
+
+        public async Task RedactUserData(int userId, int userRoleId, string username)
+        {
+            var user = await GetUserById(userId); // Извлекаем пользователя по Id
+            if (user != null)
+            {
+                user.Username = username; // Меняем Username
+                user.RoleId = userRoleId; // Меняем RoleId
+                _dbContext.Users.Update(user); //Обновляем контекст базы данных
+            }
+            await _dbContext.SaveChangesAsync(); // Сохраняем изменения
+        }
     }
 }

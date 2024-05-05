@@ -21,5 +21,7 @@ namespace VectorXBackend.Interfaces.Services
         Task<UsersDto> GetCachedUsers(CachedUserIdsDto cachedUserIdsDto);
 
         Task<UsersDto> GetAllUsers();
+
+        Task<UserDataRedactDto> UpdateUser(UpdateUserDataDto updateUserDataDto);
     }
 }

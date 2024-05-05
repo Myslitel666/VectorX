@@ -425,5 +425,60 @@ namespace VectorXBackend.Services
 
             return usersDto;
         }
+
+        public async Task<UserDataRedactDto> UpdateUser(UpdateUserDataDto updateUserDataDto)
+        {
+            var potentalUser = await _userRepository.GetUserByUsername(updateUserDataDto.DesiredUsername);
+
+            //Если пользователь с данным username уже существует
+            if (potentalUser != null)
+            {
+                var response = new UserDataRedactDto()
+                {
+                    IsError = true,
+                    FeedbackMessage = "✗A user with this username already exists"
+                };
+                return response;
+            }
+            else
+            {
+                var desiredUserRoleId = await _roleRepository.GetIdByRole(updateUserDataDto.DesiredUserRole);
+
+                //Если желаемая роль найдена в базе
+                if (desiredUserRoleId != null)
+                {
+                    try
+                    {
+                        await _userRepository.RedactUserData(updateUserDataDto.UserId, desiredUserRoleId.RoleId, updateUserDataDto.DesiredUsername);
+
+                        var response = new UserDataRedactDto()
+                        {
+                            IsError = false,
+                            FeedbackMessage = $"{updateUserDataDto.DesiredUsername} ✓user data has been successfully modified"
+                        };
+                        return response;
+                    }
+                    catch (Exception ex)
+                    {
+                        var response = new UserDataRedactDto()
+                        {
+                            IsError = true,
+                            FeedbackMessage = $"✗Error: {ex}"
+                        };
+                        return response;
+                    }
+                }
+                else
+                {
+                    var response = new UserDataRedactDto()
+                    {
+                        IsError = true,
+                        FeedbackMessage = "✗This role does not exist"
+                    };
+                    return response;
+                }
+            }
+        }
     }
+}
 }
