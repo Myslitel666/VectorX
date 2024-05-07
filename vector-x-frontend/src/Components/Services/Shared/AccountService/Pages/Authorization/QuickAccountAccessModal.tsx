@@ -4,7 +4,6 @@ import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 
 //MyComponents Import

@@ -1,4 +1,6 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿//React Import
+import React, { useState, useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
 import Box from '@mui/material/Box';
@@ -19,6 +21,7 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [isError, setIsError] = useState(true);
     const [desiredUsername, setDesiredUsername] = useState('');
+    const isDesktop = useMediaQuery({ minWidth: 600 });
     const { getUser, updateUsername } = useUserContext();
     const { getColorFromLabel } = useColorLabel('green');
     let user = getUser();
@@ -109,18 +112,20 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
             componentToRender = (
                 <>
                     <Box 
-                        display='flex'
+                        display = {isDesktop ? 'flex' : 'flow'}
                         marginTop='1rem'
                     >
-                    <Typography>
-                        Enter a new username:
-                    </Typography>
-                    <TextField 
-                        sx = {{width: '100%'}}
-                        label='Username'
-                        onChange={(e) => setDesiredUsername(e.target.value)}
-                        value={desiredUsername}
-                    />
+                        <Typography
+                            sx = {isDesktop ? {} : {marginBottom: '0.5rem'}}
+                        >
+                            Enter a new username:
+                        </Typography>
+                        <TextField 
+                            sx = {{width: '100%'}}
+                            label='Username'
+                            onChange={(e) => setDesiredUsername(e.target.value)}
+                            value={desiredUsername}
+                        />
                     </Box>
                     <MyButton
                         variant = 'contained'
@@ -141,10 +146,12 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
             componentToRender = (
                 <>
                     <Box 
-                        display='flex'
+                        display = {isDesktop ? 'flex' : 'flow'}
                         marginTop='1rem'
                     >
-                    <Typography>
+                    <Typography
+                        sx = {isDesktop ? {} : {marginBottom: '0.5rem'}}
+                    >
                         Enter your password:
                     </Typography>
                     <PasswordTextField 
@@ -179,10 +186,12 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
         (
             <>
                 <Box
-                    display='flex'
+                    display = {isDesktop ? 'flex' : 'flow'}
                     marginTop='1rem'
                 >
-                    <Typography>
+                    <Typography
+                        sx = {isDesktop ? {} : {marginBottom: '0.5rem'}}
+                    >
                         Enter a new password:
                     </Typography>
                     <PasswordTextField
@@ -192,10 +201,12 @@ export default function RedactModalContent({ selectedField }: { selectedField: s
                     />
                 </Box>
                 <Box
-                    display='flex'
-                    marginTop='1rem'
+                    display = {isDesktop ? 'flex' : 'flow'}
+                    marginTop={isDesktop ? '1rem' : '0.25rem'}
                 >
-                    <Typography>
+                    <Typography
+                        sx = {isDesktop ? {} : {marginBottom: '0.5rem'}}
+                    >
                         Confirm the password:
                     </Typography>
                     <PasswordTextField

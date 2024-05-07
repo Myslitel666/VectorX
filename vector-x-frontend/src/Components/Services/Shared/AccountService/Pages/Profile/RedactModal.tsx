@@ -1,4 +1,5 @@
-﻿import * as React from 'react';
+﻿//React Import
+import * as React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
@@ -20,7 +21,7 @@ export default function BasicModal({ selectedField }: { selectedField: string })
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: isDesktop ? 540 : 335,
+        width: isDesktop ? 540 : '95%',
         bgcolor: 'background.paper',
         border: '1px solid #000',
         borderRadius: '8px',
