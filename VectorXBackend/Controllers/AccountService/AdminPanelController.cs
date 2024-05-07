@@ -32,5 +32,21 @@ namespace VectorXBackend.Controllers.AccountService
 
             return Ok(redactUserDataDto);
         }
+
+        [HttpPost("blockUser")]
+        public async Task<IActionResult> BlockUser(int userId)
+        {
+            var redactUserDataDto = await _accountService.BlockUser(userId);
+
+            return Ok(redactUserDataDto);
+        }
+
+        [HttpPost("unblockUser")]
+        public async Task<IActionResult> UnblockUser(int userId)
+        {
+            var redactUserDataDto = await _accountService.UnblockUser(userId);
+
+            return Ok(redactUserDataDto);
+        }
     }
 }

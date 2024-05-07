@@ -124,5 +124,16 @@ namespace VectorXBackend.Repositories.AccountService
             }
             await _dbContext.SaveChangesAsync(); // Сохраняем изменения
         }
+
+        public async Task RedactUserBlockStatus(int userId, bool isBlock)
+        {
+            var user = await GetUserById(userId); // Извлекаем пользователя по Id
+            if (user != null)
+            {
+                user.IsBlocked = isBlock; // Меняем BlockStatus
+                _dbContext.Users.Update(user); //Обновляем контекст базы данных
+            }
+            await _dbContext.SaveChangesAsync(); // Сохраняем изменения
+        }
     }
 }

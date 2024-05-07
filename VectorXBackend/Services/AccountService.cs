@@ -478,6 +478,52 @@ namespace VectorXBackend.Services
                     return response;
                 }
             }
+
+
+        }
+
+        public async Task<UserDataRedactDto> BlockUser(int userId)
+        {
+            try
+            {
+                await _userRepository.RedactUserBlockStatus(userId, true);
+
+                return new UserDataRedactDto()
+                {
+                    IsError = false,
+                    FeedbackMessage = "✓The user has been successfully blocked."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new UserDataRedactDto()
+                {
+                    IsError = true,
+                    FeedbackMessage = $"✗Error: {ex}"
+                };
+            }
+        }
+
+        public async Task<UserDataRedactDto> UnblockUser(int userId)
+        {
+            try
+            {
+                await _userRepository.RedactUserBlockStatus(userId, false);
+
+                return new UserDataRedactDto()
+                {
+                    IsError = false,
+                    FeedbackMessage = "✓The user has been successfully unblocked."
+                };
+            }
+            catch (Exception ex)
+            {
+                return new UserDataRedactDto()
+                {
+                    IsError = true,
+                    FeedbackMessage = $"✗Error: {ex}"
+                };
+            }
         }
     }
 }

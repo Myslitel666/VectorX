@@ -23,5 +23,9 @@ namespace VectorXBackend.Interfaces.Services
         Task<UsersDto> GetAllUsers();
 
         Task<UserDataRedactDto> UpdateUser(UpdateUserDataDto updateUserDataDto);
+
+        Task<UserDataRedactDto> BlockUser(int userId);
+
+        Task<UserDataRedactDto> UnblockUser(int userId);
     }
 }
