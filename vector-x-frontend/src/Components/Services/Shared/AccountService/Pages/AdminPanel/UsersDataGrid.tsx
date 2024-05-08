@@ -30,7 +30,7 @@ import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
-import { setUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Action Import
+import { setUsers, setBackupUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Action Import
 
 //Interfaces Import
 import { User } from '../../Interfaces/Interfaces';
@@ -310,9 +310,14 @@ export default function UsersDataGrid() {
         getUsers()
             .then(u => {
                 dispatch(setUsers(u));
+                dispatch(setBackupUsers(u));
                 setRows(u);
             });
     }, []);
+
+    useEffect(() => {
+        setRows(users);
+    }, [users]);
 
     return (
         <Box

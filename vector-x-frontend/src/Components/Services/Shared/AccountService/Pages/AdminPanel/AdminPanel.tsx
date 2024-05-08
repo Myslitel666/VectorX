@@ -13,12 +13,12 @@ import { useTheme } from '@mui/material';
 //MyComponents Import
 import Header from '../../../../../Common/Header/Header';
 import { useUserContext } from '../../../../../../Context/UserContext';
-import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import AdminPanelIcon from './AdminPanelIcon';
-import MyButton from '../../../../../Common/User Interface/MyButton';
 
-//fetch import
-import {connectWebSocket} from './fetch/adminPanelFetch'
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
+import { setUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Action Import
 
 const AdminPanel: React.FC = () => {
     //Элементы для навигации
@@ -33,13 +33,16 @@ const AdminPanel: React.FC = () => {
     const theme = useTheme();
     const AdminPanelIconColor = theme.palette.background.default;
 
-    // Состояние для хранения id пользователя
-    const [userIds, setUserId] = useState('');
     const [username, setUsername] = useState('');
 
-    const handleButtonClick = () => {
-        connectWebSocket(userIds);
-    };
+    //Redux
+    const dispatch = useDispatch(); // Получаем диспетчер Redux
+    const users = useSelector((state: RootState) => state.users.users);
+    const backupUsers = useSelector((state: RootState) => state.users.backupUsers);
+
+    const handleFilterClick = () => {
+        dispatch(setUsers(backupUsers.filter(user => user.username.toLowerCase().includes(username.toLowerCase()))));
+    }
 
     useEffect(() => {
         if (user.userRole !== 'admin') {
@@ -57,7 +60,7 @@ const AdminPanel: React.FC = () => {
                     alignItems: 'center',
                     width: '36rem',
                     '@media screen and (max-width: 600px)': {
-                        width: '26rem',
+                        width: '95%',
                     },
                 }}
             >
@@ -114,7 +117,8 @@ const AdminPanel: React.FC = () => {
                         onChange={(e) => setUsername(e.target.value)}
                         fullWidth
                     />
-                    <Button 
+                    <Button
+                        onClick = {handleFilterClick} 
                         sx = {{
                             fontSize: '2rem',
                             width: '8.5rem',
@@ -126,35 +130,6 @@ const AdminPanel: React.FC = () => {
                     </Button>
                 </Box>
                 <UsersDataGrid/>
-                <Box 
-                    display='none' // В любой момент можно отобразить строку для быстрого ввода id'шников в целях тестирования Web Socket Manager'а
-                    sx = {{
-                        marginTop: '2rem'
-                    }}
-                >
-                    <TextField
-                        label="User IDs"
-                        variant="outlined"
-                        value={userIds}
-                        onChange={(e) => setUserId(e.target.value)}
-                        fullWidth
-                        sx = {{
-                            marginLeft: '1rem',
-                            marginRight: '1rem'
-                        }}
-                    />
-                    <MyButton 
-                        variant="contained" 
-                        onClick={handleButtonClick}
-                        sx = {{
-                            width: '15rem',
-                            height: '3.4rem',
-                            marginRight: '1rem'
-                        }}
-                    >
-                        Send User IDs
-                    </MyButton>
-                </Box>
             </Box>
         </>
     )
