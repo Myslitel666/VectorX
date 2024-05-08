@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Dependency Injection
 DependencyInjectionSetup.Configure(
-    builder.Services, 
+    builder.Services,
     builder.Configuration.GetConnectionString("DefaultConnection")
 );
 
@@ -23,13 +23,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-builder.Services.AddSignalR();
-
 var app = builder.Build();
-
-app.UseDefaultFiles(); //For SignalR
-app.UseStaticFiles(); //For SignalR
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

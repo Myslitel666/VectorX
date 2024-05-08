@@ -35,6 +35,38 @@ export const updateUser = async (updateUser: UpdateUser) => {
     return data;
 };
 
+export const blockUser = async (userId: number) => {
+    const response = await fetch(`${apiUrl}/api/adminPanel/blockUser`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: userId,
+        }),
+    });
+
+    const data = await response.json();
+
+    return data;
+};
+
+export const unblockUser = async (userId: number) => {
+    const response = await fetch(`${apiUrl}/api/adminPanel/unblockUser`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: userId,
+        }),
+    });
+
+    const data = await response.json();
+
+    return data;
+};
+
 export const connectWebSocket = (userIds: string) => {
     const url = `${wsUrl}/admin/update`;
     const newSocket = new WebSocket(url);

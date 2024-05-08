@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VectorXBackend.Interfaces.Services;
-using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.DTOs.Requests.AccountService;
-using VectorXBackend.DTOs.Responses.AccountService;
 
 namespace VectorXBackend.Controllers.AccountService
 {
@@ -34,17 +32,17 @@ namespace VectorXBackend.Controllers.AccountService
         }
 
         [HttpPost("blockUser")]
-        public async Task<IActionResult> BlockUser(int userId)
+        public async Task<IActionResult> BlockUser([FromBody] BlockUserDto blockUserDto)
         {
-            var redactUserDataDto = await _accountService.BlockUser(userId);
+            var redactUserDataDto = await _accountService.BlockUser(blockUserDto.UserId);
 
             return Ok(redactUserDataDto);
         }
 
         [HttpPost("unblockUser")]
-        public async Task<IActionResult> UnblockUser(int userId)
+        public async Task<IActionResult> UnblockUser([FromBody] BlockUserDto blockUserDto)
         {
-            var redactUserDataDto = await _accountService.UnblockUser(userId);
+            var redactUserDataDto = await _accountService.UnblockUser(blockUserDto.UserId);
 
             return Ok(redactUserDataDto);
         }

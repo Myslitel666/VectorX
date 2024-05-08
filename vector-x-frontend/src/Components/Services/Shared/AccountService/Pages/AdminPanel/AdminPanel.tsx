@@ -30,7 +30,6 @@ const AdminPanel: React.FC = () => {
     const user = getUser();
 
     //Работа с контекстом цветовой темы
-    const { getColorFromLabel } = useColorLabel('green');
     const theme = useTheme();
     const AdminPanelIconColor = theme.palette.background.default;
 
@@ -56,8 +55,8 @@ const AdminPanel: React.FC = () => {
                     margin: 'auto',
                     marginTop: '6rem',
                     alignItems: 'center',
-                    width: '35rem',
-                    '@media screen and (max-width: 575px)': {
+                    width: '36rem',
+                    '@media screen and (max-width: 600px)': {
                         width: '26rem',
                     },
                 }}

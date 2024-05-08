@@ -1,13 +1,15 @@
 interface RegisterIcoProps {
     style?: React.CSSProperties;
+	onClick?: () => void; // Добавляем тип для обработчика события onClick
 }
 
-const AxeIcon: React.FC<RegisterIcoProps> = ({ style }) => {
+const AxeIcon: React.FC<RegisterIcoProps> = ({ style, onClick }) => {
 
     return (
 		<svg version="1.0"
             xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 512 512"
+			onClick={onClick} // Добавляем обработчик события onClick
 			style={{
 				...style,
 			}}

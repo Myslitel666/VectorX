@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
 import AxeIcon from './AxeIcon';
+import { useTheme } from '@mui/material/styles';
 import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
 import {
     GridRowModesModel,
@@ -35,7 +36,13 @@ import { setUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Ac
 import { User } from '../../Interfaces/Interfaces';
 
 //fetch import
-import { getUsers, updateUser, connectWebSocket } from './fetch/adminPanelFetch';
+import { 
+    getUsers, 
+    updateUser, 
+    blockUser,
+    unblockUser,
+    connectWebSocket
+} from './fetch/adminPanelFetch';
 
 //Utils Import
 import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
@@ -50,7 +57,7 @@ export default function UsersDataGrid() {
 
     const [rows, setRows] = React.useState(users);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>({});
-    const { iconColor, theme }: ColorModeContextProps = useColorMode();
+    const { iconColor }: ColorModeContextProps = useColorMode();
 
     const { themeMode, defaultAvatars }: ColorModeContextProps = useColorMode();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
@@ -59,6 +66,7 @@ export default function UsersDataGrid() {
     const [backupRowUserData, setBackupRowUserData] = React.useState<{ username: string, userRole: string } | null>(null);
     const [feedbackMessage, setFeedbackMessage] = React.useState('');
     const [isError, setIsError] = React.useState(false);
+    const theme = useTheme();
 
     const updateFeedbackMessage = (message: string, isError: boolean) => {
         setFeedbackMessage(message);
@@ -83,6 +91,35 @@ export default function UsersDataGrid() {
     const handleSaveClick = (userId: number) => () => {
         setRowModesModel({ ...rowModesModel, [userId]: { mode: GridRowModes.View } });
         setEditedRowId(userId); //Сохраняем Id изменённой строки, чтобы отправить запрос в базу, когда изменения отобразятся в таблице
+    };
+
+    const handleAxeClick = (userId: number) => {
+        const updatedRows = rows.map((row) => {
+            if (row.userId === userId) {
+                if (row.isBlocked) {
+                    unblockUser(row.userId)
+                        .then(data => {
+                            updateFeedbackMessage(data.feedbackMessage, data.isError);
+                        })
+                }
+                else {
+                    blockUser(row.userId)
+                        .then(data => {
+                            updateFeedbackMessage(data.feedbackMessage, data.isError);
+                        })
+                }
+
+                //Отправляем пользователю новые данные через Web Socket во все активные сессии
+                connectWebSocket(userId.toString());
+                
+                return {
+                    ...row,
+                    isBlocked: !row.isBlocked // Инвертируем значение свойства isBlocked
+                };
+            }
+            return row;
+        });
+        setRows(updatedRows); // Обновляем состояние строк
     };
 
     const handleCancelClick = (userId: number) => () => {
@@ -201,18 +238,21 @@ export default function UsersDataGrid() {
                         color="inherit"
                     />
                 </Tooltip>,
-                <Tooltip title = 'Block' arrow>
+                <Tooltip title = {row.isBlocked ? 'Unblock' : 'Block'} arrow>
                     <GridActionsCellItem
+                        onClick = {() => handleAxeClick(row.userId)}
                         icon={
                             <AxeIcon 
                                 style = {{
                                     width: '2rem',
                                     height: '2rem',
                                     fill: theme.palette.primary.main,
-                                    transition: 'fill 1s ease'
+                                    transform: row.isBlocked ? 'rotate(-180deg)' : 'none', // Поворот иконки в зависимости от свойства isBlock
+                                    transition: 'fill 1s ease, transform 0.3s ease'
                                 }}
-                            />}
-                        label="Delete"
+                            />
+                        }
+                        label="Block"
                         color="inherit"
                     />
                 </Tooltip>
@@ -240,7 +280,6 @@ export default function UsersDataGrid() {
                 desiredUsername: editedRow?.username,
                 desiredUserRole: editedRow?.userRole
             };
-            const data = updateUser(editingUser);
 
             updateUser(editingUser)
                 .then(data => {
