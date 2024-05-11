@@ -23,11 +23,11 @@ interface Course {
 }
 
 const popularCourses: Course[] = [
-    { courseName: 'Курс по созданию приложений на C# в среде Visual Studio', courseAuthor: 'Артур Германович', coursePrice: 0, imageUrl: '/images/testCourses/csharp.png' },
-    { courseName: 'С++ от новичка до профессионала', courseAuthor: 'Юрий Шедогубов', coursePrice: 2000, imageUrl: '/images/testCourses/c++.png' },
-    { courseName: 'Шахматы: правила и простейшие комбинации', courseAuthor: 'Тагир', coursePrice: 15000, imageUrl: '/images/testCourses/chess.png' },
-    { courseName: 'Математический анализ на практике', courseAuthor: 'Тагир', coursePrice: 12000, imageUrl: '/images/testCourses/desmos.png' },
-    { courseName: 'Основы языка программирования Python', courseAuthor: 'Олег Сергеевич', coursePrice: 10000, imageUrl: '/images/testCourses/python.png' },
+    { courseName: 'Курс по созданию приложений на C# в среде Visual Studio', courseAuthor: 'C# master', coursePrice: 0, imageUrl: '/images/testCourses/csharp.png' },
+    { courseName: 'С++ от новичка до профессионала', courseAuthor: 'IT Doctor', coursePrice: 2000, imageUrl: '/images/testCourses/c++.png' },
+    { courseName: 'Шахматы: правила и простейшие комбинации', courseAuthor: 'Алексей Лебедев', coursePrice: 15000, imageUrl: '/images/testCourses/chess.png' },
+    { courseName: 'Математический анализ на практике', courseAuthor: 'Пифагор', coursePrice: 12000, imageUrl: '/images/testCourses/desmos.png' },
+    { courseName: 'Основы языка программирования Python', courseAuthor: 'Python Dev', coursePrice: 10000, imageUrl: '/images/testCourses/python.png' },
     { courseName: 'Курс по веб-разработке на JavaScript', courseAuthor: 'Мария Иванова', coursePrice: 5000, imageUrl: '/images/testCourses/python.png' },
     { courseName: 'Английский язык: от начального до продвинутого', courseAuthor: 'Елена Петрова', coursePrice: 8000, imageUrl: '/images/testCourses/desmos.png' },
     { courseName: 'История искусства: от античности до современности', courseAuthor: 'Александр Васильев', coursePrice: 15000, imageUrl: '/images/testCourses/chess.png' },

@@ -6,11 +6,11 @@ namespace VectorXBackend.Controllers.AccountService
 {
     [Route("api/adminPanel")]
     [ApiController]
-    public class GetUsersController : Controller
+    public class AdminPanelController : Controller
     {
         private readonly IAccountService _accountService;
 
-        public GetUsersController(IAccountService accountService)
+        public AdminPanelController(IAccountService accountService)
         {
             _accountService = accountService ?? throw new ArgumentNullException(nameof(accountService));
         }

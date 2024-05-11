@@ -6,9 +6,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import UsersDataGrid from './UsersDataGrid';
 import { useTheme } from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 //MyComponents Import
 import Header from '../../../../../Common/Header/Header';
@@ -18,7 +20,10 @@ import AdminPanelIcon from './AdminPanelIcon';
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
-import { setUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Action Import
+import { setUsers, setBackupUsers } from '../../../../../../Store/slices/adminPanelSlice'; // Action Import
+
+//fetch import
+import { getUsers } from './fetch/adminPanelFetch';
 
 const AdminPanel: React.FC = () => {
     //Элементы для навигации
@@ -34,14 +39,23 @@ const AdminPanel: React.FC = () => {
     const AdminPanelIconColor = theme.palette.background.default;
 
     const [username, setUsername] = useState('');
+    const [rotation, setRotation] = useState(0);
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
-    const users = useSelector((state: RootState) => state.users.users);
     const backupUsers = useSelector((state: RootState) => state.users.backupUsers);
 
     const handleFilterClick = () => {
         dispatch(setUsers(backupUsers.filter(user => user.username.toLowerCase().includes(username.toLowerCase()))));
+    }
+
+    const handleClickRefresh = () => {
+        getUsers()
+        .then(data => {
+            dispatch(setUsers(data));
+            dispatch(setBackupUsers(data));
+        })
+        setRotation(rotation + 360);
     }
 
     useEffect(() => {
@@ -106,9 +120,23 @@ const AdminPanel: React.FC = () => {
                     display='flex'
                     sx = {{
                         marginTop: '2rem',
-                        marginBottom: '1rem'
+                        marginBottom: '1rem',
+                        alignItems: 'center'
                     }}
                 >
+                    <Tooltip title="Refresh">
+                        <RefreshIcon
+                            onClick={handleClickRefresh}
+                            sx={{
+                                marginRight: '0.5rem',
+                                fontSize: '1.85rem',
+                                color: 'primary.main',
+                                transform: `rotate(${rotation}deg)`,
+                                transition: 'transform 0.6s ease, color 1s ease',
+                                cursor: 'pointer'
+                            }}
+                        />
+                    </Tooltip>
                     <TextField
                         size ='small'
                         label="Username"

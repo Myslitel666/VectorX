@@ -49,7 +49,7 @@ const LeftHalfScreen: React.FC = () => {
                         />
                     </Tooltip>
                 </Box>
-                <Box display='flex' sx={{ } }>
+                <Box display='flex'>
                     <JargonFilter />
                 </Box>
             </Box>

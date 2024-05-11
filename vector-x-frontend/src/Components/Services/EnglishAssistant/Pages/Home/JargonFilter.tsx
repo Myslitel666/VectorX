@@ -10,8 +10,8 @@ import { useHomeContext } from './HomeContext'
 
 const JargonFilter: React.FC = () => {
     const { rowsState, backupRowsState } = useHomeContext();
-    const [rows, setRows] = rowsState;
-    const [backupRows, setBackupRows] = backupRowsState;
+    const [, setRows] = rowsState;
+    const [backupRows] = backupRowsState;
     const [inputValue, setInputValue] = React.useState('');
 
     const [filteredJargons, setFilteredJargons] = React.useState(['']);
