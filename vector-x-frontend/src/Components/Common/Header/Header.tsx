@@ -11,10 +11,10 @@ import { useTheme } from '@mui/material/styles';
 //MyComponents Import
 import Logo from '../Header/Logo';
 import ServiceName from './ServiceName';
-import CustomizationModal from '../CustomizationModal/CustomizationModal'
-import UserMenu from './UserMenu'
-import Login from './Login'
-import ReplenishmentFunds from './ReplenishmentFunds'
+import CustomizationModal from '../CustomizationModal/CustomizationModal';
+import UserMenu from './UserMenu';
+import Login from './Login';
+import ReplenishmentFunds from '../Header/ReplenishmentFunds';
 import { useUserContext } from '../../../Context/UserContext';
 import Drawer from '../../Common/Drawer/Drawer'
 
@@ -88,10 +88,15 @@ const Header: React.FC<ContentProps> = ({
                                 <CustomizationModal />
                             </Box>
                             { serviceName === 'Vector X' &&
-                                <ReplenishmentFunds style = {{
-                                    width: '2.5rem',
-                                    height: '2.5rem'
-                                }}/>
+                                <ReplenishmentFunds 
+                                    IconSx = {{
+                                        width: '2.5rem',
+                                        height: '2.5rem'
+                                    }}
+                                    BoxSx = {{
+                                        padding: '0.75rem',
+                                    }}
+                                />
                             }
                             <Box sx = {{
                                 marginRight: '5rem'

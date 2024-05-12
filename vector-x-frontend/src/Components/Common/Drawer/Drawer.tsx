@@ -18,6 +18,7 @@ import { useUserContext } from '../../../Context/UserContext';
 import Logo from '../Header/Logo';
 import ServiceName from '../Header/ServiceName';
 import Customization from '../Drawer/Customization';
+import ReplenishmentFunds from '../Drawer/ReplenishmentFunds';
 import Profile from '../Drawer/Profile';
 import Login from '../Drawer/Login';
 import Logout from '../Drawer/Logout';
@@ -134,6 +135,9 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
+                <List>
+                    {serviceName === 'Vector X' && <ReplenishmentFunds />}
+                </List>
                 <List>
                     <Customization />
                 </List>

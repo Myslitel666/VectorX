@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+﻿import { useEffect } from 'react';
 
 //MUI Import
 import Box from '@mui/material/Box';
@@ -68,13 +68,7 @@ export default function CustomizationModalContent() {
             <Typography variant="h6" component="h2">
                 Primary color
             </Typography>
-            <Box
-                display='flex'
-                //justifyContent="center"
-                sx={{
-                    //float: 'center'
-                }}
-            >
+            <Box display='flex'>
                 <Box
                 >
                     <Button onClick={() => handlePrimaryColorToggle('red')}>

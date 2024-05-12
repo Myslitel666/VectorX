@@ -8,18 +8,20 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 
 //MyComponents Import
 import { Typography } from '@mui/material';
+import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeContext';
 
 interface MoneyIconProps {
-    style?: React.CSSProperties; // Добавляем проп для стилей
+    IconSx?: React.CSSProperties; // Стили иконки
+    BoxSx?: React.CSSProperties; // Стили Box'а
 }
 
-const MoneyIcon: React.FC<MoneyIconProps> = ({ style }) => {
+export const MoneyIcon: React.FC<MoneyIconProps> = ({ IconSx: iconSx }) => {
 
     return (
         <svg xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
             style={{
-                ...style, // Применяем переданные стили
+                ...iconSx, // Применяем переданные стили
             }}
         >
             <polyline style={{fill:'#FDBB00'}} points="402.026,439.864 402.026,32.094 175.298,32.094 175.298,439.864 "/>
@@ -61,28 +63,43 @@ const MoneyIcon: React.FC<MoneyIconProps> = ({ style }) => {
     )
 }
 
-const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ style }) => {
+export const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: boxSx }) => {
     const theme = useTheme();
+    const { themeMode }: ColorModeContextProps = useColorMode();
     
     return (
-        <Box sx = {{
-            display: 'flex',
-            alignItems: 'center',
-            cursor: 'pointer',
-            padding: '0.75rem',
-            '&:hover': {
-                backgroundColor: theme.palette.action.focus
-            }
-        }}>
-            <MoneyIcon style={{
-                ...style, // Применяем переданные стили
-            }}/>
-            <Typography sx = {{
-                marginRight: '0.25rem',
-                color: 'text.primary'
+        <Box 
+            sx = {{
+                display: 'flex',
+                alignItems: 'center',
+                cursor: 'pointer',
+                '&:hover': {
+                    backgroundColor: themeMode === 'light' ? theme.palette.grey[100] : theme.palette.action.focus
+                }
             }}
+            style = {{
+                ...boxSx,
+            }}
+        >
+            <MoneyIcon IconSx={{
+                ...iconSx, // Применяем переданные стили
+            }}/>
+            <Typography 
+                sx = {{
+                    color: 'text.primary'
+                }}
             >
-                150000₽
+                150000
+            </Typography>
+            <Typography 
+                sx = {{
+                    float: 'left',
+                    marginLeft: '0.12rem',
+                    marginRight: '0.12rem',
+                    color: 'text.primary'
+                }}
+            >
+                ₽
             </Typography>
             <AddBoxIcon sx = {{
                 color: 'primary.main',
@@ -93,4 +110,4 @@ const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ style }) => {
     )
 }
 
-export default ReplenishmentFunds
+export default ReplenishmentFunds;

@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+import * as React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
@@ -11,7 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 //MyComponents Import
 import CustomizationModalContent from '../CustomizationModal/CustomizationModalContent'
-import CustomizationIcon from '../CustomizationModal/CustomizationIcon';
+import ReplenishmentFunds from '../Header/ReplenishmentFunds';
 
 export default function Customization() {
     const [open, setOpen] = React.useState(false);
@@ -39,12 +39,13 @@ export default function Customization() {
                 onClick={handleOpen}
             > 
                 <ListItemButton sx = {{
-                    marginBottom: '-0.25rem',
+                    marginBottom: '-1rem',
+                    marginTop: '-0.25rem',
                 }}>
                     <ListItemIcon>
-                        <CustomizationIcon sx={{ fontSize: '1.5rem' }} />
+                        <ReplenishmentFunds IconSx={{height: '2.25rem', width: '2.2rem'}} />
                     </ListItemIcon>
-                    <ListItemText primary={'Customization'} />
+                    <ListItemText />
                 </ListItemButton>
             </ListItem>
             <Modal
