@@ -1,5 +1,5 @@
 ﻿//React Import
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
@@ -7,7 +7,6 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 
 //MyComponents Import
 import Logo from '../Header/Logo';
@@ -15,10 +14,9 @@ import ServiceName from './ServiceName';
 import CustomizationModal from '../CustomizationModal/CustomizationModal'
 import UserMenu from './UserMenu'
 import Login from './Login'
-import MoneyIcon from './MoneyIcon'
+import ReplenishmentFunds from './ReplenishmentFunds'
 import { useUserContext } from '../../../Context/UserContext';
 import Drawer from '../../Common/Drawer/Drawer'
-import { Typography } from '@mui/material';
 
 interface ContentProps {
     serviceName?: string;
@@ -90,39 +88,16 @@ const Header: React.FC<ContentProps> = ({
                                 <CustomizationModal />
                             </Box>
                             { serviceName === 'Vector X' &&
-                                <Box sx = {{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    cursor: 'pointer',
-                                    padding: '0.75rem',
-                                    '&:hover': {
-                                        backgroundColor: theme.palette.action.focus
-                                    }
-                                }}>
-                                    <MoneyIcon style = {{
-                                        width: '2.5rem', 
-                                        height: '2.5rem'}}
-                                    />
-                                    <Typography sx = {{
-                                        marginRight: '0.25rem',
-                                        color: 'text.primary'
-                                    }}
-                                    >
-                                        150000₽
-                                    </Typography>
-                                    <AddBoxIcon sx = {{
-                                        color: 'primary.main',
-                                        fontSize: '1.75rem',
-                                        transition: 'color 1s ease',
-                                    }}/>
-                                </Box>
+                                <ReplenishmentFunds style = {{
+                                    width: '2.5rem',
+                                    height: '2.5rem'
+                                }}/>
                             }
                             <Box sx = {{
                                 marginRight: '5rem'
                             }}>
                                 <UserMenu />
                             </Box>
-                            <MoneyIcon/>
                         </Box>
 
                         :

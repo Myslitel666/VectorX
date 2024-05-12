@@ -1,8 +1,19 @@
-interface RegisterIcoProps {
+//React Import
+import React from 'react';
+
+//MUI Import
+import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+
+//MyComponents Import
+import { Typography } from '@mui/material';
+
+interface MoneyIconProps {
     style?: React.CSSProperties; // Добавляем проп для стилей
 }
 
-const RegistrationIco: React.FC<RegisterIcoProps> = ({ style }) => {
+const MoneyIcon: React.FC<MoneyIconProps> = ({ style }) => {
 
     return (
         <svg xmlns="http://www.w3.org/2000/svg"
@@ -50,4 +61,36 @@ const RegistrationIco: React.FC<RegisterIcoProps> = ({ style }) => {
     )
 }
 
-export default RegistrationIco
+const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ style }) => {
+    const theme = useTheme();
+    
+    return (
+        <Box sx = {{
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+            padding: '0.75rem',
+            '&:hover': {
+                backgroundColor: theme.palette.action.focus
+            }
+        }}>
+            <MoneyIcon style={{
+                ...style, // Применяем переданные стили
+            }}/>
+            <Typography sx = {{
+                marginRight: '0.25rem',
+                color: 'text.primary'
+            }}
+            >
+                150000₽
+            </Typography>
+            <AddBoxIcon sx = {{
+                color: 'primary.main',
+                fontSize: '1.75rem',
+                transition: 'color 1s ease',
+            }}/>
+        </Box>
+    )
+}
+
+export default ReplenishmentFunds
