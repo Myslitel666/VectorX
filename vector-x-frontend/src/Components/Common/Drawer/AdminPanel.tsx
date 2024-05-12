@@ -6,13 +6,13 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined';
+import ShieldIcon from '@mui/icons-material/Shield';
 
-export default function Profile() {
+export default function AdminPanel() {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate('/profile');
+        navigate('/admin-panel');
     };
 
     return (
@@ -23,9 +23,9 @@ export default function Profile() {
             >
                 <ListItemButton>
                     <ListItemIcon>
-                        <ConstructionOutlinedIcon />
+                        <ShieldIcon />
                     </ListItemIcon>
-                    <ListItemText primary={'Profile'} />
+                    <ListItemText primary={'Admin Panel'} />
                 </ListItemButton>
             </ListItem>
         </>

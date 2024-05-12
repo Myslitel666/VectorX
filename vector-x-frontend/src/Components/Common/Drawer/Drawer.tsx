@@ -17,10 +17,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useUserContext } from '../../../Context/UserContext';
 import Logo from '../Header/Logo';
 import ServiceName from '../Header/ServiceName';
-import Customization from '../Drawer/Customization'
-import Profile from '../Drawer/Profile'
-import Login from '../Drawer/Login'
-import Logout from '../Drawer/Logout'
+import Customization from '../Drawer/Customization';
+import Profile from '../Drawer/Profile';
+import Login from '../Drawer/Login';
+import Logout from '../Drawer/Logout';
+import AdminPanel from '../Drawer/AdminPanel';
 
 const drawerWidth = 240;
 
@@ -60,8 +61,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
     //Работа с контекстом
-    const { isLogged } = useUserContext();
+    const { isLogged, getUser } = useUserContext();
     const theme = useTheme();
+    const user = getUser();
 
     const [open, setOpen] = React.useState(false);
 
@@ -140,6 +142,7 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
                     {isLogged() ?
                         <>
                             <Profile />
+                            {user.userRole === 'admin' && <AdminPanel />}
                             <Logout />
                         </>
                         :
