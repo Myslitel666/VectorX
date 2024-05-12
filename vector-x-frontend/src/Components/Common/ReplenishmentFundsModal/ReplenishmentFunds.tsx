@@ -13,6 +13,7 @@ import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeC
 interface MoneyIconProps {
     IconSx?: React.CSSProperties; // Стили иконки
     BoxSx?: React.CSSProperties; // Стили Box'а
+    onClick?: () => void; // Функция onClick
 }
 
 export const MoneyIcon: React.FC<MoneyIconProps> = ({ IconSx: iconSx }) => {
@@ -63,7 +64,7 @@ export const MoneyIcon: React.FC<MoneyIconProps> = ({ IconSx: iconSx }) => {
     )
 }
 
-export const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: boxSx }) => {
+export const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: boxSx, onClick }) => {
     const theme = useTheme();
     const { themeMode }: ColorModeContextProps = useColorMode();
     
@@ -80,6 +81,7 @@ export const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ IconSx: iconSx, B
             style = {{
                 ...boxSx,
             }}
+            onClick = {onClick}
         >
             <MoneyIcon IconSx={{
                 ...iconSx, // Применяем переданные стили

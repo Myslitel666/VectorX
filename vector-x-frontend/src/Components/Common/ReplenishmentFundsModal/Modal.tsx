@@ -1,19 +1,22 @@
+﻿//React Import
 import * as React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 
 //MyComponents Import
-import ReplenishmentFunds from '../ReplenishmentFundsModal/ReplenishmentFunds';
-import ReplenishmentFundsModalContent from '../ReplenishmentFundsModal/ModalContent';
+import ReplenishmentFundsModalContent from './ModalContent';
+import ReplenishmentFunds from './ReplenishmentFunds';
 
-export default function ReplenishmentFundsModal() {
+interface MoneyIconProps {
+    IconSx?: React.CSSProperties; // Стили иконки
+    BoxSx?: React.CSSProperties; // Стили Box'а
+    onClick?: () => void; // Функция onClick
+}
+
+export const BasicModal: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: boxSx, onClick }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -34,19 +37,11 @@ export default function ReplenishmentFundsModal() {
 
     return (
         <>
-            <ListItem
-                disablePadding
-                onClick={handleOpen}
-            > 
-                <ListItemButton sx = {{
-                    marginTop: '-0.25rem',
-                }}>
-                    <ListItemIcon>
-                        <ReplenishmentFunds IconSx={{height: '2.25rem', width: '2.2rem'}} />
-                    </ListItemIcon>
-                    <ListItemText />
-                </ListItemButton>
-            </ListItem>
+            <ReplenishmentFunds 
+                onClick = {handleOpen} 
+                IconSx = {iconSx}
+                BoxSx = {boxSx}
+            />
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -60,3 +55,5 @@ export default function ReplenishmentFundsModal() {
         </>
     );
 }
+
+export default BasicModal;

@@ -1,4 +1,5 @@
-﻿import * as React from 'react';
+﻿//React Import
+import * as React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
@@ -40,6 +41,7 @@ export default function Customization() {
             > 
                 <ListItemButton sx = {{
                     marginBottom: '-0.25rem',
+                    marginTop: '-1.2rem',
                 }}>
                     <ListItemIcon>
                         <CustomizationIcon sx={{ fontSize: '1.5rem' }} />

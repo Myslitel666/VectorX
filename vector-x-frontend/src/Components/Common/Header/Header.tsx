@@ -14,7 +14,7 @@ import ServiceName from './ServiceName';
 import CustomizationModal from '../CustomizationModal/CustomizationModal';
 import UserMenu from './UserMenu';
 import Login from './Login';
-import ReplenishmentFunds from '../Header/ReplenishmentFunds';
+import ReplenishmentFundsModal from '../ReplenishmentFundsModal/Modal';
 import { useUserContext } from '../../../Context/UserContext';
 import Drawer from '../../Common/Drawer/Drawer'
 
@@ -88,7 +88,7 @@ const Header: React.FC<ContentProps> = ({
                                 <CustomizationModal />
                             </Box>
                             { serviceName === 'Vector X' &&
-                                <ReplenishmentFunds 
+                                <ReplenishmentFundsModal 
                                     IconSx = {{
                                         width: '2.5rem',
                                         height: '2.5rem'
