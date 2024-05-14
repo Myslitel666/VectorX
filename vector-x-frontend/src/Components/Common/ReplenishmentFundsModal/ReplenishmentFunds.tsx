@@ -5,6 +5,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import Tooltip from '@mui/material/Tooltip';
 
 //MyComponents Import
 import { Typography } from '@mui/material';
@@ -69,46 +70,48 @@ export const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ IconSx: iconSx, B
     const { themeMode }: ColorModeContextProps = useColorMode();
     
     return (
-        <Box 
-            sx = {{
-                display: 'flex',
-                alignItems: 'center',
-                cursor: 'pointer',
-                '&:hover': {
-                    backgroundColor: themeMode === 'light' ? theme.palette.grey[100] : theme.palette.action.focus
-                }
-            }}
-            style = {{
-                ...boxSx,
-            }}
-            onClick = {onClick}
-        >
-            <MoneyIcon IconSx={{
-                ...iconSx, // Применяем переданные стили
-            }}/>
-            <Typography 
+        <Tooltip title = 'Add funds to wallet' arrow>
+            <Box 
                 sx = {{
-                    color: 'text.primary'
+                    display: 'flex',
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    '&:hover': {
+                        backgroundColor: themeMode === 'light' ? theme.palette.grey[100] : theme.palette.action.focus
+                    }
                 }}
-            >
-                150000
-            </Typography>
-            <Typography 
-                sx = {{
-                    float: 'left',
-                    marginLeft: '0.12rem',
-                    marginRight: '0.12rem',
-                    color: 'text.primary'
+                style = {{
+                    ...boxSx,
                 }}
+                onClick = {onClick}
             >
-                ₽
-            </Typography>
-            <AddBoxIcon sx = {{
-                color: 'primary.main',
-                fontSize: '1.75rem',
-                transition: 'color 1s ease',
-            }}/>
-        </Box>
+                <MoneyIcon IconSx={{
+                    ...iconSx, // Применяем переданные стили
+                }}/>
+                <Typography 
+                    sx = {{
+                        color: 'text.primary'
+                    }}
+                >
+                    150000
+                </Typography>
+                <Typography 
+                    sx = {{
+                        float: 'left',
+                        marginLeft: '0.12rem',
+                        marginRight: '0.12rem',
+                        color: 'text.primary'
+                    }}
+                >
+                    ₽
+                </Typography>
+                <AddBoxIcon sx = {{
+                    color: 'primary.main',
+                    fontSize: '1.75rem',
+                    transition: 'color 1s ease',
+                }}/>
+            </Box>
+        </Tooltip>
     )
 }
 

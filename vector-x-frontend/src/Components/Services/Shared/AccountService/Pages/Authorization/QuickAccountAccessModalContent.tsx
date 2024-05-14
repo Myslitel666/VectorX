@@ -24,6 +24,11 @@ import { setStoredUsers } from '../../../../../../Store/slices/cachedUsersSlice'
 //fetch import
 import { getCachedUsers } from './fetch/getCachedUsers';
 
+//Utils Import
+import { isNullImage } from '../../../../../../Utils/ImageUtils';
+import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
+
+
 const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>> })> = ({ setOpen }) => {
 
     const theme = useTheme();
@@ -36,25 +41,6 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const users = useSelector((state: RootState) => state.cachedUsers.users);
-
-    const addImagePrefix = (image: string) => {
-        const subString = 'data:image/png;base64,';
-
-        if (image.startsWith(subString)) {
-            return image;
-        }
-
-        return subString + image;
-    };
-
-    // В некоторых случаях в качестве изображения передаётся строка 'null'
-    const isNull = (image: string) => {
-        if (image === null || image === 'null' || image === '') {
-            return true;
-        }
-
-        return false;
-    };
 
     // Создаем функцию для обработки клика на иконку корзины
     const handleDeleteIconClick = (userId: number) => {
@@ -170,7 +156,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                         :
                         <Avatar
                             alt="Avatar"
-                            src={isNull(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)}
+                            src={isNullImage(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'center',
