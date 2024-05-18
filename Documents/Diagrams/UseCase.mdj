@@ -1,7 +1,7 @@
 {
 	"_type": "Project",
 	"_id": "AAAAAAFF+h6SjaM2Hec=",
-	"name": "Untitled",
+	"name": "UseCase Diagrams",
 	"ownedElements": [
 		{
 			"_type": "UMLModel",
@@ -9,24 +9,15 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Model",
+			"name": "Vector X",
 			"ownedElements": [
-				{
-					"_type": "UMLClassDiagram",
-					"_id": "AAAAAAFF+qBtyKM79qY=",
-					"_parent": {
-						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
-					},
-					"name": "Main",
-					"defaultDiagram": true
-				},
 				{
 					"_type": "UMLUseCaseDiagram",
 					"_id": "AAAAAAGPdf71EmEpPG4=",
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "UseCaseDiagram",
+					"name": "VectorXView",
 					"ownedViews": [
 						{
 							"_type": "UMLActorView",
@@ -83,9 +74,9 @@
 											"font": "Arial;13;0",
 											"left": -176,
 											"top": 80,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -263,9 +254,9 @@
 											"font": "Arial;13;0",
 											"left": 160,
 											"top": 112,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -443,9 +434,9 @@
 											"font": "Arial;13;0",
 											"left": -608,
 											"top": 144,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -623,9 +614,9 @@
 											"font": "Arial;13;0",
 											"left": -336,
 											"top": -624,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -803,9 +794,9 @@
 											"font": "Arial;13;0",
 											"left": -672,
 											"top": 720,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -983,9 +974,9 @@
 											"font": "Arial;13;0",
 											"left": 672,
 											"top": -48,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -1163,9 +1154,9 @@
 											"font": "Arial;13;0",
 											"left": 496,
 											"top": -768,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -1343,9 +1334,9 @@
 											"font": "Arial;13;0",
 											"left": 176,
 											"top": -96,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -1542,9 +1533,9 @@
 											"font": "Arial;13;0",
 											"left": -320,
 											"top": -144,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -1739,9 +1730,9 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": -32,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -1932,9 +1923,9 @@
 											"font": "Arial;13;0",
 											"left": 112,
 											"top": -144,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -2131,9 +2122,9 @@
 											"font": "Arial;13;0",
 											"left": 160,
 											"top": 64,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -2330,9 +2321,9 @@
 											"font": "Arial;13;0",
 											"left": 32,
 											"top": 80,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -2529,9 +2520,9 @@
 											"font": "Arial;13;0",
 											"left": -448,
 											"top": 80,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -4888,9 +4879,9 @@
 											"font": "Arial;13;0",
 											"left": -128,
 											"top": -288,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -5625,9 +5616,9 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": -80,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -6088,9 +6079,9 @@
 											"font": "Arial;13;0",
 											"left": -80,
 											"top": -464,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -6557,9 +6548,9 @@
 											"font": "Arial;13;0",
 											"left": -112,
 											"top": -608,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -7026,9 +7017,9 @@
 											"font": "Arial;13;0",
 											"left": -336,
 											"top": -96,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -7495,9 +7486,9 @@
 											"font": "Arial;13;0",
 											"left": -560,
 											"top": 80,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -7964,9 +7955,9 @@
 											"font": "Arial;13;0",
 											"left": -80,
 											"top": 64,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -8433,9 +8424,9 @@
 											"font": "Arial;13;0",
 											"left": -80,
 											"top": -32,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -8902,9 +8893,9 @@
 											"font": "Arial;13;0",
 											"left": 1264,
 											"top": -656,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -9371,9 +9362,9 @@
 											"font": "Arial;13;0",
 											"left": -96,
 											"top": -48,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -9838,9 +9829,9 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"top": -96,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -10571,9 +10562,9 @@
 											"font": "Arial;13;0",
 											"left": -64,
 											"top": 16,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -11308,9 +11299,9 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"top": 64,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -11769,9 +11760,9 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"top": -16,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
@@ -12230,9 +12221,9 @@
 											"visible": false,
 											"font": "Arial;13;0",
 											"left": -144,
-											"width": 73.67724609375,
+											"width": 144.47265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from Vector X)"
 										},
 										{
 											"_type": "LabelView",
