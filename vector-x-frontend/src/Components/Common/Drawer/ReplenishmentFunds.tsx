@@ -54,7 +54,7 @@ export default function ReplenishmentFundsModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <ReplenishmentFundsModalContent />
+                    <ReplenishmentFundsModalContent setOpen = {setOpen}/>
                 </Box>
             </Modal>
         </>

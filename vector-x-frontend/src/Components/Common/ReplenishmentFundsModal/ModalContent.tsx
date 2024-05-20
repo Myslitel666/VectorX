@@ -1,5 +1,5 @@
 ﻿//React Import
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //MUI Import
 import { useTheme } from '@mui/material';
@@ -121,12 +121,51 @@ const PaymentMethodContent: React.FC<({ setPaymentMethodClick: React.Dispatch<Re
     );
 }
 
-export const PayNowModalContent: React.FC = () => {
+export const PayNowModalContent: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>> })> = ({ setOpen }) => {
     const [amountSum, setAmountSum] = React.useState('');
+    const [feedbackMessage, setFeedbackMessage] = React.useState('');
+    const [isError, setIsError] = React.useState(true);
+    const { getColorFromLabel } = useColorLabel('green');
 
     function hasDigits(str: string) {
         return /\d/.test(str);
     }
+
+    const updateFeedbackMessage = (isError: boolean, message: string) => {
+        setIsError(isError);
+        setFeedbackMessage(message);
+    };
+
+    const handleOnClick = () => {
+        const amountSumInt = parseInt(amountSum);
+
+        if (amountSumInt < 150) {
+            updateFeedbackMessage(true, '✘You need to deposit at least 150₽ into the wallet');
+        }
+        else {
+            updateFeedbackMessage(false, '✔Wallet successfully topped up');
+        }
+    }
+
+    useEffect(() => {
+        if (isError) {
+            const timeoutId = setTimeout(() => {
+                updateFeedbackMessage(true, '');
+            }, 3000);
+    
+            // Очистить таймаут, чтобы избежать утечек при размонтировании компонента
+            return () => clearTimeout(timeoutId);
+        }
+        else {
+            const timeoutId = setTimeout(() => {
+                updateFeedbackMessage(true, '');
+                setOpen(false);
+            }, 1250);
+    
+            // Очистить таймаут, чтобы избежать утечек при размонтировании компонента
+            return () => clearTimeout(timeoutId);
+        }
+    }, [feedbackMessage, isError]);
 
     return (
         <>
@@ -137,9 +176,18 @@ export const PayNowModalContent: React.FC = () => {
             >
                 Replenishment of funds
             </Typography>
+            <Typography 
+                marginTop='0.75rem'
+                sx={{
+                    textAlign: 'left',
+                    color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),
+                }}
+            >
+                {feedbackMessage}
+            </Typography>
             <Box 
                 display = 'flex'
-                marginTop='1.5rem'
+                marginTop= {feedbackMessage ? '1rem' : '1.5rem'}
             >
                 <Typography>
                     Enter the amount of money: 
@@ -160,6 +208,7 @@ export const PayNowModalContent: React.FC = () => {
             <MyButton 
                 variant='contained'
                 disabled={amountSum === ''}
+                onClick={handleOnClick}
                 sx = {{
                     marginTop: '1rem',
                     width: '100%',
@@ -172,13 +221,13 @@ export const PayNowModalContent: React.FC = () => {
     );
 }
 
-export const Content: React.FC = () => {
+export const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>> })> = ({ setOpen }) => {
     const [paymentMethodClick, setPaymentMethodClick] = React.useState(false);
 
     return (
         <>
         {paymentMethodClick ? 
-            <PayNowModalContent/>
+            <PayNowModalContent setOpen={setOpen}/>
             : 
             <PaymentMethodContent setPaymentMethodClick = {setPaymentMethodClick}/>
         }

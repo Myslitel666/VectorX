@@ -61,7 +61,7 @@ export const PaymentMethodModal: React.FC<MoneyIconProps> = ({ IconSx: iconSx, B
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={getStyleModal(isDesktop)}>
-                    <ReplenishmentFundsModalContent />
+                    <ReplenishmentFundsModalContent setOpen = {setOpen}/>
                 </Box>
             </Modal>
         </>
@@ -81,7 +81,7 @@ export const PayNowModal: React.FC<PayNowModalProps> = ({ open, setOpen }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={getStyleModal(isDesktop)}>
-                    <PayNowModalContent />
+                    <PayNowModalContent setOpen = {setOpen}/>
                 </Box>
             </Modal>
         </>
