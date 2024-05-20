@@ -20,16 +20,18 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
     //Redux
     const paymentMethod = [
         {
-            userId: 1,
-            username: 'Svelte.dev',
-            userRole: 'learner',
-            avatar: 'images/testCourses/csharp.png',
+            paymentMethodId: 1,
+            paymentMethodTitle: 'Bank Card',
+            paymentMethodNumber: '2202 2020 **** 0083',
+            paymentMethodMark: 'VISA',
+            avatar: 'images/vector-x/common/wallet/bank-card.svg',
         },
         {
-            userId: 2,
-            username: 'Svelte.dev',
-            userRole: 'learner',
-            avatar: 'images/testCourses/c++.png',
+            paymentMethodId: 2,
+            paymentMethodTitle: 'Electronic Wallet',
+            paymentMethodNumber: '',
+            paymentMethodMark: 'QIWI',
+            avatar: 'images/vector-x/common/wallet/electronic-wallet.svg',
         },
     ]
 
@@ -49,7 +51,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
             >
                 Payment Method
             </Typography>
-            {paymentMethod.map((user, index) => (
+            {paymentMethod.map((paymentMethod, index) => (
                 <Box
                     key={index}
                     display='flex'
@@ -60,7 +62,7 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                     border='1px solid'
                     borderColor={themeMode === 'light' ? '#cecece' : '#4d4d4d'}
                     borderRadius='0.6rem'
-                    padding='0.66rem'
+                    padding='1.25rem'
                     sx={{
                         cursor: 'pointer',
                         position: 'relative', // Для позиционирования значка DeleteIcon
@@ -78,19 +80,19 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
 
                     }}
                 >
-                    <Avatar
+                    <img
                         alt="Avatar"
-                        src={user.avatar}
-                        sx={{
+                        src={paymentMethod.avatar}
+                        style={{
                             display: 'flex',
                             alignItems: 'center',
-                            width: '6rem',
-                            height: '6rem'
+                            width: '5rem',
+                            height: '5rem'
                         }}
                     />
                     <Box
                         sx={{
-                            marginLeft: '0.66rem',
+                            marginLeft: '1.25rem',
                         }}
                     >
                         {boxStates[index].errorMessage &&
@@ -101,14 +103,14 @@ const Content: React.FC<({ setOpen: React.Dispatch<React.SetStateAction<boolean>
                                 {boxStates[index].errorMessage}
                             </Typography>
                         }
-                        <Typography>
-                            Username: {user.username}
+                        <Typography style={{ fontWeight: 'bold' }}>
+                            {paymentMethod.paymentMethodTitle}
                         </Typography>
                         <Typography>
-                            Role: {user.userRole}
+                            {paymentMethod.paymentMethodNumber}
                         </Typography>
                         <Typography>
-                            Password: ●●●●●●●●●
+                            {paymentMethod.paymentMethodMark}
                         </Typography>
                     </Box>
                 </Box>
