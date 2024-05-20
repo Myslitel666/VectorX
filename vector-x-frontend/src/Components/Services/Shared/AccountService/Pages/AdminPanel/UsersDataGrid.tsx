@@ -172,7 +172,7 @@ export default function UsersDataGrid() {
         width: 135,
         editable: true,
         type: 'singleSelect',
-        valueOptions: ['learner', 'master', 'admin'],
+        valueOptions: ['learner', 'teacher', 'admin'],
         headerAlign: 'center',
     },
     {

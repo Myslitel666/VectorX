@@ -182,7 +182,7 @@ const PopularCourses: React.FC = () => {
                                 </Typography>
                                 <MyButton
                                     variant="contained"
-                                    sx={{ minWidth: '90%' }}
+                                    sx={{ minWidth: '100%' }}
                                 >
                                     {course.coursePrice === 0 ? 'get started' : 'add to cart'}
                                 </MyButton>
