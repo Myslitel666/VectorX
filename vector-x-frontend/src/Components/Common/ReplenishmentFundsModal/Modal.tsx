@@ -8,6 +8,7 @@ import Modal from '@mui/material/Modal';
 
 //MyComponents Import
 import ReplenishmentFundsModalContent from './ModalContent';
+import { PayNowModalContent } from './ModalContent';
 import ReplenishmentFunds from './ReplenishmentFunds';
 
 interface MoneyIconProps {
@@ -16,11 +17,12 @@ interface MoneyIconProps {
     onClick?: () => void; // Функция onClick
 }
 
-export const BasicModal: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: boxSx, onClick }) => {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const isDesktop = useMediaQuery({ minWidth: 600 });
+interface PayNowModalProps {
+    open: boolean; // Prop to receive and control modal visibility
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>; // Function to update modal state
+  }
+
+const getStyleModal = (isDesktop: boolean) => {
 
     const style = {
         position: 'absolute' as 'absolute',
@@ -35,6 +37,16 @@ export const BasicModal: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: bo
         p: 4,
     };
 
+    return style;
+}
+
+export const PaymentMethodModal: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: boxSx, onClick }) => {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const isDesktop = useMediaQuery({ minWidth: 600 });
+
     return (
         <>
             <ReplenishmentFunds 
@@ -48,12 +60,32 @@ export const BasicModal: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: bo
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <ReplenishmentFundsModalContent setOpen={setOpen}/>
+                <Box sx={getStyleModal(isDesktop)}>
+                    <ReplenishmentFundsModalContent />
                 </Box>
             </Modal>
         </>
     );
 }
 
-export default BasicModal;
+export const PayNowModal: React.FC<PayNowModalProps> = ({ open, setOpen }) => {
+    const handleClose = () => setOpen(false);
+    const isDesktop = useMediaQuery({ minWidth: 600 });
+
+    return (
+        <>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={getStyleModal(isDesktop)}>
+                    <PayNowModalContent />
+                </Box>
+            </Modal>
+        </>
+    );
+}
+
+export default PaymentMethodModal;
