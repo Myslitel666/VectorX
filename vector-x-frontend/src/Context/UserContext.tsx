@@ -46,7 +46,11 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const wsUrl = process.env.REACT_APP_WS_URL as string;
 
     const [isBlocked, setIsBlocked] = useState(false);
-    const [browserId, setBrowserId] = useState(getBrowserId());
+    const [browserId, ] = useState(getBrowserId());
+
+    const storedBalance = localStorage.getItem('balance');
+    const parsedBalance = storedBalance ? parseInt(storedBalance) : 0;
+    const [balance, setBalance] = useState(parsedBalance);
 
     const getUser = (): User => {
         return {
@@ -56,6 +60,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             avatar: avatar,
             browserId: browserId,
             isBlocked: isBlocked,
+            balance: balance
         };
     };
 
@@ -67,6 +72,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         updateUsername(user.username);
         updateAvatar(user.avatar);
         setIsBlocked(user.isBlocked);
+        updateBalance(user.balance);
     }
 
     const updateUsername = (username: string) => {
@@ -79,8 +85,13 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         localStorage.setItem('avatar', avatar);
     };
 
+    const updateBalance = async (balance: number) => {
+        setBalance(balance);
+        localStorage.setItem('balance', balance.toString());
+    };
+
     const logoutUser = () => {
-        const user = {userId: -1, username: '', userRole: '', avatar: '', isBlocked: false}
+        const user = {userId: -1, username: '', userRole: '', avatar: '', isBlocked: false, balance: 0}
         setUser(user)
     }
 
@@ -139,7 +150,8 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
                 username: userData.Username,
                 userRole: userData.UserRole,
                 avatar: userData.Avatar,
-                isBlocked: userData.IsBlocked
+                isBlocked: userData.IsBlocked,
+                balance: userData.Balance
             }
             setUser(user);
 

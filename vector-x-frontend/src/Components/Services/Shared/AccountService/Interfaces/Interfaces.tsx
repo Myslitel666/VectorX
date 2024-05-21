@@ -5,4 +5,5 @@ export interface User {
     avatar: string;
     browserId?: string;
     isBlocked: boolean;
+    balance: number;
 }

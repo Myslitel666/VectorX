@@ -142,6 +142,7 @@ namespace VectorXBackend.Controllers.WebSocketService
                     Username = existingUser.Username, // Не добавляем здесь время
                     Avatar = existingUser.Avatar,
                     IsBlocked = existingUser.IsBlocked,
+                    Balance = existingUser.Balance
                 };
 
                 var responseJson = JsonSerializer.Serialize(updatedUser);

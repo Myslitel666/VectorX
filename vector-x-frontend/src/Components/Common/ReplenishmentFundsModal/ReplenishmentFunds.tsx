@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 //MyComponents Import
 import { Typography } from '@mui/material';
 import { useColorMode, ColorModeContextProps } from '../../../Context/ColorModeContext';
+import { useUserContext } from '../../../Context/UserContext';
 
 interface MoneyIconProps {
     IconSx?: React.CSSProperties; // Стили иконки
@@ -68,6 +69,8 @@ export const MoneyIcon: React.FC<MoneyIconProps> = ({ IconSx: iconSx }) => {
 export const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ IconSx: iconSx, BoxSx: boxSx, onClick }) => {
     const theme = useTheme();
     const { themeMode }: ColorModeContextProps = useColorMode();
+    const { getUser } = useUserContext();
+    const user = getUser();
     
     return (
         <Tooltip title = 'Add funds to wallet' arrow>
@@ -90,10 +93,11 @@ export const ReplenishmentFunds: React.FC<MoneyIconProps> = ({ IconSx: iconSx, B
                 }}/>
                 <Typography 
                     sx = {{
-                        color: 'text.primary'
+                        color: 'text.primary',
+                        marginLeft: '0.2rem'
                     }}
                 >
-                    150000
+                    {user.balance}
                 </Typography>
                 <Typography 
                     sx = {{

@@ -70,6 +70,7 @@ namespace VectorXBackend.Services
                             Username = existingUser.Username,
                             Avatar = existingUser.Avatar,
                             IsBlocked = existingUser.IsBlocked,
+                            Balance = existingUser.Balance,
                         };
 
                         var response = new AuthResponseDto()
@@ -144,7 +145,8 @@ namespace VectorXBackend.Services
                         Username = userDto.Username,
                         Password = userDto.Password,
                         RoleId = role.RoleId,
-                        IsBlocked = false
+                        IsBlocked = false,
+                        Balance = 0
                     };
                     await _userRepository.AddUser(user);
 

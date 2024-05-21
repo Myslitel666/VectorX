@@ -17,4 +17,6 @@ public partial class UserDto
     public string? Password { get; set; }
 
     public bool IsBlocked { get; set; }
+
+    public int Balance { get; set; }
 }
