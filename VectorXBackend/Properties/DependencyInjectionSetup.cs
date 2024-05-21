@@ -29,6 +29,7 @@ namespace VectorXBackend.Properties
             // Services
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IEnglishAssistantService, EnglishAssistantService>();
+            services.AddScoped<ITakingCoursesService, TakingCoursesService>();
             services.AddSingleton<IWebSocketService, WebSocketService>();
         }
     }

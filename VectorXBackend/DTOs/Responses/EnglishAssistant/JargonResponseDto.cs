@@ -1,6 +1,8 @@
-﻿namespace VectorXBackend.DTOs.Responses.EnglishAssistant
+﻿using VectorXBackend.DTOs.SharedDTOs;
+
+namespace VectorXBackend.DTOs.Responses.EnglishAssistant
 {
-    public class JargonResponseDto : ResponseBase
+    public class JargonResponseDto : ResponseBaseDto
     {
 
     }

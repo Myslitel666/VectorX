@@ -1,7 +1,9 @@
-﻿namespace VectorXBackend.DTOs.Responses.AccountService
+﻿using VectorXBackend.DTOs.SharedDTOs;
+
+namespace VectorXBackend.DTOs.Responses.AccountService
 {
-    public class UserDataRedactDto : ResponseBase
+    public class UserDataRedactDto : ResponseBaseDto
     {
-        
+
     }
 }

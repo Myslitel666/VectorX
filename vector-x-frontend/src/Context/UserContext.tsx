@@ -10,6 +10,7 @@ export interface UserContextProps {
     setUser: (user: User) => void;
     updateUsername: (desiredUsername: string) => void;
     updateAvatar: (avatar: string) => void;
+    updateBalance: (balance: number) => void;
     logoutUser: () => void;
     isLogged: () => boolean;
 }
@@ -170,6 +171,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         updateUsername: updateUsername,
         updateAvatar: updateAvatar,
         getUser: getUser,
+        updateBalance: updateBalance,
         logoutUser: logoutUser,
         isLogged: isLogged,
     };

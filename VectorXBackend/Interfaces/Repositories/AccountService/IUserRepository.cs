@@ -1,5 +1,5 @@
 ﻿using VectorXBackend.Models.Entities;
-using VectorXBackend.DTOs.Requests;
+using VectorXBackend.DTOs.Requests.VectorX.TakingCourses;
 using VectorXBackend.DTOs.Requests.AccountService;
 
 namespace VectorXBackend.Interfaces.Repositories.AccountService
@@ -16,6 +16,8 @@ namespace VectorXBackend.Interfaces.Repositories.AccountService
         Task<List<User>> GetUsersByIds(int[] userIds);
 
         Task AddUser(User user);
+
+        Task RedactUserData(TopUpBalanceDto topUpBalanceDto);
 
         Task RedactUserData(UsernameRedactDto usernameRedactDto);
 

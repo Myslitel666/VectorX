@@ -1,8 +1,8 @@
-﻿using VectorXBackend.DTOs;
+﻿using VectorXBackend.DTOs.SharedDTOs;
 
 namespace VectorXBackend.DTOs.Responses.AccountService
 {
-    public class VerifyResponseDto : ResponseBase
+    public class VerifyResponseDto : ResponseBaseDto
     {
 
     }

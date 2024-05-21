@@ -2,7 +2,7 @@
 
 namespace VectorXBackend.DTOs.Responses.AccountService
 {
-    public class AuthResponseDto : ResponseBase
+    public class AuthResponseDto : ResponseBaseDto
     {
         public UserDto User { get; set; }
     }

@@ -10,7 +10,11 @@ import TextField from '@mui/material/TextField';
 //MyComponents Import
 import { ColorModeContextProps, useColorMode } from '../../../Context/ColorModeContext';
 import { useColorLabel } from '../../../Context/UseColorLabel';
+import { useUserContext } from '../../../Context/UserContext';
 import MyButton from '../User Interface/MyButton';
+
+//fetch Import
+import { topUpFunds } from './fetch/replenishmentFundsFetch';
 
 const PaymentMethodContent: React.FC<({ setPaymentMethodClick: React.Dispatch<React.SetStateAction<boolean>> })> = ({ setPaymentMethodClick }) => {
 
@@ -126,6 +130,8 @@ export const PayNowModalContent: React.FC<({ setOpen: React.Dispatch<React.SetSt
     const [feedbackMessage, setFeedbackMessage] = React.useState('');
     const [isError, setIsError] = React.useState(true);
     const { getColorFromLabel } = useColorLabel('green');
+    const { getUser, updateBalance } = useUserContext();
+    const user = getUser();
 
     function hasDigits(str: string) {
         return /\d/.test(str);
@@ -143,7 +149,10 @@ export const PayNowModalContent: React.FC<({ setOpen: React.Dispatch<React.SetSt
             updateFeedbackMessage(true, '✘You need to deposit at least 150₽ into the wallet');
         }
         else {
-            updateFeedbackMessage(false, '✔Wallet successfully topped up');
+            topUpFunds(user.userId, amountSumInt)
+            .then(data => {
+                updateFeedbackMessage(data.isError, data.feedbackMessage);
+            });
         }
     }
 
@@ -157,6 +166,8 @@ export const PayNowModalContent: React.FC<({ setOpen: React.Dispatch<React.SetSt
             return () => clearTimeout(timeoutId);
         }
         else {
+            updateBalance(user.balance + parseInt(amountSum));
+
             const timeoutId = setTimeout(() => {
                 updateFeedbackMessage(true, '');
                 setOpen(false);

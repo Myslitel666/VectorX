@@ -1,6 +1,6 @@
-﻿namespace VectorXBackend.DTOs.Responses
+﻿namespace VectorXBackend.DTOs.SharedDTOs
 {
-    public class ResponseBase
+    public class ResponseBaseDto
     {
         public bool IsError { get; set; }
 

@@ -3,7 +3,7 @@ using VectorXBackend.Interfaces.Repositories.AccountService;
 using VectorXBackend.DTOs.Requests.AccountService;
 using VectorXBackend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
-using VectorXBackend.DTOs.Requests.EnglishAssistant;
+using VectorXBackend.DTOs.Requests.VectorX.TakingCourses;
 
 namespace VectorXBackend.Repositories.AccountService
 {
@@ -63,6 +63,17 @@ namespace VectorXBackend.Repositories.AccountService
             return await _dbContext.Users
                 .Where(user => userIds.Contains(user.UserId))
                 .ToListAsync();
+        }
+
+        public async Task RedactUserData(TopUpBalanceDto topUpBalanceDto)
+        {
+            var user = await GetUserById(topUpBalanceDto.UserId); // Извлекаем пользователя по Id
+            if (user != null)
+            {
+                user.Balance += topUpBalanceDto.Funds; // Увеличиваем баланс
+                _dbContext.Users.Update(user); //Обновляем контекст базы данных
+            }
+            await _dbContext.SaveChangesAsync(); // Сохраняем изменения
         }
 
         public async Task RedactUserData(UsernameRedactDto usernameRedactDto)
