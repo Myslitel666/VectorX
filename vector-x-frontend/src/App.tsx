@@ -9,11 +9,16 @@ import { ColorModeProvider } from '../src/Context/ColorModeContext';
 import { UserProvider } from '../src/Context/UserContext';
 import Redirect from '../src/Components/Common/Redirect'
 import Home from './Components/Services/VectorX/Pages/Home/Home';
-import Registration from './Components/Services/Shared/AccountService/Pages/Registration/Registration';
+import Registration from './Components/Services/Shared/AccountService/Pages/Registration/Registration'; //Account Service
 import Authorization from './Components/Services/Shared/AccountService/Pages/Authorization/Auth';
 import Profile from './Components/Services/Shared/AccountService/Pages/Profile/Profile';
 import AdminPanel from './Components/Services/Shared/AccountService/Pages/AdminPanel/AdminPanel';
-import EnglishAssistantHome from './Components/Services/EnglishAssistant/Pages/Home/Home';
+import CourseManagement from './Components/Services/VectorX/Pages/CourseManagement/CourseManagement'; //Vector X
+import TakingCourses from './Components/Services/VectorX/Pages/TakingCourses/TakingCourses';
+import EducationalPrograms from './Components/Services/VectorX/Pages/EducationalPrograms/EducationalPrograms';
+import ChatForum from './Components/Services/VectorX/Pages/ChatForum/ChatForum';
+import LearningAnalytics from './Components/Services/VectorX/Pages/LearningAnalytics/LearningAnalytics';
+import EnglishAssistantHome from './Components/Services/EnglishAssistant/Pages/Home/Home'; //EnglishAssistant Pro
 
 //CSS Import
 import '../src/App.css'
@@ -53,6 +58,26 @@ function App() {
                     <Route
                         path="/admin-panel"
                         element={<AdminPanel />}
+                    />
+                    <Route
+                        path="/course-management"
+                        element={<CourseManagement />}
+                    />
+                    <Route
+                        path="/taking-courses"
+                        element={<TakingCourses />}
+                    />
+                    <Route
+                        path="/educational-programs"
+                        element={<EducationalPrograms />}
+                    />
+                    <Route
+                        path="/chat-forum"
+                        element={<ChatForum />}
+                    />
+                    <Route
+                        path="/learning-analytics"
+                        element={<LearningAnalytics />}
                     />
                     <Route
                         path="/english-assistant/home"
