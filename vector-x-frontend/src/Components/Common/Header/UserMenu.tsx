@@ -13,6 +13,12 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShieldIcon from '@mui/icons-material/Shield';
 import ConstructionOutlinedIcon from '@mui/icons-material/ConstructionOutlined';
+import SchoolIcon from '@mui/icons-material/School';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import ForumIcon from '@mui/icons-material/Forum';
+
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { useTheme } from '@mui/material/styles';
 
 //MyComponents Import
@@ -30,20 +36,10 @@ export default function UserMenu() {
         setOpen(!open);
     };
 
-    const profileClick = () => {
-        navigate('/profile');
+    const navigateToPage = (link: string) => {
+        navigate(link);
         setOpen(!open);
-    };
-
-    const adminPanelClick = () => {
-        navigate('/admin-panel');
-        setOpen(!open);
-    };
-
-    const logoutClick = () => {
-        navigate('/auth');
-        setOpen(!open);
-    };
+    }
 
     const theme = useTheme();
     const user = getUser();
@@ -88,7 +84,7 @@ export default function UserMenu() {
                     disablePadding
                 >
                     <ListItemButton
-                        onClick={profileClick}
+                        onClick={() => navigateToPage('/profile')}
                     >
                         <ListItemIcon >
                             <ConstructionOutlinedIcon sx={{
@@ -105,9 +101,9 @@ export default function UserMenu() {
                         />
                     </ListItemButton>
                     {
-                        user.userRole === 'admin' && 
+                        (user.userRole === 'admin') && 
                             <ListItemButton
-                                onClick={adminPanelClick}
+                                onClick={() => navigateToPage('/admin-panel')}
                             >
                                 <ListItemIcon >
                                     <ShieldIcon sx={{
@@ -124,15 +120,103 @@ export default function UserMenu() {
                                 />
                             </ListItemButton> 
                     }
+                    {
+                        (user.userRole === 'author' || user.userRole === 'admin' || user.userRole === 'teacher' || user.userRole === 'moderator') && 
+                            <ListItemButton
+                            onClick={() => navigateToPage('/course-management')}
+                            >
+                                <ListItemIcon >
+                                    <SchoolIcon sx={{
+                                        fontSize: '2.1rem',
+                                        color: iconColor,
+                                    }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary="Course Management"
+                                    sx={{
+                                        color: theme.palette.text.primary
+                                    }}
+                                />
+                            </ListItemButton> 
+                    }
                     <ListItemButton
-                        onClick={logoutClick}
+                        onClick={() => navigateToPage('/taking-courses')}
                     >
                         <ListItemIcon >
-                        <LogoutIcon sx={{
-                            fontSize: '2.1rem',
-                            color: iconColor,
-                        }}
+                            <PlayCircleIcon sx={{
+                                fontSize: '2.1rem',
+                                color: iconColor,
+                            }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary="Taking Courses"
+                            sx={{
+                                color: theme.palette.text.primary
+                            }}
                         />
+                    </ListItemButton>
+                    <ListItemButton
+                        onClick={() => navigateToPage('/educational-programs')}
+                    >
+                        <ListItemIcon >
+                            <EditCalendarIcon sx={{
+                                fontSize: '2.1rem',
+                                color: iconColor,
+                            }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary="Educational Programs"
+                            sx={{
+                                color: theme.palette.text.primary
+                            }}
+                        />
+                    </ListItemButton>
+                    <ListItemButton
+                        onClick={() => navigateToPage('/chat-forum')}
+                    >
+                        <ListItemIcon >
+                            <ForumIcon sx={{
+                                fontSize: '2.1rem',
+                                color: iconColor,
+                            }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary="Chat Forum"
+                            sx={{
+                                color: theme.palette.text.primary
+                            }}
+                        />
+                    </ListItemButton>
+                    <ListItemButton
+                        onClick={() => navigateToPage('/learning-analytics')}
+                    >
+                        <ListItemIcon>
+                            <BarChartIcon sx={{
+                                fontSize: '2.1rem',
+                                color: iconColor,
+                            }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText
+                            primary="Learning Analytics"
+                            sx={{
+                                color: theme.palette.text.primary
+                            }}
+                        />
+                    </ListItemButton>
+                    <ListItemButton
+                        onClick={() => navigateToPage('/auth')}
+                    >
+                        <ListItemIcon >
+                            <LogoutIcon sx={{
+                                fontSize: '2.1rem',
+                                color: iconColor,
+                            }}
+                            />
                         </ListItemIcon>
                         <ListItemText
                             primary="Log Out"

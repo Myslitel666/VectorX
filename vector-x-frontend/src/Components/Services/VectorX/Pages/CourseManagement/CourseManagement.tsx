@@ -26,7 +26,7 @@ const CourseManagement: React.FC = () => {
                 marginTop: '4.75rem',
                 marginBottom: '1.75rem'
             }}>
-                <Typography>
+                <Typography fontSize='5rem'>
                     Course Management
                 </Typography>
             </Box>

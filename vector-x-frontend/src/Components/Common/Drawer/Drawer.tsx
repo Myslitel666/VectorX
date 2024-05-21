@@ -19,10 +19,17 @@ import Logo from '../Header/Logo';
 import ServiceName from '../Header/ServiceName';
 import Customization from '../Drawer/Customization';
 import ReplenishmentFunds from './ReplenishmentFunds';
-import Profile from '../Drawer/Profile';
+import Profile from './ListItemsDrawer';
+import { 
+    AdminPanel, 
+    CourseManagement,
+    TakingCourses,
+    EducationalPrograms,
+    ChatForum,
+    LearningAnalytics,
+    Logout
+} from './ListItemsDrawer';
 import Login from '../Drawer/Login';
-import Logout from '../Drawer/Logout';
-import AdminPanel from '../Drawer/AdminPanel';
 
 const drawerWidth = 240;
 
@@ -67,6 +74,7 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
     const user = getUser();
 
     const [open, setOpen] = React.useState(false);
+    const managementCoursesRolesAccess = ['author', 'admin', 'teacher', 'moderator'];
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -146,7 +154,12 @@ export default function PersistentDrawerLeft({ serviceName = 'Vector X' }) {
                     {isLogged() ?
                         <>
                             <Profile />
-                            {user.userRole === 'admin' && <AdminPanel />}
+                            {(user.userRole === 'admin') && <AdminPanel />}
+                            {managementCoursesRolesAccess.includes(user.userRole) && <CourseManagement />}
+                            <TakingCourses />
+                            <EducationalPrograms />
+                            <ChatForum />
+                            <LearningAnalytics />
                             <Logout />
                         </>
                         :

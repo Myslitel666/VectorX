@@ -12,10 +12,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 //MyComponents Import
 import { useUserContext } from '../../../Context/UserContext';
 
-export default function Settings() {
+export default function Login() {
     const navigate = useNavigate();
-
-    //Работа с контекстом
     const { logoutUser } = useUserContext();
 
     const handleClickSignUp = () => {

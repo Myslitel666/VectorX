@@ -26,7 +26,7 @@ const EducationalPrograms: React.FC = () => {
                 marginTop: '4.75rem',
                 marginBottom: '1.75rem'
             }}>
-                <Typography>
+                <Typography fontSize='5rem'>
                     Educational Programs
                 </Typography>
             </Box>
