@@ -31,7 +31,7 @@ const CourseManagement: React.FC = () => {
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
 
-    const isDesktop = useMediaQuery({ minWidth: 600 });
+    const isDesktop = useMediaQuery({ minWidth:700 });
 
     const courseManagementMenu = [
         {
@@ -85,11 +85,12 @@ const CourseManagement: React.FC = () => {
     return (
         <>
             <Header />
-            <Box sx={{
-                padding: '4.5rem 1.25rem 0rem 1.5rem'
-            }}>
+            <Box 
+                padding = {isDesktop ? '4.75rem 4.75rem 0rem 4.75rem' : '4.75rem 1.25rem 0rem 1.5rem'}
+            >
                 <Typography 
                     fontSize='2.25rem'
+                    marginBottom='0.25rem'
                 >
                     Course Management
                 </Typography>

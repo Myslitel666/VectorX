@@ -94,8 +94,8 @@ const PopularCourses: React.FC = () => {
     return (
         <>
             <Typography
-                marginLeft='1rem'
-                fontSize='24px'
+                marginLeft='4.5rem'
+                fontSize='2.25rem'
             >
                 Popular Courses
             </Typography>
