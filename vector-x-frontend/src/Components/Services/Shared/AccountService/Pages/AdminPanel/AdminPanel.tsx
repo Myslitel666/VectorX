@@ -58,6 +58,7 @@ const AdminPanel: React.FC = () => {
         setRotation(rotation + 360);
     }
 
+    //Блокировка доступа к админ. панели для всех, кроме администратора
     useEffect(() => {
         if (user.userRole !== 'admin') {
             navigate('/profile');

@@ -1,5 +1,6 @@
 //React Import
 import React, { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 //MUI Import
 import { Typography } from '@mui/material';
@@ -10,8 +11,18 @@ import Header from '../../../../Common/Header/Header';
 import Box from '@mui/material/Box';
 
 const CourseManagement: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const { getUser, logoutUser } = useUserContext();
     const user = getUser();
+    const managementCoursesRolesAccess = ['author', 'admin', 'teacher', 'moderator'];
+
+    //Блокировка доступа к управлению курсами для непривилегированных пользователей
+    useEffect(() => {
+        if (!managementCoursesRolesAccess.includes(user.userRole)) {
+            navigate('/profile');
+        }
+    }, [location.pathname]);
 
     useEffect(() => {
         if (user.isBlocked) {
