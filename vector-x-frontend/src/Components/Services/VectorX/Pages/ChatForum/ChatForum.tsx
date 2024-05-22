@@ -1,5 +1,6 @@
 //React Import
 import React, { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 //MUI Import
 import { Typography } from '@mui/material';
@@ -10,14 +11,18 @@ import Header from '../../../../Common/Header/Header';
 import Box from '@mui/material/Box';
 
 const ChatForum: React.FC = () => {
-    const { getUser, logoutUser } = useUserContext();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { getUser, isLogged } = useUserContext();
     const user = getUser();
 
+    //Попытка получить доступ к контенту из адресной строки браузера
+    //Chat Forum доступен только для зарегистрированных пользователей
     useEffect(() => {
-        if (user.isBlocked) {
-            logoutUser();
+        if (!isLogged()) {
+            navigate('/auth');
         }
-    }, [user.isBlocked]);
+    }, [location.pathname, user.isBlocked]);
 
     return (
         <>

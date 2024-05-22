@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 const CourseManagement: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { getUser, logoutUser } = useUserContext();
+    const { getUser, logoutUser, isLogged } = useUserContext();
     const user = getUser();
     const managementCoursesRolesAccess = ['author', 'admin', 'teacher', 'moderator'];
 
@@ -22,13 +22,10 @@ const CourseManagement: React.FC = () => {
         if (!managementCoursesRolesAccess.includes(user.userRole)) {
             navigate('/profile');
         }
-    }, [location.pathname]);
-
-    useEffect(() => {
-        if (user.isBlocked) {
-            logoutUser();
+        if (!isLogged()) {
+            navigate('/auth');
         }
-    }, [user.isBlocked]);
+    }, [location.pathname, user.isBlocked]);
 
     return (
         <>

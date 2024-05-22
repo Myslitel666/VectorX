@@ -22,6 +22,8 @@ import { Provider } from 'react-redux';
 import store from './Store/store'; // Путь к вашему файлу store
 
 const Profile: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const { getUser, isLogged } = useUserContext();
     let user = getUser();
 
@@ -30,9 +32,6 @@ const Profile: React.FC = () => {
     const handleFieldSelectionChange = (selectedValue: string) => {
         setSelectedField(selectedValue); // обновляем значение выбранного поля
     };
-
-    const navigate = useNavigate();
-    const location = useLocation();
 
     //Попытка получить доступ к контенту из адресной строки браузера
     //Profile Section доступен только для зарегистрированных пользователей
