@@ -23,7 +23,6 @@ const PaymentMethodContent: React.FC<({ setPaymentMethodClick: React.Dispatch<Re
     const { themeMode }: ColorModeContextProps = useColorMode();
     const { getColorFromLabel } = useColorLabel('red');
 
-    //Redux
     const paymentMethod = [
         {
             paymentMethodId: 1,
