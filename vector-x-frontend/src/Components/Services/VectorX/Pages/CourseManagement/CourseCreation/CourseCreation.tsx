@@ -24,6 +24,7 @@ import MyTypography from '../../../../../Common/User Interface/MyTypography';
 import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete';
 import MyInputBase from '../../../../../Common/User Interface/MyInputBase';
 import MyButton from '../../../../../Common/User Interface/MyButton';
+import Stepper from './Stepper';
 
 const CourseCreation: React.FC = () => {
 
@@ -193,6 +194,9 @@ const CourseCreation: React.FC = () => {
                             </MyButton>
                         </Box>
                     </Box>
+                </Box>
+                <Box marginTop='1.75rem'>
+                    <Stepper step={0}/>
                 </Box>
             </Box>
         </>
