@@ -14,6 +14,10 @@ import Authorization from './Components/Services/Shared/AccountService/Pages/Aut
 import Profile from './Components/Services/Shared/AccountService/Pages/Profile/Profile';
 import AdminPanel from './Components/Services/Shared/AccountService/Pages/AdminPanel/AdminPanel';
 import CourseManagement from './Components/Services/VectorX/Pages/CourseManagement/CourseManagement'; //Vector X
+    import CourseCreation from './Components/Services/VectorX/Pages/CourseManagement/CourseCreation/CourseCreation'; //Vector X (Course Managemenrt)
+    import CourseSectionsCreation from './Components/Services/VectorX/Pages/CourseManagement/Course Sections Creation/CourseSectionsCreation';
+    import LessonsCreation from './Components/Services/VectorX/Pages/CourseManagement/Lessons Creation/LessonsCreation';
+    import LessonContentCreation from './Components/Services/VectorX/Pages/CourseManagement/Lesson Content Creation/LessonContentCreation';
 import TakingCourses from './Components/Services/VectorX/Pages/TakingCourses/TakingCourses';
 import EducationalPrograms from './Components/Services/VectorX/Pages/EducationalPrograms/EducationalPrograms';
 import ChatForum from './Components/Services/VectorX/Pages/ChatForum/ChatForum';
@@ -63,6 +67,22 @@ function App() {
                         path="/course-management"
                         element={<CourseManagement />}
                     />
+                        <Route
+                            path="/course-management/course-creation"
+                            element={<CourseCreation />}
+                        />
+                        <Route
+                            path="/course-management/course-sections-creation"
+                            element={<CourseSectionsCreation />}
+                        />
+                        <Route
+                            path="/course-management/lessons-creation"
+                            element={<LessonsCreation />}
+                        />
+                        <Route
+                            path="/course-management/lesson-content-creation"
+                            element={<LessonContentCreation />}
+                        />
                     <Route
                         path="/taking-courses"
                         element={<TakingCourses />}

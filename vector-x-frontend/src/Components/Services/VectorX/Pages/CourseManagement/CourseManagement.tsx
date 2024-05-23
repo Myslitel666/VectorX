@@ -68,9 +68,6 @@ const CourseManagement: React.FC = () => {
 
         // Создаем массив состояний для каждого Box'а
         const [, setIsHoveredBox] = useState(Array(courseManagementMenu.length).fill(false));
-        const [boxStates] = useState<Array<{ lastClickedTime: Date | null; errorMessage: string }>>(
-            Array(courseManagementMenu.length).fill({ lastClickedTime: null, errorMessage: '' })
-        );
 
     //Блокировка доступа к управлению курсами для непривилегированных пользователей
     useEffect(() => {
@@ -148,28 +145,20 @@ const CourseManagement: React.FC = () => {
                                     width: '3rem',
                                     height: '3rem',
                                     color: theme.palette.primary.main, // Пример использования темы
-                                    fill: theme.palette.primary.main, // Пример использования темы
+                                    transition: 'color 1s ease'
                                 },
                             })}
-                            
                             <Box
                                 sx={{
                                     marginLeft: '1.25rem',
                                 }}
                             >
-                                {boxStates[index].errorMessage && (
-                                    <Typography
-                                        sx={{
-                                            color: 'red',
-                                        }}
-                                    >
-                                        {boxStates[index].errorMessage}
-                                    </Typography>
-                                )}
                                 <Typography style={{ fontWeight: 'bold' }}>
                                     {menuOption.menuOptionTitle}
                                 </Typography>
-                                <Typography>{menuOption.menuOptionDescription}</Typography>
+                                <Typography>
+                                    {menuOption.menuOptionDescription}
+                                </Typography>
                             </Box>
                         </Box>
                     ))}
