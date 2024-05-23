@@ -44,6 +44,11 @@ const CourseCreation: React.FC = () => {
         { title: 'Username' },
         { title: 'Password' },
     ]
+    const [selectedField, setSelectedField] = useState('');
+
+    const handleFieldSelectionChange = (selectedValue: string) => {
+        setSelectedField(selectedValue); // обновляем значение выбранного поля
+    };
 
     const CourseCreationTypography = (typography: string) => {
         return(
@@ -140,6 +145,8 @@ const CourseCreation: React.FC = () => {
                                 dropList={fieldSelectionDropList}
                                 size='medium'
                                 label='Subject'
+                                //onFieldSelectionChange={handleFieldSelectionChange} // передаем обновленный обработчик
+                                defaultValue={null}
                                 sx={{
                                     width: '100%'
                                 }}
