@@ -166,7 +166,7 @@ const CourseImageUploading: React.FC = () => {
                                         sx={{
                                             marginBottom: '0.5rem',
                                             minWidth: '100%',
-                                            height: '3.4rem',
+                                            height: '3.7rem',
                                         }}
                                     >
                                         Update
@@ -179,25 +179,10 @@ const CourseImageUploading: React.FC = () => {
                                         sx={{
                                             marginBottom: '0.5rem',
                                             minWidth: '100%',
-                                            height: '3.4rem'
+                                            height: '3.7rem'
                                         }}
                                     >
                                         Remove
-                                    </MyButton>
-                                    <MyButton
-                                        variant = 'contained'
-                                        disabled = { !unlockSaveButton }
-                                        onClick={() => {
-                                            //onClickSave(imageList[0]['data_url']);
-                                            //setInitialImage(imageList[0]['data_url']);
-                                        }}
-                                        sx={{
-                                            marginBottom: '0.5rem',
-                                            minWidth: '100%',
-                                            height: '3.4rem'
-                                        }}
-                                    >
-                                        Save
                                     </MyButton>
                                 </Box>
                             </div>

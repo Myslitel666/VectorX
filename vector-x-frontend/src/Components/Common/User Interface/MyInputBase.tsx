@@ -26,7 +26,6 @@ const MyInputBase: React.FC<MyInputProps> = (props) => {
                 '&.Mui-focused': {
                     borderColor: `${theme.palette.primary.main}`, // Ваши стили при фокусировке
                 },
-
                 //...props.sx // Позволяет вам передавать другие стили через props
             }}
         />

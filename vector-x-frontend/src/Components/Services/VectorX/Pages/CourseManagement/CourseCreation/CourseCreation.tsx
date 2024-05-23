@@ -21,6 +21,9 @@ import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import CourseImageUploading from './CourseImageUploading';
 import MyTypography from '../../../../../Common/User Interface/MyTypography';
+import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete';
+import MyInputBase from '../../../../../Common/User Interface/MyInputBase';
+import MyButton from '../../../../../Common/User Interface/MyButton';
 
 const CourseCreation: React.FC = () => {
 
@@ -35,6 +38,36 @@ const CourseCreation: React.FC = () => {
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
 
     const isDesktop = useMediaQuery({ minWidth:900 });
+
+    const fieldSelectionDropList = [
+        { title: 'Username' },
+        { title: 'Password' },
+    ]
+
+    const CourseCreationTypography = (typography: string) => {
+        return(
+            <Typography
+                sx={{
+                    fontSize: '2rem',
+                    float: 'left',
+                    marginLeft: isDesktop ? '2rem' : '0.25rem',
+                    marginRight: '0.5rem',
+                    whiteSpace: 'nowrap', // Запрещает перенос текста
+                    minWidth: '14rem',
+                    '@media screen and (max-width:1200px)': {
+                        fontSize: '1.75rem',
+                        minWidth: '12.25rem',
+                    },
+                    '@media screen and (max-width:1000px)': {
+                        fontSize: '1.5rem',
+                        minWidth: '10.5rem',
+                    },
+                }}
+            >
+                {typography}
+            </Typography>
+        )
+    }
 
     //Блокировка доступа к управлению курсами для непривилегированных пользователей
     useEffect(() => {
@@ -76,41 +109,89 @@ const CourseCreation: React.FC = () => {
                             <CourseImageUploading />
                         </Box>
                     </Box>
-                    <Box 
-                        display = 'flex'
-                        alignItems = 'center'
-                        width = '100%'
-                        maxHeight = '1rem'
-                        marginTop = {isDesktop ? '1.75rem' : '14.25rem'}
-                    >
-                        <Typography
-                            sx={{
-                                fontSize: '2rem',
-                                float: 'left',
-                                marginLeft: isDesktop ? '2rem' : '0.25rem',
-                                marginRight: '0.5rem',
-                                whiteSpace: 'nowrap', // Запрещает перенос текста
-                                '@media screen and (max-width:1200px)': {
-                                    fontSize: '1.75rem'
-                                },
-                                '@media screen and (max-width:1000px)': {
-                                    fontSize: '1.5rem'
-                                },
-                            }}
+                    <Box width = '100%'>
+                        <Box 
+                            display = 'flex'
+                            marginTop = {isDesktop ? '0.75rem' : '9.45rem'}
                         >
-                            Course Name:
-                        </Typography>
-                        <TextField
-                            id="outlined-basic"
-                            label="Course"
-                            variant="outlined"
-                            //onChange={(e) => setUsername(e.target.value)}
-                            //value={username}
-                            sx={{
-                                //marginLeft: '15rem',
-                                width: isDesktop ? '70%' : '100%'
-                            }}
-                        />
+                            {isDesktop && 
+                                CourseCreationTypography('Course Name:')
+                            }
+                            <TextField
+                                id="outlined-basic"
+                                label={isDesktop ? 'Course' : 'Course Name'}
+                                variant="outlined"
+                                //onChange={(e) => setUsername(e.target.value)}
+                                //value={username}
+                                sx={{
+                                    width: '100%'
+                                }}
+                            />
+                        </Box>
+                        <Box 
+                            display = 'flex'
+                            marginTop = '0.75rem'
+                        >
+                            {isDesktop && 
+                                CourseCreationTypography('Subject:')
+                            }
+                            <MyAutoComplete
+                                dropList={fieldSelectionDropList}
+                                size='medium'
+                                label='Subject'
+                                sx={{
+                                    width: '100%'
+                                }}
+                            />
+                        </Box>
+                        <Box 
+                            display = 'flex'
+                            marginTop = '0.75rem'
+                        >
+                            {isDesktop && 
+                                CourseCreationTypography('Description:')
+                            }
+                            <MyInputBase
+                                multiline
+                                rows={8.5}
+                                placeholder='Description'
+                                //value={exampleOfUse}
+                                //onChange={(e) => setExampleOfUse(e.target.value)}
+                                maxLength={5000}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem'
+                                }}
+                            />
+                        </Box>
+                        <Box 
+                            display = 'flex'
+                            marginTop = '0.75rem'
+                            marginBottom = '0.75rem'
+                        >
+                            {isDesktop && 
+                                CourseCreationTypography('Price:')
+                            }
+                            <TextField
+                                id="outlined-basic"
+                                label='Price'
+                                variant="outlined"
+                                //onChange={(e) => setUsername(e.target.value)}
+                                //value={username}
+                                sx={{
+                                    width: '49%',
+                                    marginRight: '0.5rem'
+                                }}
+                            />
+                            <MyButton
+                                variant='contained'
+                                sx = {{
+                                    width: '49%'
+                                }}
+                            >
+                                Next Step
+                            </MyButton>
+                        </Box>
                     </Box>
                 </Box>
             </Box>
