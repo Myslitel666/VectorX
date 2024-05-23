@@ -85,7 +85,7 @@ const CourseCreation: React.FC = () => {
                     >
                         <Typography
                             sx={{
-                                fontSize: '2.25rem',
+                                fontSize: '2rem',
                                 float: 'left',
                                 marginLeft: isDesktop ? '2rem' : '0.25rem',
                                 marginRight: '0.5rem',

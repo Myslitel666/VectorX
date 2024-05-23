@@ -131,8 +131,8 @@ const CourseImageUploading: React.FC = () => {
                                 }}>
                                     <div
                                         style={{
-                                            width: '21.75rem',
-                                            height: '21.75rem',
+                                            width: '18rem',
+                                            height: '18rem',
                                             overflow: 'hidden',
                                         }}
                                     >
@@ -151,10 +151,10 @@ const CourseImageUploading: React.FC = () => {
                                 <Box className="image-item__btn-wrapper"
                                     sx={{
                                         display: isDesktop ? '' : 'flow',
-                                        width: isDesktop ? '22.2rem' : '100%',
+                                        width: isDesktop ? '18rem' : '100%',
                                         position: 'absolute',
-                                        top: '32rem',
-                                        paddingRight: '0.5rem',
+                                        top: '28rem',
+                                        paddingRight: isDesktop ? '' : '1rem',
                                         zIndex: 1,
                                     }}
                                 >
