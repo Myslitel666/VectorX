@@ -1,5 +1,6 @@
 //React Import
 import React, { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 //ImageUploading Import
 import ImageUploading, { ImageListType } from 'react-images-uploading';
@@ -23,6 +24,7 @@ const CourseImageUploading: React.FC = () => {
     const { getColorFromLabel } = useColorLabel('green');
     let user = getUser();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.courseDark : defaultAvatars.courseLight;
+    const isDesktop = useMediaQuery({ minWidth:900 });
 
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
@@ -121,47 +123,39 @@ const CourseImageUploading: React.FC = () => {
                             <div
                                 className="image-item"
                             >
-                                <Box sx={{
-                                    marginLeft: '0.5rem',
+                                <div style={{
+                                    marginTop: '1rem',
+                                    display: 'flex', // Центрируем содержимое по горизонтали и вертикали
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
                                 }}>
-                                    <div style={{
-                                        marginTop: '1rem',
-                                        display: 'flex', // Центрируем содержимое по горизонтали и вертикали
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                    }}>
-                                        <div
+                                    <div
+                                        style={{
+                                            width: '21.75rem',
+                                            height: '21.75rem',
+                                            overflow: 'hidden',
+                                        }}
+                                    >
+                                        <img
+                                            src={imageList[0]['data_url']}
+                                            alt=""
                                             style={{
-                                                width: '21.75rem',
-                                                height: '21.75rem',
-                                                overflow: 'hidden',
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
                                             }}
-                                        >
-                                            <img
-                                                src={imageList[0]['data_url']}
-                                                alt=""
-                                                style={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'cover',
-                                                }}
-                                            />
-                                        </div>
+                                        />
                                     </div>
-                                </Box>
+                                </div>
                           
                                 <Box className="image-item__btn-wrapper"
                                     sx={{
-                                        width: '22.75rem',
+                                        display: isDesktop ? '' : 'flow',
+                                        width: isDesktop ? '22.2rem' : '100%',
                                         position: 'absolute',
                                         top: '32rem',
-                                        paddingLeft: '0.5rem',
                                         paddingRight: '0.5rem',
                                         zIndex: 1,
-                                        '@media screen and (max-width: 900px)': {
-                                            display: 'flow',
-                                            width: '100%',
-                                        },
                                     }}
                                 >
                                     <MyButton

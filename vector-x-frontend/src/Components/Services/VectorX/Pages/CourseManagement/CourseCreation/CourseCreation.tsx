@@ -7,6 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -19,6 +20,7 @@ import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import CourseImageUploading from './CourseImageUploading';
+import MyTypography from '../../../../../Common/User Interface/MyTypography';
 
 const CourseCreation: React.FC = () => {
 
@@ -48,12 +50,17 @@ const CourseCreation: React.FC = () => {
         <>
             <Header />
             <Box 
-                padding = {isDesktop ? '4.75rem 4.75rem 0rem 4.75rem' : '4.75rem 0rem 0rem 0rem'}
+                padding = '4.75rem 4.75rem 0rem 4.75rem'
+                sx = {{
+                    '@media screen and (max-width:1100px)': {
+                        padding: '4.75rem 0.5rem 0rem 0.5rem'
+                    },
+                }}
             >
                 <Typography 
                     fontSize='2.25rem'
                     marginBottom='0.25rem'
-                    marginLeft = {isDesktop ? '0rem' : '1rem'}
+                    marginLeft = {isDesktop ? '0rem' : '0.25rem'}
                 >
                     Course Creation
                 </Typography>
@@ -68,6 +75,42 @@ const CourseCreation: React.FC = () => {
                         >
                             <CourseImageUploading />
                         </Box>
+                    </Box>
+                    <Box 
+                        display = 'flex'
+                        alignItems = 'center'
+                        width = '100%'
+                        maxHeight = '1rem'
+                        marginTop = {isDesktop ? '1.75rem' : '14.25rem'}
+                    >
+                        <Typography
+                            sx={{
+                                fontSize: '2.25rem',
+                                float: 'left',
+                                marginLeft: isDesktop ? '2rem' : '0.25rem',
+                                marginRight: '0.5rem',
+                                whiteSpace: 'nowrap', // Запрещает перенос текста
+                                '@media screen and (max-width:1200px)': {
+                                    fontSize: '1.75rem'
+                                },
+                                '@media screen and (max-width:1000px)': {
+                                    fontSize: '1.5rem'
+                                },
+                            }}
+                        >
+                            Course Name:
+                        </Typography>
+                        <TextField
+                            id="outlined-basic"
+                            label="Course"
+                            variant="outlined"
+                            //onChange={(e) => setUsername(e.target.value)}
+                            //value={username}
+                            sx={{
+                                //marginLeft: '15rem',
+                                width: isDesktop ? '70%' : '100%'
+                            }}
+                        />
                     </Box>
                 </Box>
             </Box>
