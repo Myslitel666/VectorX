@@ -14,7 +14,9 @@ export interface ColorModeContextProps {
     iconColor: string;
     defaultAvatars: {
         light: string,
-        dark: string
+        dark: string,
+        courseLight: string,
+        courseDark: string,
     }
 }
 
@@ -87,7 +89,9 @@ export const ColorModeProvider: React.FC<ColorModeProviderProps> = ({ children }
 
     const defaultAvatars = {
         light: '/images/default-avatars/light.jpg',
-        dark: '/images/default-avatars/dark.jpg'
+        dark: '/images/default-avatars/dark.jpg',
+        courseLight: '/images/default-avatars/course-light.png',
+        courseDark: '/images/default-avatars/course-dark.png'
     }
 
     const iconColor = theme.palette.mode === 'dark' ? 'white' : '#5F5F5F';

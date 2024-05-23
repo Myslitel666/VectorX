@@ -18,6 +18,7 @@ import { ColorModeContextProps, useColorMode } from '../../../../../../Context/C
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
+import CourseImageUploading from './CourseImageUploading';
 
 const CourseCreation: React.FC = () => {
 
@@ -31,43 +32,7 @@ const CourseCreation: React.FC = () => {
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
 
-    const isDesktop = useMediaQuery({ minWidth:700 });
-
-    const courseManagementMenu = [
-        {
-            courseManagementMenuId: 1,
-            menuOptionTitle: 'Create Course',
-            menuOptionDescription: 'Start creating your course today!',
-            icon: <AddBoxIcon />,
-        },
-        {
-            courseManagementMenuId: 2,
-            menuOptionTitle: 'My Drafts',
-            menuOptionDescription: 'The place for your creative ideas',
-            icon: <ArticleIcon />,
-        },
-        {
-            courseManagementMenuId: 3,
-            menuOptionTitle: 'Edit Course',
-            menuOptionDescription: 'Change and improve your courses',
-            icon: <EditIcon />,
-        },
-        {
-            courseManagementMenu: 4,
-            menuOptionTitle: 'Checking Tasks',
-            menuOptionDescription: 'Check the completed tasks of the learners',
-            icon: <CheckCircleIcon />,
-        },
-        {
-            courseManagementMenu: 5,
-            menuOptionTitle: 'Course Appeals & Blocks',
-            menuOptionDescription: 'Appeal the decision to block the course',
-            icon: <GavelIcon />,
-        },
-    ]
-
-    // Создаем массив состояний для каждого Box'а
-    const [, setIsHoveredBox] = useState(Array(courseManagementMenu.length).fill(false));
+    const isDesktop = useMediaQuery({ minWidth:900 });
 
     //Блокировка доступа к управлению курсами для непривилегированных пользователей
     useEffect(() => {
@@ -82,12 +47,30 @@ const CourseCreation: React.FC = () => {
     return (
         <>
             <Header />
-            <Typography 
-                marginTop='4.75rem' 
-                fontSize='5rem'
+            <Box 
+                padding = {isDesktop ? '4.75rem 4.75rem 0rem 4.75rem' : '4.75rem 0rem 0rem 0rem'}
             >
-                Course Creation
-            </Typography>
+                <Typography 
+                    fontSize='2.25rem'
+                    marginBottom='0.25rem'
+                    marginLeft = {isDesktop ? '0rem' : '1rem'}
+                >
+                    Course Creation
+                </Typography>
+                <Box
+                    display={isDesktop ? 'flex' : 'flow'}
+                >
+                    <Box>
+                        <Box 
+                            sx={{ 
+                                marginTop: '0.5rem',
+                            }}
+                        >
+                            <CourseImageUploading />
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
         </>
     );
 };

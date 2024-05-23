@@ -126,9 +126,7 @@ const Profile: React.FC = () => {
                     },
                 }}
             >
-                <Box sx={{
-
-                }}>
+                <Box>
                     <MyAccountTypography />
                     <Avatar />
                 </Box>
