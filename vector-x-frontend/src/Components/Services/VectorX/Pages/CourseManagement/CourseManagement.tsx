@@ -39,30 +39,35 @@ const CourseManagement: React.FC = () => {
             menuOptionTitle: 'Create Course',
             menuOptionDescription: 'Start creating your course today!',
             icon: <AddBoxIcon />,
+            page: '/course-management/course-creation'
         },
         {
             courseManagementMenuId: 2,
             menuOptionTitle: 'My Drafts',
             menuOptionDescription: 'The place for your creative ideas',
             icon: <ArticleIcon />,
+            page: '/course-management/course-creation'
         },
         {
             courseManagementMenuId: 3,
             menuOptionTitle: 'Edit Course',
             menuOptionDescription: 'Change and improve your courses',
             icon: <EditIcon />,
+            page: '/course-management/course-creation'
         },
         {
             courseManagementMenu: 4,
             menuOptionTitle: 'Checking Tasks',
             menuOptionDescription: 'Check the completed tasks of the learners',
             icon: <CheckCircleIcon />,
+            page: '/course-management/course-creation'
         },
         {
             courseManagementMenu: 5,
             menuOptionTitle: 'Course Appeals & Blocks',
             menuOptionDescription: 'Appeal the decision to block the course',
             icon: <GavelIcon />,
+            page: '/course-management/course-creation'
         },
     ]
 
@@ -137,7 +142,7 @@ const CourseManagement: React.FC = () => {
                                 );
                             }}
                             onClick={() => {
-                                // setOpen(true);
+                                navigate(menuOption.page);
                             }}
                         >
                             {React.cloneElement(menuOption.icon, {
