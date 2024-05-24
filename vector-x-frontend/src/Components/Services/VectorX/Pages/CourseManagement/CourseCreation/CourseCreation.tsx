@@ -145,7 +145,7 @@ const CourseCreation: React.FC = () => {
                                 dropList={fieldSelectionDropList}
                                 size='medium'
                                 label='Subject'
-                                //onFieldSelectionChange={handleFieldSelectionChange} // передаем обновленный обработчик
+                                onFieldSelectionChange={handleFieldSelectionChange} // передаем обновленный обработчик
                                 defaultValue={null}
                                 sx={{
                                     width: '100%'
