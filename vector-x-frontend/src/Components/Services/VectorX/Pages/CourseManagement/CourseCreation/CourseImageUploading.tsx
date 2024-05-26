@@ -16,7 +16,7 @@ import Box from '@mui/material/Box'
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAvatar, updateIsLoadedAvatar } from '../../../../../../Store/slices/courseCreationSlice';
+import { updateCourseAvatar, updateIsLoadedAvatar } from '../../../../../../Store/slices/courseCreationSlice';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //Utils Import
@@ -31,7 +31,9 @@ const CourseImageUploading: React.FC = () => {
     const isDesktop = useMediaQuery({ minWidth:900 });
 
     //Redux
+    const dispatch = useDispatch(); // Получаем диспетчер Redux
     const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
+    const courseAvatar = useSelector((state: RootState) => state.createdCourse.avatar);
 
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
@@ -98,6 +100,7 @@ const CourseImageUploading: React.FC = () => {
 
     const onChange = (imageList: ImageListType) => {
         setImage(imageList);
+        dispatch(updateCourseAvatar(imageList[0]['data_url']))
     };
 
     const removeImage = () => {

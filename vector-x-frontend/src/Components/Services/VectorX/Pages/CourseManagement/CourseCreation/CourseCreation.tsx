@@ -15,14 +15,18 @@ import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import CourseImageUploading from './CourseImageUploading';
-import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete';
 import MyInputBase from '../../../../../Common/User Interface/MyInputBase';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import Stepper from './Stepper';
+import SubjectAutocomplete from './SubjectAutocomplete';
 
 //Redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateCourseId } from '../../../../../../Store/slices/courseCreationSlice';
+import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
+
+//interfaces import
+import { Course, SubjectDirectory } from '../../../Interfaces/interfaces';
 
 const CourseCreation: React.FC = () => {
 
@@ -38,19 +42,34 @@ const CourseCreation: React.FC = () => {
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
+    const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
+    const avatar = useSelector((state: RootState) => state.createdCourse.avatar);
+
+    //Course
+    const [courseName, setCourseName] = useState(courseId === -1 ? '' : '');
+    const [selectedSubject, setSelectedSubject] = useState(courseId === -1 ? '' : '');
+    const [description, setDescription] = useState(courseId === -1 ? '' : '');
+    const [price, setPrice] = useState(courseId === -1 ? '' : '');
 
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
     const isDesktop = useMediaQuery({ minWidth:900 });
 
-    const fieldSelectionDropList = [
-        { title: 'Username' },
-        { title: 'Password' },
+    const subjectDirectory: SubjectDirectory[] = [
+        { 
+            subjectId: 0,
+            subjectName: 'Programming',
+            subjectDescription: ''
+        },
+        { 
+            subjectId: 1,
+            subjectName: 'Design',
+            subjectDescription: ''
+        },
     ]
-    const [selectedField, setSelectedField] = useState('');
 
-    const handleFieldSelectionChange = (selectedValue: string) => {
-        setSelectedField(selectedValue); // обновляем значение выбранного поля
+    const handleSubjectChange = (selectedValue: string) => {
+        setSelectedSubject(selectedValue); // обновляем значение выбранного поля
     };
 
     const CourseCreationTypography = (typography: string) => {
@@ -130,8 +149,8 @@ const CourseCreation: React.FC = () => {
                                 id="outlined-basic"
                                 label={isDesktop ? 'Course' : 'Course Name'}
                                 variant="outlined"
-                                //onChange={(e) => setUsername(e.target.value)}
-                                //value={username}
+                                onChange={(e) => setCourseName(e.target.value)}
+                                value={courseName}
                                 sx={{
                                     width: '100%'
                                 }}
@@ -144,12 +163,11 @@ const CourseCreation: React.FC = () => {
                             {isDesktop && 
                                 CourseCreationTypography('Subject:')
                             }
-                            <MyAutoComplete
-                                dropList={fieldSelectionDropList}
+                            <SubjectAutocomplete
+                                dropList={subjectDirectory}
                                 size='medium'
                                 label='Subject'
-                                onFieldSelectionChange={handleFieldSelectionChange} // передаем обновленный обработчик
-                                defaultValue={null}
+                                onFieldSelectionChange={handleSubjectChange} // передаем обновленный обработчик
                                 sx={{
                                     width: '100%'
                                 }}
@@ -166,8 +184,8 @@ const CourseCreation: React.FC = () => {
                                 multiline
                                 rows={8.5}
                                 placeholder='Description'
-                                //value={exampleOfUse}
-                                //onChange={(e) => setExampleOfUse(e.target.value)}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                                 maxLength={5000}
                                 style={{
                                     width: '100%',
@@ -187,8 +205,14 @@ const CourseCreation: React.FC = () => {
                                 id="outlined-basic"
                                 label='Price'
                                 variant="outlined"
-                                //onChange={(e) => setUsername(e.target.value)}
-                                //value={username}
+                                value={price}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const symbolsFilter = /^[0-9]*$/; // Регулярное выражение, которое разрешает только цифры
+                                    if (symbolsFilter.test(value)) {
+                                        setPrice(value);
+                                    }
+                                }}
                                 sx={{
                                     width: '49%',
                                     marginRight: '0.5rem'
@@ -198,6 +222,22 @@ const CourseCreation: React.FC = () => {
                                 variant='contained'
                                 sx = {{
                                     width: '49%'
+                                }}
+                                onClick = {() => {
+                                    const subject = subjectDirectory.find(subject => subject.subjectName === selectedSubject)
+                                    const subjectId = (subject) ? subject.subjectId : -1
+
+                                    const course: Course = {
+                                        courseId: courseId,
+                                        authorId: user.userId,
+                                        subjectId: subjectId,
+                                        title: courseName,
+                                        courseAvatar: avatar,
+                                        description: description,
+                                        price: parseInt(price)
+                                    }
+
+                                    console.log(course);
                                 }}
                             >
                                 Next Step

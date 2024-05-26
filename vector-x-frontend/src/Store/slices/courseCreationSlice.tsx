@@ -1,4 +1,8 @@
-﻿import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+﻿//Redux Import 
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+//ImageUploading Import
+import { ImageListType } from 'react-images-uploading';
 
 // Получение courseId из кэша или установка дефолтного значения
 const getCreatedCourseId = (): number => {
@@ -17,7 +21,7 @@ interface CreatedCourseState {
 const initialState: CreatedCourseState = {
         courseId: getCreatedCourseId(),
         isLoadedAvatar: false,
-        avatar: ''
+        avatar: 'b'
 };
 
 const createdCourseSlice = createSlice({
@@ -31,7 +35,7 @@ const createdCourseSlice = createSlice({
         updateIsLoadedAvatar(state, action: PayloadAction<boolean>) {
             state.isLoadedAvatar = action.payload;
         },
-        updateAvatar(state, action: PayloadAction<string>) {
+        updateCourseAvatar(state, action: PayloadAction<string>) {
             state.avatar = action.payload;
         },
     },
@@ -40,7 +44,7 @@ const createdCourseSlice = createSlice({
 export const { 
     updateCourseId: updateCourseId, 
     updateIsLoadedAvatar: updateIsLoadedAvatar, 
-    updateAvatar: updateAvatar 
+    updateCourseAvatar: updateCourseAvatar 
 } = createdCourseSlice.actions; // Экспорт экшенов
 
 export default createdCourseSlice.reducer; // Экспорт редьюсера

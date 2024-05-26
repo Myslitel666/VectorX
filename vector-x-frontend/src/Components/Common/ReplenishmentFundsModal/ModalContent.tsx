@@ -132,10 +132,6 @@ export const PayNowModalContent: React.FC<({ setOpen: React.Dispatch<React.SetSt
     const { getUser, updateBalance } = useUserContext();
     const user = getUser();
 
-    function hasDigits(str: string) {
-        return /\d/.test(str);
-    }
-
     const updateFeedbackMessage = (isError: boolean, message: string) => {
         setIsError(isError);
         setFeedbackMessage(message);
@@ -207,8 +203,8 @@ export const PayNowModalContent: React.FC<({ setOpen: React.Dispatch<React.SetSt
                     label='amount of money'
                     placeholder='150Р'
                     onChange={(e) => {
-                        const symbolsFilter = /[0-9]/; // Регулярное выражение, которое разрешает только цифры
-                        if (e.target.value === '' || symbolsFilter.test(e.target.value)) {
+                        const symbolsFilter = /^[0-9]*$/; // Регулярное выражение, которое разрешает только цифры
+                        if (symbolsFilter.test(e.target.value)) {
                             setAmountSum(e.target.value);
                         }
                     }}

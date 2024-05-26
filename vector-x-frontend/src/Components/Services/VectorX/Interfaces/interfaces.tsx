@@ -1,7 +1,6 @@
 export interface Course {
     courseId: number;
     authorId: number;
-    courseStatusId: number;
     subjectId: number;
     title: string;
     courseAvatar: string;
@@ -9,15 +8,9 @@ export interface Course {
     price: number;
 }
 
-export interface CourseStatusDirectory {
-    courseStatusId: number;
-    statusName: string;
-    description: string;
-}
-
-export interface CourseStatuses {
-    id: number;
-    courseId: number;
-    statusId: number;
+export interface SubjectDirectory {
+    subjectId: number,
+    subjectName: string,
+    subjectDescription: string
 }
 
