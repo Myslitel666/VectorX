@@ -19,7 +19,7 @@ public partial class Course
 
     public string? Descriptrion { get; set; }
 
-    public int? Price { get; set; }
+    public int Price { get; set; }
 
     public virtual User Author { get; set; } = null!;
 

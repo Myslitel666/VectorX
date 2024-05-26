@@ -11,7 +11,7 @@ public partial class CourseStatus
 
     public int CourseStatuseId { get; set; }
 
-    public int UserActionId { get; set; }
+    public int? UserActionId { get; set; }
 
     public virtual Course Course { get; set; } = null!;
 

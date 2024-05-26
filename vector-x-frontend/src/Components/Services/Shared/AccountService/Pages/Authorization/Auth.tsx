@@ -17,7 +17,7 @@ import Header from '../../../../../Common/Header/Header';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import MyLink from '../../../../../Common/User Interface/MyLink';
 import PasswordTextField from '../../../../../Common/User Interface/PasswordTextField'
-import QuikAccessAccountModal from './QuickAccountAccessModal'
+import QuickAccessAccountModal from './QuickAccountAccessModal'
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 
@@ -203,7 +203,7 @@ const Auth: React.FC = () => {
                 </MyTypography>
                 <Typography fontSize='0.75rem'>
                     Have you logged in from your device recently?
-                    <QuikAccessAccountModal />
+                    <QuickAccessAccountModal />
                 </Typography>
                 <Typography sx={{
                     color: isError ? getColorFromLabel('red') : getColorFromLabel('green'),

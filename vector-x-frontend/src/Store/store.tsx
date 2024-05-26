@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import cachedUsersReducer from './slices/cachedUsersSlice'; // Импортируем срез хранилища кешированных пользователей
-import usersReducer from './slices/adminPanelSlice'; // Импортируем срез хранилища кешированных пользователей
+import usersReducer from './slices/adminPanelSlice'; // Импортируем срез хранилища cписка пользователей
+import createdCourseReducer from './slices/courseCreationSlice'; // Импортируем срез хранилища данных создаваемого курса
 
 const store = configureStore({
     reducer: {
         cachedUsers: cachedUsersReducer, // Добавляем срез кешированных пользователей в качестве редюсера
         users: usersReducer, // Добавляем срез пользователей в качестве редюсера
-        // Дополнительные редюсеры могут быть добавлены здесь по мере необходимости
+        createdCourse: createdCourseReducer // Добавляем срез создаваемого курса в качестве редюсера
     }
 });
 

@@ -8,11 +8,6 @@ import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import EditIcon from '@mui/icons-material/Edit';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ArticleIcon from '@mui/icons-material/Article';
-import GavelIcon from '@mui/icons-material/Gavel';
 
 //MyComponents Import
 import { ColorModeContextProps, useColorMode } from '../../../../../../Context/ColorModeContext';
@@ -20,11 +15,14 @@ import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import CourseImageUploading from './CourseImageUploading';
-import MyTypography from '../../../../../Common/User Interface/MyTypography';
 import MyAutoComplete from '../../../../../Common/User Interface/MyAutoComplete';
 import MyInputBase from '../../../../../Common/User Interface/MyInputBase';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import Stepper from './Stepper';
+
+//Redux
+import { useDispatch } from 'react-redux';
+import { setCourseId, setIsLoadedAvatar } from '../../../../../../Store/slices/courseCreationSlice';
 
 const CourseCreation: React.FC = () => {
 
@@ -37,6 +35,11 @@ const CourseCreation: React.FC = () => {
     const { getUser, isLogged } = useUserContext();
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
+
+    //Redux
+    const dispatch = useDispatch(); // Получаем диспетчер Redux
+
+    const apiUrl = process.env.REACT_APP_API_URL as string;
 
     const isDesktop = useMediaQuery({ minWidth:900 });
 

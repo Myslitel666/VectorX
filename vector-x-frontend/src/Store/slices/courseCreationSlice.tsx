@@ -1,25 +1,36 @@
 ﻿import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../../Components/Services/Shared/AccountService/Interfaces/Interfaces'
 
-// Определение начального состояния среза
-interface CachedUsersState {
-    users: User[];
-}
-
-const initialState: CachedUsersState = {
-    users: [],
+// Получение courseId из кэша или установка дефолтного значения
+const getCreatedCourseId = (): number => {
+    const cachedCourseId = localStorage.getItem('createdCourseId');
+    return cachedCourseId ? parseInt(cachedCourseId) : -1;
 };
 
-const cachedUsersSlice = createSlice({
-    name: 'cachedUsers',
+// Определение начального состояния среза
+interface CreatedCourseState {
+    courseId: number,
+    isLoadedAvatar: boolean,
+}
+
+// Получение начального состояния из кэша или установка дефолтного значения, если кэш пуст
+const initialState: CreatedCourseState = {
+        courseId: getCreatedCourseId(),
+        isLoadedAvatar: false,
+};
+
+const createdCourseSlice = createSlice({
+    name: 'createdCourse',
     initialState,
     reducers: {
-        setStoredUsers(state, action: PayloadAction<User[]>) {
-            state.users = action.payload;
+        setCourseId(state, action: PayloadAction<number>) {
+            state.courseId = action.payload;
+        },
+        setIsLoadedAvatar(state, action: PayloadAction<boolean>) {
+            state.isLoadedAvatar = action.payload;
         },
     },
 });
 
-export const { setStoredUsers } = cachedUsersSlice.actions; // Экспорт экшенов
+export const { setCourseId, setIsLoadedAvatar } = createdCourseSlice.actions; // Экспорт экшенов
 
-export default cachedUsersSlice.reducer; // Экспорт редьюсера
+export default createdCourseSlice.reducer; // Экспорт редьюсера
