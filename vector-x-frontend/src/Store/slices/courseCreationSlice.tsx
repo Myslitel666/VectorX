@@ -10,12 +10,14 @@ const getCreatedCourseId = (): number => {
 interface CreatedCourseState {
     courseId: number,
     isLoadedAvatar: boolean,
+    avatar: string
 }
 
 // Получение начального состояния из кэша или установка дефолтного значения, если кэш пуст
 const initialState: CreatedCourseState = {
         courseId: getCreatedCourseId(),
         isLoadedAvatar: false,
+        avatar: ''
 };
 
 const createdCourseSlice = createSlice({
@@ -28,6 +30,9 @@ const createdCourseSlice = createSlice({
         },
         setIsLoadedAvatar(state, action: PayloadAction<boolean>) {
             state.isLoadedAvatar = action.payload;
+        },
+        setAvatar(state, action: PayloadAction<string>) {
+            state.avatar = action.payload;
         },
     },
 });
