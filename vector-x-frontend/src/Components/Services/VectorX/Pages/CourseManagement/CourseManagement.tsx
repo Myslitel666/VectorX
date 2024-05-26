@@ -19,6 +19,10 @@ import { useColorLabel } from '../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../Context/UserContext';
 import Header from '../../../../Common/Header/Header';
 
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCourseId } from '../../../../../Store/slices/courseCreationSlice';
+
 const CourseManagement: React.FC = () => {
 
     //Context
@@ -31,6 +35,9 @@ const CourseManagement: React.FC = () => {
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
 
+    //Redux
+    const dispatch = useDispatch(); // Получаем диспетчер Redux
+
     const isDesktop = useMediaQuery({ minWidth:700 });
 
     const courseManagementMenu = [
@@ -39,35 +46,46 @@ const CourseManagement: React.FC = () => {
             menuOptionTitle: 'Create Course',
             menuOptionDescription: 'Start creating your course today!',
             icon: <AddBoxIcon />,
-            page: '/course-management/course-creation'
+            onClick: () => {
+                dispatch(updateCourseId(-1));
+                navigate('/course-management/course-creation');
+            } 
         },
         {
             courseManagementMenuId: 2,
             menuOptionTitle: 'My Drafts',
             menuOptionDescription: 'The place for your creative ideas',
             icon: <ArticleIcon />,
-            page: '/course-management/course-creation'
+            onClick: () => {
+                navigate('/course-management/course-creation');
+            } 
         },
         {
             courseManagementMenuId: 3,
             menuOptionTitle: 'Edit Course',
             menuOptionDescription: 'Change and improve your courses',
             icon: <EditIcon />,
-            page: '/course-management/course-creation'
+            onClick: () => {
+                navigate('/course-management/course-creation');
+            } 
         },
         {
             courseManagementMenu: 4,
             menuOptionTitle: 'Checking Tasks',
             menuOptionDescription: 'Check the completed tasks of the learners',
             icon: <CheckCircleIcon />,
-            page: '/course-management/course-creation'
+            onClick: () => {
+                navigate('/course-management/course-creation');
+            } 
         },
         {
             courseManagementMenu: 5,
             menuOptionTitle: 'Course Appeals & Blocks',
             menuOptionDescription: 'Appeal the decision to block the course',
             icon: <GavelIcon />,
-            page: '/course-management/course-creation'
+            onClick: () => {
+                navigate('/course-management/course-creation');
+            } 
         },
     ]
 
@@ -141,9 +159,7 @@ const CourseManagement: React.FC = () => {
                                     prevState.map((value, i) => (i === index ? false : value))
                                 );
                             }}
-                            onClick={() => {
-                                navigate(menuOption.page);
-                            }}
+                            onClick={menuOption.onClick}
                         >
                             {React.cloneElement(menuOption.icon, {
                                 style: {

@@ -24,19 +24,23 @@ const createdCourseSlice = createSlice({
     name: 'createdCourse',
     initialState,
     reducers: {
-        setCourseId(state, action: PayloadAction<number>) {
+        updateCourseId(state, action: PayloadAction<number>) {
             state.courseId = action.payload;
             localStorage.setItem('createdCourseId', action.payload.toString());
         },
-        setIsLoadedAvatar(state, action: PayloadAction<boolean>) {
+        updateIsLoadedAvatar(state, action: PayloadAction<boolean>) {
             state.isLoadedAvatar = action.payload;
         },
-        setAvatar(state, action: PayloadAction<string>) {
+        updateAvatar(state, action: PayloadAction<string>) {
             state.avatar = action.payload;
         },
     },
 });
 
-export const { setCourseId, setIsLoadedAvatar } = createdCourseSlice.actions; // Экспорт экшенов
+export const { 
+    updateCourseId: updateCourseId, 
+    updateIsLoadedAvatar: updateIsLoadedAvatar, 
+    updateAvatar: updateAvatar 
+} = createdCourseSlice.actions; // Экспорт экшенов
 
 export default createdCourseSlice.reducer; // Экспорт редьюсера

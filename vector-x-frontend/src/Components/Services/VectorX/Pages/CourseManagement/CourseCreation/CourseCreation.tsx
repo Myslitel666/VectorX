@@ -22,7 +22,7 @@ import Stepper from './Stepper';
 
 //Redux
 import { useDispatch } from 'react-redux';
-import { setCourseId, setIsLoadedAvatar } from '../../../../../../Store/slices/courseCreationSlice';
+import { updateCourseId } from '../../../../../../Store/slices/courseCreationSlice';
 
 const CourseCreation: React.FC = () => {
 

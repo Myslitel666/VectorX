@@ -13,7 +13,11 @@ import MyButton from '../../../../../Common/User Interface/MyButton';
 
 //MUI Import
 import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
+
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { updateAvatar, updateIsLoadedAvatar } from '../../../../../../Store/slices/courseCreationSlice';
+import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //Utils Import
 import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
@@ -26,13 +30,16 @@ const CourseImageUploading: React.FC = () => {
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.courseDark : defaultAvatars.courseLight;
     const isDesktop = useMediaQuery({ minWidth:900 });
 
+    //Redux
+    const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
+
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
         {
-            data_url: isNullImage(user.avatar) ? defaultAvatarPath : addImagePrefix(user.avatar)
+            data_url: courseId === -1 ? defaultAvatarPath : 'null'
         }
     ]);
-    // dark and light default avatars
+
     const [darkDefaultAvatar] = React.useState<ImageListType>([{ data_url: defaultAvatars.courseDark}]);
     const [lightDefaultAvatar] = React.useState<ImageListType>([{ data_url: defaultAvatars.courseLight }]);
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
