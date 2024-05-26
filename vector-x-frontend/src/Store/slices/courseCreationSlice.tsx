@@ -24,6 +24,7 @@ const createdCourseSlice = createSlice({
     reducers: {
         setCourseId(state, action: PayloadAction<number>) {
             state.courseId = action.payload;
+            localStorage.setItem('createdCourseId', action.payload.toString());
         },
         setIsLoadedAvatar(state, action: PayloadAction<boolean>) {
             state.isLoadedAvatar = action.payload;
