@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using VectorXBackend.Context;
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Interfaces.Services;
-using VectorXBackend.Interfaces.Repositories.VectorX;
 
 namespace VectorXBackend.Controllers.VectorX
 {
@@ -12,7 +11,6 @@ namespace VectorXBackend.Controllers.VectorX
     {
         private VectorXContext _dbContext;
         private readonly ICourseManagementService _courseManagementService;
-        private readonly ISubjectRepository _subjectRepository;
 
         public CourseManagementController(ICourseManagementService courseManagementService)
         {
@@ -23,7 +21,7 @@ namespace VectorXBackend.Controllers.VectorX
         [HttpGet("getSubjects")]
         public async Task<IActionResult> GetSubjects()
         {
-            var subjects = await _subjectRepository.GetAllSubjects();
+            var subjects = await _courseManagementService.GetAllSubjects();
             return Ok(subjects);
         }
         [HttpPost("createCourse")]

@@ -28,6 +28,9 @@ import { RootState } from '../../../../../../Store/store'; // Импорт ти�
 //interfaces import
 import { Course, SubjectDirectory } from '../../../Interfaces/interfaces';
 
+//fetch import
+import { getSubjects } from './fetch/courseManagementFetch';
+
 const CourseCreation: React.FC = () => {
 
     //Context
@@ -55,18 +58,7 @@ const CourseCreation: React.FC = () => {
 
     const isDesktop = useMediaQuery({ minWidth:900 });
 
-    const subjectDirectory: SubjectDirectory[] = [
-        { 
-            subjectId: 0,
-            subjectName: 'Programming',
-            subjectDescription: ''
-        },
-        { 
-            subjectId: 1,
-            subjectName: 'Design',
-            subjectDescription: ''
-        },
-    ]
+    const [subjectDirectory, setSubjectDirectory] = useState<SubjectDirectory[]>([]);
 
     const handleSubjectChange = (selectedValue: string) => {
         setSelectedSubject(selectedValue); // обновляем значение выбранного поля
@@ -106,6 +98,15 @@ const CourseCreation: React.FC = () => {
             navigate('/auth');
         }
     }, [location.pathname, user.isBlocked]);
+
+    useEffect(() => {
+        const fetchSubjects = async () => {
+            const subjects = await getSubjects();
+            setSubjectDirectory(subjects);
+        };
+
+        fetchSubjects();
+    }, []);
 
     return (
         <>

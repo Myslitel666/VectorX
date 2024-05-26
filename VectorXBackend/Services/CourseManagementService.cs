@@ -1,18 +1,24 @@
 using VectorXBackend.Interfaces.Repositories.VectorX;
 using VectorXBackend.Interfaces.Services;
-using VectorXBackend.DTOs.Requests.VectorX.TakingCourses;
+using VectorXBackend.DTOs.Responses.VectorX.CourseManagement;
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Models.Entities;
+using VectorXBackend.Repositories.VectorX;
 
 namespace VectorXBackend.Services
 {
     public class CourseManagementService : ICourseManagementService
     {
         private readonly ICourseRepository _courseRepository;
+        private readonly ISubjectRepository _subjectRepository;
 
-        public CourseManagementService(ICourseRepository courseRepository)
+        public CourseManagementService(
+            ICourseRepository courseRepository,
+            ISubjectRepository subjectRepository
+        )
         {
             _courseRepository = courseRepository;
+            _subjectRepository = subjectRepository;
         }
 
         public async Task<ResponseBaseDto> CreateCourse(CourseDto courseDto)
@@ -51,6 +57,25 @@ namespace VectorXBackend.Services
                 };
                 return response;
             }
+        }
+        public async Task<IEnumerable<SubjectsResponseDto>> GetAllSubjects()
+        {
+            var subjectDirectories = await _subjectRepository.GetAllSubjects();
+            var subjectsResponseDto = new List<SubjectsResponseDto>();
+
+            foreach (var subjectDirectory in subjectDirectories)
+            {
+                subjectsResponseDto.Add(
+                    new SubjectsResponseDto()
+                    {
+                        SubjectId = subjectDirectory.SubjectId,
+                        SubjectName = subjectDirectory.SubjectName,
+                        SubjectDescription = subjectDirectory.SubjectDescription,
+                    }
+                );
+            }
+
+            return subjectsResponseDto;
         }
     }
 }
