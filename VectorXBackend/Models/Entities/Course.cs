@@ -9,8 +9,6 @@ public partial class Course
 
     public int AuthorId { get; set; }
 
-    public int CourseStatusId { get; set; }
-
     public int SubjectId { get; set; }
 
     public string? Title { get; set; }
