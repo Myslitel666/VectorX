@@ -27,9 +27,10 @@ import { RootState } from '../../../../../../Store/store'; // Импорт ти�
 
 //interfaces import
 import { Course, SubjectDirectory } from '../../../Interfaces/interfaces';
+import { FeedbackMessage } from '../../../../../../Classes/FeedbackMessage';
 
 //fetch import
-import { getSubjects } from './fetch/courseManagementFetch';
+import { getSubjects, createCourse } from './fetch/courseManagementFetch';
 
 const CourseCreation: React.FC = () => {
 
@@ -54,6 +55,8 @@ const CourseCreation: React.FC = () => {
     const [description, setDescription] = useState(courseId === -1 ? '' : '');
     const [price, setPrice] = useState(courseId === -1 ? '' : '');
 
+    const [feedbackMessage, setFeedbackMessage] = useState<FeedbackMessage>(new FeedbackMessage('', true));
+
     const apiUrl = process.env.REACT_APP_API_URL as string;
 
     const isDesktop = useMediaQuery({ minWidth:900 });
@@ -63,6 +66,35 @@ const CourseCreation: React.FC = () => {
     const handleSubjectChange = (selectedValue: string) => {
         setSelectedSubject(selectedValue); // обновляем значение выбранного поля
     };
+
+    const handleNextClick = () => {
+        if (courseName === '') {
+            setFeedbackMessage(new FeedbackMessage('✗Enter the "Course Name"', true));
+        }
+        else if (!selectedSubject) {
+            setFeedbackMessage(new FeedbackMessage('✗Enter the "Subject"', true));
+        }
+        else if (description === '') {
+            setFeedbackMessage(new FeedbackMessage('✗Enter the "Description"', true));
+        }
+        else if (price === '') {
+            setFeedbackMessage(new FeedbackMessage('✗Enter the "Price"', true));
+        }
+        const subject = subjectDirectory.find(subject => subject.subjectName === selectedSubject)
+        const subjectId = (subject) ? subject.subjectId : -1
+
+        const course: Course = {
+            courseId: courseId,
+            authorId: user.userId,
+            subjectId: subjectId,
+            title: courseName,
+            courseAvatar: avatar,
+            description: description,
+            price: parseInt(price)
+        }
+
+        console.log(course);
+    }
 
     const CourseCreationTypography = (typography: string) => {
         return(
@@ -108,6 +140,15 @@ const CourseCreation: React.FC = () => {
         fetchSubjects();
     }, []);
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setFeedbackMessage(new FeedbackMessage('', true));
+        }, 1750);
+
+        return () => clearTimeout(timer);
+    }, [feedbackMessage]);
+
+
     return (
         <>
             <Header />
@@ -139,6 +180,17 @@ const CourseCreation: React.FC = () => {
                         </Box>
                     </Box>
                     <Box width = '100%'>
+                        <Typography 
+                            sx={{
+                                position: 'absolute',
+                                top: isDesktop ? '5.8rem' : '63.4rem',
+                                left: isDesktop ? '24.8rem' : '0.5rem',
+                                fontSize: isDesktop ? '1.25rem' : '0.9rem',
+                                color: feedbackMessage.isError ? getColorFromLabel('red') : getColorFromLabel('green'),
+                            }}
+                        >
+                            {feedbackMessage.feedbackMessage}
+                        </Typography>
                         <Box 
                             display = 'flex'
                             marginTop = {isDesktop ? '0.75rem' : '9.45rem'}
@@ -169,6 +221,11 @@ const CourseCreation: React.FC = () => {
                                 size='medium'
                                 label='Subject'
                                 onFieldSelectionChange={handleSubjectChange} // передаем обновленный обработчик
+                                onInputChange={(event, newInputValue) => {
+                                    if (newInputValue === '') {
+                                      handleSubjectChange('');
+                                    }
+                                  }}
                                 sx={{
                                     width: '100%'
                                 }}
@@ -224,22 +281,7 @@ const CourseCreation: React.FC = () => {
                                 sx = {{
                                     width: '49%'
                                 }}
-                                onClick = {() => {
-                                    const subject = subjectDirectory.find(subject => subject.subjectName === selectedSubject)
-                                    const subjectId = (subject) ? subject.subjectId : -1
-
-                                    const course: Course = {
-                                        courseId: courseId,
-                                        authorId: user.userId,
-                                        subjectId: subjectId,
-                                        title: courseName,
-                                        courseAvatar: avatar,
-                                        description: description,
-                                        price: parseInt(price)
-                                    }
-
-                                    console.log(course);
-                                }}
+                                onClick = {handleNextClick}
                             >
                                 Next Step
                             </MyButton>

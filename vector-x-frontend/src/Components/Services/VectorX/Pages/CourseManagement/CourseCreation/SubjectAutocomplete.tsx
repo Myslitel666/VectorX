@@ -1,3 +1,5 @@
+import React, { ChangeEvent } from 'react';
+
 //MUI Import
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -13,6 +15,7 @@ interface AutoCompleteProps {
     dropList: SubjectDirectory[];
     size?: "medium" | "small";
     onFieldSelectionChange?: (selectedValue: string) => void; // Обработчик события для выбора поля
+    onInputChange?: (event: ChangeEvent<{}>, newInputValue: string) => void;
 }
 
 const SubjectAutocomplete: React.FC<AutoCompleteProps> = ({ 
@@ -21,6 +24,7 @@ const SubjectAutocomplete: React.FC<AutoCompleteProps> = ({
     dropList,
     size = "small",
     onFieldSelectionChange,
+    onInputChange,
 }) => {
 
     const options = dropList.map((option) => ({ ...option }));
@@ -49,6 +53,7 @@ const SubjectAutocomplete: React.FC<AutoCompleteProps> = ({
             onChange={handleFieldSelectionChange} // Передаем обработчик события onChange
             isOptionEqualToValue={isOptionEqualToValue}
             renderInput={(params) => <TextField {...params} label={ label } />}
+            onInputChange={onInputChange}
         />
     );
 }
