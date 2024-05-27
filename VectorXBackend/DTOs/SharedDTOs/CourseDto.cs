@@ -20,3 +20,8 @@ public partial class CourseDto
 
     public int Price { get; set; }
 }
+
+public partial class CourseIdDto
+{
+    public int CourseId { get; set; }
+}

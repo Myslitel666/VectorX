@@ -20,15 +20,18 @@ import SubjectAutocomplete from './SubjectAutocomplete';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCourseId } from '../../../../../../Store/slices/courseCreationSlice';
+import { updateCourseAvatar, updateCourseId } from '../../../../../../Store/slices/courseCreationSlice';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
+
+//fetch import
+import { getSubjects, createCourse, getCourseById } from './fetch/courseManagementFetch';
 
 //interfaces import
 import { Course, SubjectDirectory } from '../../../Interfaces/interfaces';
 import { FeedbackMessage } from '../../../../../../Classes/FeedbackMessage';
 
-//fetch import
-import { getSubjects, createCourse } from './fetch/courseManagementFetch';
+//Utils Import
+import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
 
 const CourseCreation: React.FC = () => {
 
@@ -46,16 +49,16 @@ const CourseCreation: React.FC = () => {
     const avatar = useSelector((state: RootState) => state.createdCourse.avatar);
 
     //Course
-    const [courseName, setCourseName] = useState(courseId === -1 ? '' : '');
-    const [selectedSubject, setSelectedSubject] = useState(courseId === -1 ? '' : '');
-    const [description, setDescription] = useState(courseId === -1 ? '' : '');
-    const [price, setPrice] = useState(courseId === -1 ? '' : '');
+    const [draft, setDraft] = useState<Course>();
+    const [subjects, setSubjects] = useState<SubjectDirectory[]>([]);
+    const [courseName, setCourseName] = useState('');
+    const [selectedSubject, setSelectedSubject] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
 
     const [feedbackMessage, setFeedbackMessage] = useState<FeedbackMessage>(new FeedbackMessage('', true));
 
     const isDesktop = useMediaQuery({ minWidth:900 });
-
-    const [subjectDirectory, setSubjectDirectory] = useState<SubjectDirectory[]>([]);
 
     const handleSubjectChange = (selectedValue: string) => {
         setSelectedSubject(selectedValue); // обновляем значение выбранного поля
@@ -78,7 +81,7 @@ const CourseCreation: React.FC = () => {
             setFeedbackMessage(new FeedbackMessage('✗Upload the course avatar', true));
         }
         else {
-            const subject = subjectDirectory.find(subject => subject.subjectName === selectedSubject)
+            const subject = subjects.find(subject => subject.subjectName === selectedSubject)
             const subjectId = (subject) ? subject.subjectId : -1
     
             const course: Course = {
@@ -133,11 +136,28 @@ const CourseCreation: React.FC = () => {
     useEffect(() => {
         const fetchSubjects = async () => {
             const subjects = await getSubjects();
-            setSubjectDirectory(subjects);
+            setSubjects(subjects);
         };
 
         fetchSubjects();
+
+        if (courseId != -1) {
+            getCourseById(courseId)
+                .then(draft => {
+                    setDraft(draft);
+                });
+        }
     }, []);
+
+    useEffect(() => {
+        if (draft) {
+            setCourseName(draft?.title);
+            setSelectedSubject(subjects.find(subject => subject.subjectId === draft?.subjectId)?.subjectName || '');
+            setDescription(draft?.description);
+            setPrice(draft?.price.toString() || '');
+            dispatch(updateCourseAvatar(addImagePrefix(draft?.courseAvatar || '')));
+        }
+    }, [draft, subjects]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -216,7 +236,7 @@ const CourseCreation: React.FC = () => {
                                 CourseCreationTypography('Subject:')
                             }
                             <SubjectAutocomplete
-                                dropList={subjectDirectory}
+                                dropList={subjects}
                                 size='medium'
                                 label='Subject'
                                 onFieldSelectionChange={handleSubjectChange} // передаем обновленный обработчик
@@ -225,6 +245,7 @@ const CourseCreation: React.FC = () => {
                                       handleSubjectChange('');
                                     }
                                   }}
+                                defaultValue={subjects?.find(option => option.subjectName === selectedSubject) || null}
                                 sx={{
                                     width: '100%'
                                 }}

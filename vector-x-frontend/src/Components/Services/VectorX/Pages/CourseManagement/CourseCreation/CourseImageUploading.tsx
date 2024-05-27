@@ -1,5 +1,5 @@
 //React Import
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 //ImageUploading Import
@@ -17,6 +17,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCourseAvatar, updateIsLoadedAvatar } from '../../../../../../Store/slices/courseCreationSlice';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
+//fetch import
+import { getCourseById } from './fetch/courseManagementFetch';
+
+//interfaces import
+import { Course } from '../../../Interfaces/interfaces';
+
+//Utils Import
+import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
+
 const CourseImageUploading: React.FC = () => {
     const { themeMode, defaultAvatars }: ColorModeContextProps = useColorMode();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.courseDark : defaultAvatars.courseLight;
@@ -25,17 +34,19 @@ const CourseImageUploading: React.FC = () => {
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
+    const avatar = useSelector((state: RootState) => state.createdCourse.avatar);
 
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
         {
-            data_url: courseId === -1 ? defaultAvatarPath : 'null'
+            data_url: courseId === -1 ? defaultAvatarPath : addImagePrefix(avatar)
         }
     ]);
 
     const [darkDefaultAvatar] = React.useState<ImageListType>([{ data_url: defaultAvatars.courseDark}]);
     const [lightDefaultAvatar] = React.useState<ImageListType>([{ data_url: defaultAvatars.courseLight }]);
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
+    const [draft, setDraft] = useState<Course>();
 
     useEffect(() => {
         if (image[0]['data_url'] === darkDefaultAvatar[0].data_url || image[0]['data_url'] === lightDefaultAvatar[0].data_url) {
@@ -46,6 +57,25 @@ const CourseImageUploading: React.FC = () => {
             ]);
         }
     }, [defaultAvatarPath])
+
+    useEffect(() => {
+        if (courseId != -1) {
+            getCourseById(courseId)
+                .then(draft => {
+                    setDraft(draft);
+                });
+        }
+    }, []);
+
+    useEffect(() => {
+        if (draft) {
+            setImage([
+                {
+                    data_url: addImagePrefix(draft.courseAvatar)
+                }
+            ]);
+        }
+    }, [draft]);
 
     const onChange = (imageList: ImageListType) => {
         setImage(imageList);

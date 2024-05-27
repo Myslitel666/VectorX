@@ -1,3 +1,4 @@
+//React Import
 import React, { ChangeEvent } from 'react';
 
 //MUI Import
@@ -16,6 +17,7 @@ interface AutoCompleteProps {
     size?: "medium" | "small";
     onFieldSelectionChange?: (selectedValue: string) => void; // Обработчик события для выбора поля
     onInputChange?: (event: ChangeEvent<{}>, newInputValue: string) => void;
+    defaultValue?: SubjectDirectory | null;
 }
 
 const SubjectAutocomplete: React.FC<AutoCompleteProps> = ({ 
@@ -25,6 +27,7 @@ const SubjectAutocomplete: React.FC<AutoCompleteProps> = ({
     size = "small",
     onFieldSelectionChange,
     onInputChange,
+    defaultValue
 }) => {
 
     const options = dropList.map((option) => ({ ...option }));
@@ -47,6 +50,7 @@ const SubjectAutocomplete: React.FC<AutoCompleteProps> = ({
             size = {size}
             options={options}
             getOptionLabel={(option) => option.subjectName}
+            value={defaultValue}
             sx={{
                 ...sx
             }}

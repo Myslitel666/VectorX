@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using VectorXBackend.Context;
 using VectorXBackend.DTOs.SharedDTOs;
+using VectorXBackend.Interfaces.Repositories.VectorX;
 using VectorXBackend.Interfaces.Services;
 
 namespace VectorXBackend.Controllers.VectorX
@@ -11,11 +12,16 @@ namespace VectorXBackend.Controllers.VectorX
     {
         private VectorXContext _dbContext;
         private readonly ICourseManagementService _courseManagementService;
+        private readonly ICourseRepository _courseRepository;
 
-        public CourseManagementController(ICourseManagementService courseManagementService)
+        public CourseManagementController(
+            ICourseManagementService courseManagementService,
+            ICourseRepository courseRepository
+        )
         {
             _dbContext = new VectorXContext();
             _courseManagementService = courseManagementService;
+            _courseRepository = courseRepository;
         }
 
         [HttpGet("getSubjects")]
@@ -33,8 +39,26 @@ namespace VectorXBackend.Controllers.VectorX
         [HttpPost("getAuthorDrafts")]
         public async Task<IActionResult> GetAuthorDrafts([FromBody] UserIdDto userIdDto)
         {
-            var courseDtoResponse = await _courseManagementService.GetAuthorDrafts(userIdDto);
-            return Ok(courseDtoResponse);
+            var courseListDto = await _courseManagementService.GetAuthorDrafts(userIdDto);
+            return Ok(courseListDto);
+        }
+        [HttpPost("getCourseById")]
+        public async Task<IActionResult> GetCourseById([FromBody] CourseIdDto courseIdDto)
+        {
+            var course = await _courseRepository.GetCourseById(courseIdDto.CourseId);
+
+            return Ok(
+                new CourseDto()
+                {
+                    CourseId = course.CourseId,
+                    AuthorId = course.AuthorId,
+                    SubjectId = course.SubjectId,
+                    Title = course.Title,
+                    CourseAvatar = Convert.ToBase64String(course.CourseAvatar),
+                    Description = course.Descriptrion,
+                    Price = course.Price,
+                }
+            );
         }
     }
 }

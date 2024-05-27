@@ -18,52 +18,48 @@ import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpenDrafts } from '../../../../../../Store/slices/courseCreationSlice';
+import { setOpenDrafts, updateCourseId } from '../../../../../../Store/slices/courseCreationSlice';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //fetch import
-import { getAuthorDrafts, getSubjects } from './fetch/courseManagementFetch';
+import { getSubjects } from './fetch/courseManagementFetch';
 
 //interfaces import
-import { Course, SubjectDirectory } from '../../../Interfaces/interfaces';
+import { SubjectDirectory } from '../../../Interfaces/interfaces';
 
 //Utils Import
-import { isNullImage } from '../../../../../../Utils/ImageUtils';
 import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
 
 const MyDraftsModalContent: React.FC = () => {
 
     //Context
     const theme = useTheme();
-    const { themeMode, iconColor, defaultAvatars }: ColorModeContextProps = useColorMode();
+    const { themeMode, iconColor }: ColorModeContextProps = useColorMode();
     const { getUser } = useUserContext();
     const navigate = useNavigate();
-    let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.dark : defaultAvatars.light;
-    const { getColorFromLabel } = useColorLabel('red');
     const user = getUser();
     const [subjects, setSubjects] = useState<SubjectDirectory[]>([]);
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const drafts = useSelector((state: RootState) => state.createdCourse.drafts);
-    const openDrafts = useSelector((state: RootState) => state.createdCourse.openDrafts);
 
     // Создаем функцию для обработки клика на иконку корзины
     const handleDeleteIconClick = (userId: number) => {
         // Извлекаем данные из localStorage
-        const cachedUserIdsString = localStorage.getItem('cachedUserIds');
+        // const cachedUserIdsString = localStorage.getItem('cachedUserIds');
 
-        // Проверяем, есть ли данные в localStorage по ключу 'cachedUserIds'
-        if (cachedUserIdsString !== null) {
-            // Преобразуем строку в массив
-            const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
-            const updatedCachedUserIds = cachedUserIds.filter(id => id !== userId);
+        // // Проверяем, есть ли данные в localStorage по ключу 'cachedUserIds'
+        // if (cachedUserIdsString !== null) {
+        //     // Преобразуем строку в массив
+        //     const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
+        //     const updatedCachedUserIds = cachedUserIds.filter(id => id !== userId);
 
-            // Обновляем данные в localStorage
-            localStorage.setItem('cachedUserIds', JSON.stringify(updatedCachedUserIds));
-        }
+        //     // Обновляем данные в localStorage
+        //     localStorage.setItem('cachedUserIds', JSON.stringify(updatedCachedUserIds));
+        // }
 
-        updateCachedUsers();
+        // updateCachedUsers();
     };
 
     // Создаем функцию для обработки клика на иконку корзины
@@ -129,24 +125,9 @@ const MyDraftsModalContent: React.FC = () => {
                     }}
                     onClick={() => {
                         if (!isHoveredClear) {
-                            if (user.isBlocked) {
-                                setBoxStates(prevBoxStates => {
-                                    const updatedBoxStates = [...prevBoxStates];
-                                    updatedBoxStates[index] = { lastClickedTime: new Date(), errorMessage: '✗The user was blocked' };
-                                    return updatedBoxStates;
-                                });
-                    
-                                setTimeout(() => {
-                                    setBoxStates(prevBoxStates => {
-                                        const updatedBoxStates = [...prevBoxStates];
-                                        updatedBoxStates[index] = { lastClickedTime: null, errorMessage: '' };
-                                        return updatedBoxStates;
-                                    });
-                                }, 1750);
-                            }
-                            else {
-                                navigate('/course-management/course-creation');
-                            }
+                            dispatch(updateCourseId(draft.courseId));
+                            dispatch(setOpenDrafts(false));
+                            navigate('/course-management/course-creation');
                         }
                     }}
                 >
