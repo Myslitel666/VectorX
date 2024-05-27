@@ -18,10 +18,12 @@ import { ColorModeContextProps, useColorMode } from '../../../../../Context/Colo
 import { useColorLabel } from '../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../Context/UserContext';
 import Header from '../../../../Common/Header/Header';
+import MyDraftsModal from './CourseCreation/MyDraftsModal';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCourseId } from '../../../../../Store/slices/courseCreationSlice';
+import { updateCourseId, updateDrafts, setOpenDrafts } from '../../../../../Store/slices/courseCreationSlice';
+import { RootState } from '../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //fetch import
 import { getAuthorDrafts } from './CourseCreation/fetch/courseManagementFetch';
@@ -40,8 +42,8 @@ const CourseManagement: React.FC = () => {
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
+    const authorDrafts = useSelector((state: RootState) => state.createdCourse.drafts);
 
-    const authorDrafts = getAuthorDrafts(user.userId);
     const isDesktop = useMediaQuery({ minWidth:700 });
 
     const courseManagementMenu = [
@@ -61,8 +63,7 @@ const CourseManagement: React.FC = () => {
             menuOptionDescription: 'The place for your creative ideas',
             icon: <ArticleIcon />,
             onClick: () => {
-                navigate('/course-management/course-creation');
-                console.log(authorDrafts);
+                dispatch(setOpenDrafts(true));
             } 
         },
         {
@@ -94,8 +95,8 @@ const CourseManagement: React.FC = () => {
         },
     ]
 
-        // Создаем массив состояний для каждого Box'а
-        const [, setIsHoveredBox] = useState(Array(courseManagementMenu.length).fill(false));
+    // Создаем массив состояний для каждого Box'а
+    const [, setIsHoveredBox] = useState(Array(courseManagementMenu.length).fill(false));
 
     //Блокировка доступа к управлению курсами для непривилегированных пользователей
     useEffect(() => {
@@ -106,6 +107,13 @@ const CourseManagement: React.FC = () => {
             navigate('/auth');
         }
     }, [location.pathname, user.isBlocked]);
+
+    useEffect(() => {
+        getAuthorDrafts(user.userId)
+        .then(drafts => {
+            dispatch(updateDrafts(drafts.courseDtoList));
+        });
+    }, []);
 
     return (
         <>
@@ -190,6 +198,7 @@ const CourseManagement: React.FC = () => {
                     ))}
                 </Box>
             </Box>
+            <MyDraftsModal/>
         </>
     );
 };

@@ -4,13 +4,11 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
-import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 
 //MyComponents Import
-import { ColorModeContextProps, useColorMode } from '../../../../../../Context/ColorModeContext';
 import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
@@ -54,8 +52,6 @@ const CourseCreation: React.FC = () => {
     const [price, setPrice] = useState(courseId === -1 ? '' : '');
 
     const [feedbackMessage, setFeedbackMessage] = useState<FeedbackMessage>(new FeedbackMessage('', true));
-
-    const apiUrl = process.env.REACT_APP_API_URL as string;
 
     const isDesktop = useMediaQuery({ minWidth:900 });
 
