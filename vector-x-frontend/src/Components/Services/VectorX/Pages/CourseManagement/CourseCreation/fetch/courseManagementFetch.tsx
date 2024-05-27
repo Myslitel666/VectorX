@@ -30,3 +30,19 @@ export const createCourse = async (course: Course) => {
 
     return data;
 };
+
+export const getAuthorDrafts = async (userId: number) => {
+    const response = await fetch(`${apiUrl}/api/vectorX/course-management/getAuthorDrafts`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userId: userId,
+        }),
+    });
+
+    const data = await response.json();
+
+    return data;
+};

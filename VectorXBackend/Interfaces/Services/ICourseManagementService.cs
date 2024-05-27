@@ -8,5 +8,6 @@ namespace VectorXBackend.Interfaces.Services
         Task<ResponseBaseDto> CreateCourse(CourseDto courseDto);
 
         Task<IEnumerable<SubjectsResponseDto>> GetAllSubjects();
+        Task<CourseListDto> GetAuthorDrafts(UserIdDto useridDto);
     }
 }

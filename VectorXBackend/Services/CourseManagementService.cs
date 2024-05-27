@@ -39,7 +39,7 @@ namespace VectorXBackend.Services
                 SubjectId = courseDto.SubjectId,
                 Title = courseDto.Title,
                 CourseAvatar = avatarBytes,
-                Descriptrion = courseDto.Descriptrion,
+                Descriptrion = courseDto.Description,
                 Price = courseDto.Price,
             };
 
@@ -77,6 +77,36 @@ namespace VectorXBackend.Services
             }
 
             return subjectsResponseDto;
+        }
+
+        public async Task<CourseListDto> GetAuthorDrafts(UserIdDto userIdDto)
+        {
+            var createdStatus = await _courseStatusDirectoryRepository.GetStatusByName("Created");
+            var authorDrafts = await _courseRepository.GetCoursesByAuthorIdAndStatusId(userIdDto.UserId, createdStatus.CourseStatusId);
+            var courseDtoList = new List<CourseDto>();
+
+            foreach (var authorDraft in authorDrafts)
+            {
+                courseDtoList.Add(
+                    new CourseDto()
+                    {
+                        CourseId = authorDraft.CourseId,
+                        AuthorId = authorDraft.AuthorId,
+                        SubjectId = authorDraft.SubjectId,
+                        Title = authorDraft.Title,
+                        CourseAvatar = Convert.ToBase64String(authorDraft.CourseAvatar),
+                        Description = authorDraft.Descriptrion,
+                        Price = authorDraft.Price,
+                    }
+                );
+            }
+
+            var courseListDto = new CourseListDto
+            {
+                CourseDtoList = courseDtoList
+            };
+
+            return courseListDto;
         }
     }
 }

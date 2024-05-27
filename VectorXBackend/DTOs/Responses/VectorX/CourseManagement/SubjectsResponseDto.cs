@@ -6,7 +6,6 @@ namespace VectorXBackend.DTOs.Responses.VectorX.CourseManagement
     {
         public int SubjectId { get; set; }
         public string SubjectName { get; set; }
-
         public string SubjectDescription { get; set; }
     }
 }

@@ -23,6 +23,9 @@ import Header from '../../../../Common/Header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCourseId } from '../../../../../Store/slices/courseCreationSlice';
 
+//fetch import
+import { getAuthorDrafts } from './CourseCreation/fetch/courseManagementFetch';
+
 const CourseManagement: React.FC = () => {
 
     //Context
@@ -38,6 +41,7 @@ const CourseManagement: React.FC = () => {
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
 
+    const authorDrafts = getAuthorDrafts(user.userId);
     const isDesktop = useMediaQuery({ minWidth:700 });
 
     const courseManagementMenu = [
@@ -58,6 +62,7 @@ const CourseManagement: React.FC = () => {
             icon: <ArticleIcon />,
             onClick: () => {
                 navigate('/course-management/course-creation');
+                console.log(authorDrafts);
             } 
         },
         {

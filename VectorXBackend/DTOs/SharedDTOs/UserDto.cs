@@ -20,3 +20,8 @@ public partial class UserDto
 
     public int Balance { get; set; }
 }
+
+public partial class UserIdDto
+{
+    public int UserId { get; set; }
+}

@@ -30,5 +30,11 @@ namespace VectorXBackend.Controllers.VectorX
             var createCourseResponse = await _courseManagementService.CreateCourse(courseDto);
             return Ok(createCourseResponse);
         }
+        [HttpPost("getAuthorDrafts")]
+        public async Task<IActionResult> GetAuthorDrafts([FromBody] UserIdDto userIdDto)
+        {
+            var courseDtoResponse = await _courseManagementService.GetAuthorDrafts(userIdDto);
+            return Ok(courseDtoResponse);
+        }
     }
 }
