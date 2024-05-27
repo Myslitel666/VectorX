@@ -5,6 +5,6 @@ namespace VectorXBackend.Interfaces.Repositories.VectorX
     public interface ICourseRepository
     {
         Task<Course> GetCourseById(int courseId);
-        Task AddCourse(Course course);
+        Task<int> AddCourse(Course course);
     }
 }

@@ -21,7 +21,7 @@ interface CreatedCourseState {
 const initialState: CreatedCourseState = {
         courseId: getCreatedCourseId(),
         isLoadedAvatar: false,
-        avatar: 'b'
+        avatar: ''
 };
 
 const createdCourseSlice = createSlice({

@@ -35,8 +35,6 @@ import { getSubjects, createCourse } from './fetch/courseManagementFetch';
 const CourseCreation: React.FC = () => {
 
     //Context
-    const theme = useTheme();
-    const { themeMode }: ColorModeContextProps = useColorMode();
     const { getColorFromLabel } = useColorLabel('red');
     const navigate = useNavigate();
     const location = useLocation();
@@ -80,22 +78,27 @@ const CourseCreation: React.FC = () => {
         else if (price === '') {
             setFeedbackMessage(new FeedbackMessage('✗Enter the "Price"', true));
         }
-        const subject = subjectDirectory.find(subject => subject.subjectName === selectedSubject)
-        const subjectId = (subject) ? subject.subjectId : -1
-
-        const course: Course = {
-            courseId: courseId,
-            authorId: user.userId,
-            subjectId: subjectId,
-            title: courseName,
-            courseAvatar: avatar,
-            description: description,
-            price: parseInt(price)
+        else if (avatar === '') {
+            setFeedbackMessage(new FeedbackMessage('✗Upload the course avatar', true));
         }
-
-        console.log(course);
+        else {
+            const subject = subjectDirectory.find(subject => subject.subjectName === selectedSubject)
+            const subjectId = (subject) ? subject.subjectId : -1
+    
+            const course: Course = {
+                courseId: courseId,
+                authorId: user.userId,
+                subjectId: subjectId,
+                title: courseName,
+                courseAvatar: avatar,
+                description: description,
+                price: parseInt(price)
+            }
+            
+            createCourse(course);
+        }
     }
-
+    
     const CourseCreationTypography = (typography: string) => {
         return(
             <Typography

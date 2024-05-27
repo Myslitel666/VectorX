@@ -6,8 +6,6 @@ import { useMediaQuery } from 'react-responsive';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 
 //MyComponent Import
-import { useUserContext } from '../../../../../../Context/UserContext'
-import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useColorMode, ColorModeContextProps } from '../../../../../../Context/ColorModeContext';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 
@@ -19,21 +17,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCourseAvatar, updateIsLoadedAvatar } from '../../../../../../Store/slices/courseCreationSlice';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
-//Utils Import
-import {addImagePrefix, isNullImage} from '../../../../../../Utils/ImageUtils'
-
 const CourseImageUploading: React.FC = () => {
     const { themeMode, defaultAvatars }: ColorModeContextProps = useColorMode();
-    const { getUser, updateAvatar } = useUserContext();
-    const { getColorFromLabel } = useColorLabel('green');
-    let user = getUser();
     let defaultAvatarPath = themeMode === 'dark' ? defaultAvatars.courseDark : defaultAvatars.courseLight;
     const isDesktop = useMediaQuery({ minWidth:900 });
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
-    const courseAvatar = useSelector((state: RootState) => state.createdCourse.avatar);
 
     // Установка начального значения для imageList
     const [image, setImage] = React.useState<ImageListType>([
@@ -45,33 +36,6 @@ const CourseImageUploading: React.FC = () => {
     const [darkDefaultAvatar] = React.useState<ImageListType>([{ data_url: defaultAvatars.courseDark}]);
     const [lightDefaultAvatar] = React.useState<ImageListType>([{ data_url: defaultAvatars.courseLight }]);
     const maxNumber = 1; // Задаем максимальное количество изображений равным 1
-    const [initialImage, setInitialImage] = React.useState<string>(image[0]['data_url']);
-    const [unlockSaveButton, setUnlockSaveButton] = React.useState(false);
-
-    const apiUrl = process.env.REACT_APP_API_URL as string;
-
-    const onClickSave = async (avatar: string) => {
-
-        const response = await fetch(`${apiUrl}/api/userDataRedaction/redactAvatar`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: user.userId,
-                avatar: avatar,
-            }),
-        });
-
-        const jsonData = await response.json();
-
-        if (avatar === defaultAvatarPath) {
-            updateAvatar('');
-        }
-        else {
-            updateAvatar(avatar);
-        }
-    };
 
     useEffect(() => {
         if (image[0]['data_url'] === darkDefaultAvatar[0].data_url || image[0]['data_url'] === lightDefaultAvatar[0].data_url) {
@@ -82,21 +46,6 @@ const CourseImageUploading: React.FC = () => {
             ]);
         }
     }, [defaultAvatarPath])
-
-    useEffect(() => {
-        
-        if (initialImage === image[0]['data_url']) {
-            setUnlockSaveButton(false);
-        }
-        else {
-            if ((initialImage === darkDefaultAvatar[0]['data_url'] || initialImage === lightDefaultAvatar[0]['data_url']) && (image[0]['data_url'] === darkDefaultAvatar[0].data_url || image[0]['data_url'] === lightDefaultAvatar[0].data_url)) {
-                setUnlockSaveButton(false);
-            }
-            else {
-                setUnlockSaveButton(true);
-            }
-        }
-    }, [image[0]['data_url']])
 
     const onChange = (imageList: ImageListType) => {
         setImage(imageList);
@@ -109,6 +58,7 @@ const CourseImageUploading: React.FC = () => {
                 data_url: defaultAvatarPath
             }
         ]);
+        dispatch(updateCourseAvatar(''));
     };
 
     return (
@@ -200,8 +150,7 @@ const CourseImageUploading: React.FC = () => {
                     </div>
                 )}
             </ImageUploading>
-
-            </div>
+        </div>
     );
 };
 

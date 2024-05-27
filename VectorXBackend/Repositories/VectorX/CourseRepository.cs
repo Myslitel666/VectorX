@@ -20,10 +20,11 @@ namespace VectorXBackend.Repositories.VectorX
             .FirstOrDefaultAsync(course => course.CourseId == courseId);
         }
 
-        public async Task AddCourse(Course course)
+        public async Task<int> AddCourse(Course course)
         {
             _dbContext.Courses.Add(course);
             await _dbContext.SaveChangesAsync();
+            return course.CourseId;
         }
     }
 }

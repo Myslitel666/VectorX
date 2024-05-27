@@ -31,7 +31,7 @@ namespace VectorXBackend.Repositories.VectorX
             var courseStatus = await GetStatusByCourseId(courseId);
             if (courseStatus != null)
             {
-                courseStatus.CourseStatuseId = courseStatusId; // Меняем Status
+                courseStatus.CourseStatusId = courseStatusId; // Меняем Status
                 _dbContext.CourseStatuses.Update(courseStatus); //Обновляем контекст базы данных
             }
             await _dbContext.SaveChangesAsync(); // Сохраняем изменения

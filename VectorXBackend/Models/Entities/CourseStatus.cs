@@ -9,7 +9,7 @@ public partial class CourseStatus
 
     public int CourseId { get; set; }
 
-    public int CourseStatuseId { get; set; }
+    public int CourseStatusId { get; set; }
 
     public int? UserActionId { get; set; }
 
