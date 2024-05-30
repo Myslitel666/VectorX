@@ -9,5 +9,6 @@ namespace VectorXBackend.Interfaces.Repositories.VectorX
         Task<List<Course>> GetCoursesBySubjectId(int subjectId);
         Task<int> AddCourse(Course course);
         Task<List<Course>> GetCoursesByAuthorIdAndStatusId(int authorId, int statusId);
+        Task RedactCourse(Course course);
     }
 }

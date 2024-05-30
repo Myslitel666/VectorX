@@ -24,7 +24,7 @@ import { updateCourseAvatar, updateCourseId } from '../../../../../../Store/slic
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //fetch import
-import { getSubjects, createCourse, getCourseById } from './fetch/courseManagementFetch';
+import { getSubjects, createCourse, getCourseById, redactCourse } from './fetch/courseManagementFetch';
 
 //interfaces import
 import { Course, SubjectDirectory } from '../../../Interfaces/interfaces';
@@ -94,7 +94,12 @@ const CourseCreation: React.FC = () => {
                 price: parseInt(price)
             }
             
-            createCourse(course);
+            if (courseId === -1) {
+                createCourse(course);
+            }
+            else { 
+                redactCourse(course);
+            }
         }
     }
     

@@ -13,21 +13,7 @@ namespace VectorXBackend.Services
         private readonly ISubjectRepository _subjectRepository;
         private readonly ICourseStatusDirectoryRepository _courseStatusDirectoryRepository;
         private readonly ICourseStatusesRepository _courseStatusesRepository;
-
-        public CourseManagementService(
-            ICourseRepository courseRepository,
-            ISubjectRepository subjectRepository,
-            ICourseStatusDirectoryRepository courseStatusDirectoryRepository,
-            ICourseStatusesRepository courseStatusesRepository
-        )
-        {
-            _courseRepository = courseRepository;
-            _subjectRepository = subjectRepository;
-            _courseStatusDirectoryRepository = courseStatusDirectoryRepository;
-            _courseStatusesRepository = courseStatusesRepository;
-        }
-
-        public async Task<ResponseBaseDto> CreateCourse(CourseDto courseDto)
+        private async Task<Course> ConvertToCourse(CourseDto courseDto)
         {
             //Преобразуем аватар курса из строки в массив байт
             string base64String = courseDto.CourseAvatar.Replace("data:image/png;base64,", "");
@@ -43,6 +29,26 @@ namespace VectorXBackend.Services
                 Price = courseDto.Price,
             };
 
+            return course;
+        }
+
+        public CourseManagementService(
+            ICourseRepository courseRepository,
+            ISubjectRepository subjectRepository,
+            ICourseStatusDirectoryRepository courseStatusDirectoryRepository,
+            ICourseStatusesRepository courseStatusesRepository
+        )
+        {
+            _courseRepository = courseRepository;
+            _subjectRepository = subjectRepository;
+            _courseStatusDirectoryRepository = courseStatusDirectoryRepository;
+            _courseStatusesRepository = courseStatusesRepository;
+        }
+
+        public async Task CreateCourse(CourseDto courseDto)
+        {
+            var course = await ConvertToCourse(courseDto);
+
             int courseId = await _courseRepository.AddCourse(course);
             var createdStatus = await _courseStatusDirectoryRepository.GetStatusByName("Created");
             var courseStatuses = new CourseStatus()
@@ -51,13 +57,6 @@ namespace VectorXBackend.Services
                 CourseStatusId = createdStatus.CourseStatusId
             };
             await _courseStatusesRepository.AddCourseStatus(courseStatuses);
-
-            var response = new ResponseBaseDto()
-            {
-                IsError = false,
-                FeedbackMessage = "✓The course has been successfully created.",
-            };
-            return response;
         }
         public async Task<IEnumerable<SubjectsResponseDto>> GetAllSubjects()
         {
@@ -107,6 +106,13 @@ namespace VectorXBackend.Services
             };
 
             return courseListDto;
+        }
+        public async Task RedactCourse(CourseDto courseDto)
+        {
+            var course = await ConvertToCourse(courseDto);
+            course.CourseId = courseDto.CourseId;
+
+            await _courseRepository.RedactCourse(course);
         }
         public async Task DeleteCourse(CourseIdDto courseIdDto)
         {

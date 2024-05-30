@@ -33,8 +33,8 @@ namespace VectorXBackend.Controllers.VectorX
         [HttpPost("createCourse")]
         public async Task<IActionResult> CreateCourse([FromBody] CourseDto courseDto)
         {
-            var createCourseResponse = await _courseManagementService.CreateCourse(courseDto);
-            return Ok(createCourseResponse);
+            await _courseManagementService.CreateCourse(courseDto);
+            return Ok();
         }
         [HttpPost("getAuthorDrafts")]
         public async Task<IActionResult> GetAuthorDrafts([FromBody] UserIdDto userIdDto)
@@ -59,6 +59,13 @@ namespace VectorXBackend.Controllers.VectorX
                     Price = course.Price,
                 }
             );
+        }
+        [HttpPost("redactCourse")]
+        public async Task<IActionResult> RedactCourse([FromBody] CourseDto courseDto)
+        {
+            await _courseManagementService.RedactCourse(courseDto);
+
+            return Ok();
         }
         [HttpPost("deleteCourseById")]
         public async Task<IActionResult> DeleteCourseById([FromBody] CourseIdDto courseIdDto)

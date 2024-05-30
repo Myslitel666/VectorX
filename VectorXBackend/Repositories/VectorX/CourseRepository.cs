@@ -1,7 +1,7 @@
-﻿using VectorXBackend.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using VectorXBackend.Context;
 using VectorXBackend.Interfaces.Repositories.VectorX;
 using VectorXBackend.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace VectorXBackend.Repositories.VectorX
 {
@@ -47,6 +47,13 @@ namespace VectorXBackend.Repositories.VectorX
                 .Where(course => course.AuthorId == authorId && course.CourseStatuses.Any(cs => cs.CourseStatusId == statusId)) // фильтруем по authorId и statusId
                 .Include(course => course.CourseStatuses) // включаем связанные данные о статусах курса
                 .ToListAsync();
+        }
+
+        public async Task RedactCourse(Course course)
+        {
+            _dbContext.Courses.Update(course); //Обновляем контекст базы данных
+
+            await _dbContext.SaveChangesAsync(); // Сохраняем изменения
         }
     }
 }

@@ -18,17 +18,13 @@ export const getSubjects = async () => {
 };
 
 export const createCourse = async (course: Course) => {
-    const response = await fetch(`${apiUrl}/api/vectorX/course-management/createCourse`, {
+    await fetch(`${apiUrl}/api/vectorX/course-management/createCourse`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(course),
     });
-
-    const data = await response.json();
-
-    return data;
 };
 
 export const getAuthorDrafts = async (userId: number) => {
@@ -61,6 +57,16 @@ export const getCourseById = async (courseId: number) => {
     const data = await response.json();
 
     return data;
+};
+
+export const redactCourse = async (course: Course) => {
+    await fetch(`${apiUrl}/api/vectorX/course-management/redactCourse`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(course),
+    });
 };
 
 export const deleteCourseById = async (courseId: number) => {
