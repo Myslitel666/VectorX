@@ -60,5 +60,12 @@ namespace VectorXBackend.Controllers.VectorX
                 }
             );
         }
+        [HttpPost("deleteCourseById")]
+        public async Task<IActionResult> DeleteCourseById([FromBody] CourseIdDto courseIdDto)
+        {
+            await _courseManagementService.DeleteCourse(courseIdDto);
+
+            return Ok();
+        }
     }
 }

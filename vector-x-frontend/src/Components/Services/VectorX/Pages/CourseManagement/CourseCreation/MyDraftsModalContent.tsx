@@ -1,6 +1,7 @@
 ﻿//React Import
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
 import { useTheme } from '@mui/material';
@@ -14,15 +15,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ColorModeContextProps, useColorMode } from '../../../../../../Context/ColorModeContext';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import MyButton from '../../../../../Common/User Interface/MyButton';
-import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { setOpenDrafts, updateCourseId } from '../../../../../../Store/slices/courseCreationSlice';
+import { setOpenDrafts, updateCourseId, updateDrafts } from '../../../../../../Store/slices/courseCreationSlice';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //fetch import
-import { getSubjects } from './fetch/courseManagementFetch';
+import { getSubjects, deleteCourseById } from './fetch/courseManagementFetch';
 
 //interfaces import
 import { SubjectDirectory } from '../../../Interfaces/interfaces';
@@ -44,33 +44,13 @@ const MyDraftsModalContent: React.FC = () => {
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const drafts = useSelector((state: RootState) => state.createdCourse.drafts);
 
-    // Создаем функцию для обработки клика на иконку корзины
-    const handleDeleteIconClick = (userId: number) => {
-        // Извлекаем данные из localStorage
-        // const cachedUserIdsString = localStorage.getItem('cachedUserIds');
-
-        // // Проверяем, есть ли данные в localStorage по ключу 'cachedUserIds'
-        // if (cachedUserIdsString !== null) {
-        //     // Преобразуем строку в массив
-        //     const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
-        //     const updatedCachedUserIds = cachedUserIds.filter(id => id !== userId);
-
-        //     // Обновляем данные в localStorage
-        //     localStorage.setItem('cachedUserIds', JSON.stringify(updatedCachedUserIds));
-        // }
-
-        // updateCachedUsers();
-    };
+    const isDesktop = useMediaQuery({ minWidth: 600 });
 
     // Создаем функцию для обработки клика на иконку корзины
-    const updateCachedUsers = () => {
-        const cachedUserIdsString = localStorage.getItem('cachedUserIds');
-
-        // Проверяем, есть ли данные в localStorage по ключу 'cachedUserIds'
-        if (cachedUserIdsString !== null) {
-            // Преобразуем строку в массив
-            const cachedUserIds: number[] = JSON.parse(cachedUserIdsString);
-        }
+    const handleDeleteIconClick = (courseId: number) => {
+        deleteCourseById(courseId);
+        const updatedDrafts = drafts.filter(course => course.courseId !== courseId);
+        dispatch(updateDrafts(updatedDrafts));
     };
 
     // Создаем массив состояний для каждого Box'а
@@ -146,10 +126,10 @@ const MyDraftsModalContent: React.FC = () => {
                             marginLeft: '0.66rem',
                         }}
                     >
-                        <Typography>
+                        <Typography fontSize = {isDesktop ? '1.03rem' : '0.88rem'}>
                             <strong>Course Name:</strong> {draft.title.length > 55 ? `${draft.title.substring(0, 55)}...` : draft.title}
                         </Typography>
-                        <Typography>
+                        <Typography fontSize = {isDesktop ? '1.03rem' : '0.88rem'}>
                             <strong>Subject:</strong> {subjects.find(subject => subject.subjectId === draft.subjectId)?.subjectName}
                         </Typography>
                     </Box>
@@ -177,7 +157,7 @@ const MyDraftsModalContent: React.FC = () => {
                                 onMouseLeave={() => {
                                     setIsHoveredClear(false);
                                 }}
-                                onClick={() => handleDeleteIconClick(user.userId)} // Передаем userId при клике
+                                onClick={() => handleDeleteIconClick(draft.courseId)} // Передаем userId при клике
                             />
                         </Tooltip>
                     </Box>

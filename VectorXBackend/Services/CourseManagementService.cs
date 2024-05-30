@@ -108,5 +108,12 @@ namespace VectorXBackend.Services
 
             return courseListDto;
         }
+        public async Task DeleteCourse(CourseIdDto courseIdDto)
+        {
+            int courseId = courseIdDto.CourseId;
+            var deletedStatus = await _courseStatusDirectoryRepository.GetStatusByName("Deleted");
+
+            await _courseStatusesRepository.RedactCourseStatus(courseId, deletedStatus.CourseStatusId);
+        }
     }
 }

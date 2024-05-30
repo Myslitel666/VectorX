@@ -9,5 +9,6 @@ namespace VectorXBackend.Interfaces.Services
 
         Task<IEnumerable<SubjectsResponseDto>> GetAllSubjects();
         Task<CourseListDto> GetAuthorDrafts(UserIdDto useridDto);
+        Task DeleteCourse(CourseIdDto courseIdDto);
     }
 }

@@ -238,14 +238,13 @@ public partial class VectorXContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CourseStatuses_Course");
 
-            entity.HasOne(d => d.CourseStatuse).WithMany(p => p.CourseStatuses)
+            entity.HasOne(d => d.CourseStatusNavigation).WithMany(p => p.CourseStatuses)
                 .HasForeignKey(d => d.CourseStatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CourseStatuses_CourseStatusDirectory");
 
             entity.HasOne(d => d.UserAction).WithMany(p => p.CourseStatuses)
                 .HasForeignKey(d => d.UserActionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_CourseStatuses_UserAction");
         });
 

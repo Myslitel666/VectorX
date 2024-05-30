@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace VectorXBackend.Models.Entities;
@@ -15,7 +15,7 @@ public partial class CourseStatus
 
     public virtual Course Course { get; set; } = null!;
 
-    public virtual CourseStatusDirectory CourseStatuse { get; set; } = null!;
+    public virtual CourseStatusDirectory CourseStatusNavigation { get; set; } = null!;
 
-    public virtual UserAction UserAction { get; set; } = null!;
+    public virtual UserAction? UserAction { get; set; }
 }

@@ -11062,6 +11062,7 @@
 											"model": {
 												"$ref": "AAAAAAGPhuTcc5PdM+k="
 											},
+											"visible": false,
 											"font": "Arial;13;0",
 											"left": 302,
 											"top": 289,
@@ -11079,7 +11080,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 302,
-											"top": 304,
+											"top": 289,
 											"width": 211.4580078125,
 											"height": 13
 										},
@@ -11094,7 +11095,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 302,
-											"top": 319,
+											"top": 304,
 											"width": 211.4580078125,
 											"height": 13
 										},
@@ -11109,7 +11110,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 302,
-											"top": 334,
+											"top": 319,
 											"width": 211.4580078125,
 											"height": 13
 										},
@@ -11124,7 +11125,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 302,
-											"top": 349,
+											"top": 334,
 											"width": 211.4580078125,
 											"height": 13
 										}
@@ -11133,14 +11134,14 @@
 									"left": 297,
 									"top": 254,
 									"width": 221.4580078125,
-									"height": 113
+									"height": 98
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 297,
 							"top": 231,
 							"width": 221.4580078125,
-							"height": 136,
+							"height": 122,
 							"nameLabel": {
 								"$ref": "AAAAAAGPkJCpSe5z82k="
 							},
@@ -11620,7 +11621,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 402,
-									"top": 383,
+									"top": 376,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -11637,7 +11638,7 @@
 									},
 									"font": "Arial;13;0",
 									"left": 403,
-									"top": 385,
+									"top": 371,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -11671,7 +11672,7 @@
 								"$ref": "AAAAAAGPkJCpSe5yCdo="
 							},
 							"lineStyle": 2,
-							"points": "388:366;388:415",
+							"points": "388:352;388:415",
 							"nameLabel": {
 								"$ref": "AAAAAAGPkJCpSu6jZ0k="
 							},
