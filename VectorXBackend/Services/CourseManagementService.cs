@@ -45,7 +45,7 @@ namespace VectorXBackend.Services
             _courseStatusesRepository = courseStatusesRepository;
         }
 
-        public async Task CreateCourse(CourseDto courseDto)
+        public async Task<int> CreateCourse(CourseDto courseDto)
         {
             var course = await ConvertToCourse(courseDto);
 
@@ -57,6 +57,8 @@ namespace VectorXBackend.Services
                 CourseStatusId = createdStatus.CourseStatusId
             };
             await _courseStatusesRepository.AddCourseStatus(courseStatuses);
+
+            return courseId;
         }
         public async Task<IEnumerable<SubjectsResponseDto>> GetAllSubjects()
         {

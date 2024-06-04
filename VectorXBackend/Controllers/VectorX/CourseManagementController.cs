@@ -33,8 +33,13 @@ namespace VectorXBackend.Controllers.VectorX
         [HttpPost("createCourse")]
         public async Task<IActionResult> CreateCourse([FromBody] CourseDto courseDto)
         {
-            await _courseManagementService.CreateCourse(courseDto);
-            return Ok();
+            int courseId = await _courseManagementService.CreateCourse(courseDto);
+            return Ok(
+                new CourseIdDto()
+                {
+                    CourseId = courseId,
+                }
+            );
         }
         [HttpPost("getAuthorDrafts")]
         public async Task<IActionResult> GetAuthorDrafts([FromBody] UserIdDto userIdDto)

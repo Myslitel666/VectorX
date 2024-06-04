@@ -95,7 +95,10 @@ const CourseCreation: React.FC = () => {
             }
             
             if (courseId === -1) {
-                createCourse(course);
+                createCourse(course)
+                .then(data => {
+                    dispatch(updateCourseId(data.courseId));
+                })
             }
             else { 
                 redactCourse(course);

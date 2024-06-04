@@ -5,7 +5,7 @@ namespace VectorXBackend.Interfaces.Services
 {
     public interface ICourseManagementService
     {
-        Task CreateCourse(CourseDto courseDto);
+        Task<int> CreateCourse(CourseDto courseDto);
         Task<IEnumerable<SubjectsResponseDto>> GetAllSubjects();
         Task<CourseListDto> GetAuthorDrafts(UserIdDto useridDto);
         Task RedactCourse(CourseDto courseDto);

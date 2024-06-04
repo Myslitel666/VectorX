@@ -42,7 +42,6 @@ const CourseManagement: React.FC = () => {
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
-    const authorDrafts = useSelector((state: RootState) => state.createdCourse.drafts);
 
     const isDesktop = useMediaQuery({ minWidth:700 });
 
