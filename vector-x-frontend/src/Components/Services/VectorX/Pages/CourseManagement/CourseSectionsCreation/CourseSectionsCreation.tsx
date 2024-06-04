@@ -24,10 +24,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //fetch import
-import { getCourseById } from '../CourseCreation/fetch/courseManagementFetch';
+import { getSubjects, getCourseById } from '../CourseCreation/fetch/courseManagementFetch';
 
 //interfaces import
 import { Course } from '../../../Interfaces/interfaces';
+import { SubjectDirectory } from '../../../Interfaces/interfaces';
 
 //Utils Import
 import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
@@ -43,6 +44,7 @@ const CourseSectionsCreation: React.FC = () => {
     const { getUser, isLogged } = useUserContext();
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
+    const [subjects, setSubjects] = useState<SubjectDirectory[]>([]);
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
@@ -72,7 +74,13 @@ const CourseSectionsCreation: React.FC = () => {
                     setCourse(course);
                 });
         }
-        console.log(courseId)
+
+        const fetchSubjects = async () => {
+            const subjects = await getSubjects();
+            setSubjects(subjects);
+        };
+
+        fetchSubjects();
     }, [courseId]);
 
     return (
@@ -88,15 +96,36 @@ const CourseSectionsCreation: React.FC = () => {
             >
                 <Typography 
                     fontSize='2.25rem'
-                    marginBottom='0.25rem'
                     marginLeft = {isDesktop ? '0rem' : '0.25rem'}
                 >
                     Course Sections Creation
                 </Typography>
-                <img 
-                    src = {addImagePrefix(course?.courseAvatar || '')} 
-                    alt="Course Avatar"
-                />
+                <Box 
+                    display='flex'
+                    justifyContent='center'
+                    alignItems='center'
+                    marginTop = '0.75rem'
+                >
+                    <img 
+                        src = {addImagePrefix(course?.courseAvatar || '')} 
+                        alt="Course Avatar"
+                        style = {{
+                            width: '10rem',
+                            height: '10rem'
+                        }}
+                    />
+                    <Box
+                        marginLeft = '1rem'
+
+                    >
+                        <Typography fontSize={isDesktop ? '1.38rem' : '1.05rem'} marginBottom='0.25rem'>
+                            <strong>Course Name:</strong> {course && course.title.length > 100 ? `${course.title.substring(0, 100)}...` : course?.title}
+                        </Typography>
+                        <Typography fontSize = {isDesktop ? '1.38rem' : '1.05rem'}>
+                            <strong>Subject:</strong> {course && subjects.find(subject => subject.subjectId === course.subjectId)?.subjectName}
+                        </Typography>
+                    </Box>
+                </Box>
             </Box>
         </>
     );

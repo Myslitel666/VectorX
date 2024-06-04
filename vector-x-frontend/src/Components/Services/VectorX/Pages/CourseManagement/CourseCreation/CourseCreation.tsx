@@ -109,8 +109,10 @@ const CourseCreation: React.FC = () => {
                 
             }
             else { 
-                redactCourse(course);
-                navigate('/course-management/course-sections-creation');
+                redactCourse(course)
+                .then(()=> {
+                    navigate('/course-management/course-sections-creation');
+                })
             }
         }
     }
