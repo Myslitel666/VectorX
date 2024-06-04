@@ -97,11 +97,20 @@ const CourseCreation: React.FC = () => {
             if (courseId === -1) {
                 createCourse(course)
                 .then(data => {
-                    dispatch(updateCourseId(data.courseId));
+                    //Вернуть Promise, чтобы выполнить navigate после dispatch 
+                    return new Promise<void>((resolve) => {
+                        dispatch(updateCourseId(data.courseId));
+                        resolve();
+                    });
                 })
+                .then(() => {
+                    navigate('/course-management/course-sections-creation');
+                })
+                
             }
             else { 
                 redactCourse(course);
+                navigate('/course-management/course-sections-creation');
             }
         }
     }

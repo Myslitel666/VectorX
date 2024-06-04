@@ -19,6 +19,19 @@ import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
+
+//fetch import
+import { getCourseById } from '../CourseCreation/fetch/courseManagementFetch';
+
+//interfaces import
+import { Course } from '../../../Interfaces/interfaces';
+
+//Utils Import
+import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
+
 const CourseSectionsCreation: React.FC = () => {
 
     //Context
@@ -31,43 +44,13 @@ const CourseSectionsCreation: React.FC = () => {
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
 
+    //Redux
+    const dispatch = useDispatch(); // Получаем диспетчер Redux
+    const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
+
+    const [course, setCourse] = useState<Course>();
+
     const isDesktop = useMediaQuery({ minWidth:700 });
-
-    const courseManagementMenu = [
-        {
-            courseManagementMenuId: 1,
-            menuOptionTitle: 'Create Course',
-            menuOptionDescription: 'Start creating your course today!',
-            icon: <AddBoxIcon />,
-        },
-        {
-            courseManagementMenuId: 2,
-            menuOptionTitle: 'My Drafts',
-            menuOptionDescription: 'The place for your creative ideas',
-            icon: <ArticleIcon />,
-        },
-        {
-            courseManagementMenuId: 3,
-            menuOptionTitle: 'Edit Course',
-            menuOptionDescription: 'Change and improve your courses',
-            icon: <EditIcon />,
-        },
-        {
-            courseManagementMenu: 4,
-            menuOptionTitle: 'Checking Tasks',
-            menuOptionDescription: 'Check the completed tasks of the learners',
-            icon: <CheckCircleIcon />,
-        },
-        {
-            courseManagementMenu: 5,
-            menuOptionTitle: 'Course Appeals & Blocks',
-            menuOptionDescription: 'Appeal the decision to block the course',
-            icon: <GavelIcon />,
-        },
-    ]
-
-    // Создаем массив состояний для каждого Box'а
-    const [, setIsHoveredBox] = useState(Array(courseManagementMenu.length).fill(false));
 
     //Блокировка доступа к управлению курсами для непривилегированных пользователей
     useEffect(() => {
@@ -77,17 +60,44 @@ const CourseSectionsCreation: React.FC = () => {
         if (!isLogged()) {
             navigate('/auth');
         }
+        if (courseId === -1) {
+            navigate('/course-management/course-creation');
+        }
     }, [location.pathname, user.isBlocked]);
+
+    useEffect(() => {
+        if (courseId != -1) {
+            getCourseById(courseId)
+                .then(course => {
+                    setCourse(course);
+                });
+        }
+        console.log(courseId)
+    }, [courseId]);
 
     return (
         <>
             <Header />
-            <Typography 
-                marginTop='4.75rem' 
-                fontSize='5rem'
+            <Box 
+                padding = '4.75rem 4.75rem 0rem 4.75rem'
+                sx = {{
+                    '@media screen and (max-width:1100px)': {
+                        padding: '4.75rem 0.5rem 0rem 0.5rem'
+                    },
+                }}
             >
-                Course Sections Creation
-            </Typography>
+                <Typography 
+                    fontSize='2.25rem'
+                    marginBottom='0.25rem'
+                    marginLeft = {isDesktop ? '0rem' : '0.25rem'}
+                >
+                    Course Sections Creation
+                </Typography>
+                <img 
+                    src = {addImagePrefix(course?.courseAvatar || '')} 
+                    alt="Course Avatar"
+                />
+            </Box>
         </>
     );
 };
