@@ -27,8 +27,11 @@ import { RootState } from '../../../../../../Store/store'; // Импорт ти�
 import { getSubjects, getCourseById } from '../CourseCreation/fetch/courseManagementFetch';
 
 //interfaces import
-import { Course } from '../../../Interfaces/interfaces';
-import { SubjectDirectory } from '../../../Interfaces/interfaces';
+import { 
+    Course, 
+    SubjectDirectory, 
+    CourseSection 
+} from '../../../Interfaces/interfaces';
 
 //Utils Import
 import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
@@ -46,6 +49,7 @@ const CourseSectionsCreation: React.FC = () => {
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
     const [subjects, setSubjects] = useState<SubjectDirectory[]>([]);
+    const [sections, setSections] = useState<CourseSection[]>([]);
 
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
@@ -83,7 +87,7 @@ const CourseSectionsCreation: React.FC = () => {
 
         const fetchЫSections = async () => {
             const sections = await getCourseSections(courseId);
-            console.log(sections);
+            setSections(sections);
         };
 
         fetchSubjects();
@@ -132,6 +136,13 @@ const CourseSectionsCreation: React.FC = () => {
                             <strong>Subject:</strong> {course && subjects.find(subject => subject.subjectId === course.subjectId)?.subjectName}
                         </Typography>
                     </Box>
+                </Box>
+                <Box>
+                    {sections.map((section, index) => (
+                        <Typography key={section.courseSectionId} fontSize='1rem'>
+                            Section {index + 1}. {section.sectionName}
+                        </Typography>
+                    ))}
                 </Box>
             </Box>
         </>

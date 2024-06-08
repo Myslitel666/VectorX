@@ -14,3 +14,12 @@ export interface SubjectDirectory {
     subjectDescription: string
 }
 
+export interface CourseSection {
+    courseSectionId: number,
+    courseId: number,
+    lastSectionId: number | null,
+    sectionName: string
+    descriptrion: string | null,
+    isDeleted: boolean
+}
+
