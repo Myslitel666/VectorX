@@ -8,14 +8,14 @@ namespace VectorXBackend.Controllers.VectorX
 {
     [Route("api/vectorX/course-management")]
     [ApiController]
-    public class CourseManagementController : Controller
+    public class CourseCreationController : Controller
     {
         private VectorXContext _dbContext;
-        private readonly ICourseManagementService _courseManagementService;
+        private readonly ICourseCreationService _courseManagementService;
         private readonly ICourseRepository _courseRepository;
 
-        public CourseManagementController(
-            ICourseManagementService courseManagementService,
+        public CourseCreationController(
+            ICourseCreationService courseManagementService,
             ICourseRepository courseRepository
         )
         {

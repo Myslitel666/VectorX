@@ -1,5 +1,4 @@
-﻿using VectorXBackend.Context;
-using VectorXBackend.Interfaces.Repositories;
+﻿using VectorXBackend.Interfaces.Repositories;
 using VectorXBackend.Interfaces.Repositories.AccountService;
 using VectorXBackend.Interfaces.Repositories.EnglishAssistant;
 using VectorXBackend.Interfaces.Repositories.VectorX;
@@ -8,7 +7,10 @@ using VectorXBackend.Repositories;
 using VectorXBackend.Repositories.AccountService;
 using VectorXBackend.Repositories.EnglishAssistant;
 using VectorXBackend.Repositories.VectorX;
-using VectorXBackend.Services;
+using VectorXBackend.Services.AccountService;
+using VectorXBackend.Services.EnglishAssistant;
+using VectorXBackend.Services.VectorX;
+using VectorXBackend.Services.WebSocketService;
 using Microsoft.EntityFrameworkCore;
 
 namespace VectorXBackend.Properties
@@ -33,11 +35,11 @@ namespace VectorXBackend.Properties
             services.AddScoped<IContextRepository, ContextRepository>();
 
             // Services
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IEnglishAssistantService, EnglishAssistantService>();
-            services.AddScoped<ICourseManagementService, CourseManagementService>();
+            services.AddScoped<IAccountService, AccountService>(); //Account Service
+            services.AddScoped<ICourseCreationService, CourseCreationService>(); //Vector X
             services.AddScoped<ITakingCoursesService, TakingCoursesService>();
-            services.AddSingleton<IWebSocketService, WebSocketService>();
+            services.AddScoped<IEnglishAssistantService, EnglishAssistantService>(); //EnglishAssistant
+            services.AddSingleton<IWebSocketService, WebSocketService>(); //WebSocket
         }
     }
 }

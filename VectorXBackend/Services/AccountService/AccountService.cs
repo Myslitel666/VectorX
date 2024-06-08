@@ -5,7 +5,7 @@ using VectorXBackend.DTOs.Requests.AccountService;
 using VectorXBackend.DTOs.Responses.AccountService;
 using VectorXBackend.DTOs.SharedDTOs;
 
-namespace VectorXBackend.Services
+namespace VectorXBackend.Services.AccountService
 {
     public class AccountService : IAccountService
     {

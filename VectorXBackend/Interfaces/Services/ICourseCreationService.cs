@@ -3,7 +3,7 @@ using VectorXBackend.DTOs.Responses.VectorX.CourseManagement;
 
 namespace VectorXBackend.Interfaces.Services
 {
-    public interface ICourseManagementService
+    public interface ICourseCreationService
     {
         Task<int> CreateCourse(CourseDto courseDto);
         Task<IEnumerable<SubjectsResponseDto>> GetAllSubjects();

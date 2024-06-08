@@ -46,6 +46,10 @@ const PaymentMethodContent: React.FC<({ setPaymentMethodClick: React.Dispatch<Re
         Array(paymentMethod.length).fill({ lastClickedTime: null, errorMessage: '' })
     );
 
+    useEffect(()=> {
+        console.log(paymentMethod[0].avatar)
+    },[])
+
     return (
         <>
             <Typography

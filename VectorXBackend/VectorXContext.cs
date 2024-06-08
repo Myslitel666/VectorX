@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using VectorXBackend.Models.Entities;
 
-namespace VectorXBackend;
+namespace VectorXBackend.Context;
 
 public partial class VectorXContext : DbContext
 {

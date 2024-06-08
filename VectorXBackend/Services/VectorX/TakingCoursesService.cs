@@ -3,7 +3,7 @@ using VectorXBackend.Interfaces.Services;
 using VectorXBackend.DTOs.Requests.VectorX.TakingCourses;
 using VectorXBackend.DTOs.SharedDTOs;
 
-namespace VectorXBackend.Services
+namespace VectorXBackend.Services.VectorX
 {
     public class TakingCoursesService : ITakingCoursesService
     {

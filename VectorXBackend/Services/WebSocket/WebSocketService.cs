@@ -8,7 +8,7 @@ using VectorXBackend.Interfaces.Services;
 using VectorXBackend.Services;
 using VectorXBackend.DTOs.Requests.WebSocketService;
 
-namespace VectorXBackend.Services;
+namespace VectorXBackend.Services.WebSocketService;
 
 public class WebSocketService : IWebSocketService
 {

@@ -4,7 +4,7 @@ using VectorXBackend.Models.Entities;
 using VectorXBackend.DTOs.Requests.EnglishAssistant;
 using VectorXBackend.DTOs.Responses.EnglishAssistant;
 
-namespace VectorXBackend.Services
+namespace VectorXBackend.Services.EnglishAssistant
 {
     public class EnglishAssistantService : IEnglishAssistantService
     {
@@ -12,7 +12,7 @@ namespace VectorXBackend.Services
         private readonly IJargonRepository _jargonRepository;
 
         public EnglishAssistantService(
-            IUserJargonsRepository userJargonsRepository, 
+            IUserJargonsRepository userJargonsRepository,
             IJargonRepository jargonRepository
         )
         {

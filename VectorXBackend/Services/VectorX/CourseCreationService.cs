@@ -3,11 +3,10 @@ using VectorXBackend.Interfaces.Services;
 using VectorXBackend.DTOs.Responses.VectorX.CourseManagement;
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Models.Entities;
-using VectorXBackend.Repositories.VectorX;
 
-namespace VectorXBackend.Services
+namespace VectorXBackend.Services.VectorX
 {
-    public class CourseManagementService : ICourseManagementService
+    public class CourseCreationService : ICourseCreationService
     {
         private readonly ICourseRepository _courseRepository;
         private readonly ISubjectRepository _subjectRepository;
@@ -32,7 +31,7 @@ namespace VectorXBackend.Services
             return course;
         }
 
-        public CourseManagementService(
+        public CourseCreationService(
             ICourseRepository courseRepository,
             ISubjectRepository subjectRepository,
             ICourseStatusDirectoryRepository courseStatusDirectoryRepository,
