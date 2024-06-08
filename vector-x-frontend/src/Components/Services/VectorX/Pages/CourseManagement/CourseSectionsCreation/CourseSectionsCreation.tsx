@@ -32,6 +32,7 @@ import { SubjectDirectory } from '../../../Interfaces/interfaces';
 
 //Utils Import
 import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
+import { getCourseSections } from './fetch/courseSectionsCreationFetch';
 
 const CourseSectionsCreation: React.FC = () => {
 
@@ -80,7 +81,13 @@ const CourseSectionsCreation: React.FC = () => {
             setSubjects(subjects);
         };
 
+        const fetchЫSections = async () => {
+            const sections = await getCourseSections(courseId);
+            console.log(sections);
+        };
+
         fetchSubjects();
+        fetchЫSections();
     }, [courseId]);
 
     return (

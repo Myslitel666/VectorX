@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using VectorXBackend.Models.Entities;
 
-namespace VectorXBackend;
+namespace VectorXBackend.Context;
 
 public partial class VectorXContext : DbContext
 {
@@ -246,11 +246,7 @@ public partial class VectorXContext : DbContext
             entity.HasOne(d => d.Course).WithMany(p => p.CourseSections)
                 .HasForeignKey(d => d.CourseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SectionCourse_Course");
-
-            entity.HasOne(d => d.LastSection).WithMany(p => p.InverseLastSection)
-                .HasForeignKey(d => d.LastSectionId)
-                .HasConstraintName("FK_SectionCourse_SectionCourse");
+                .HasConstraintName("FK_CourseSection_Course");
         });
 
         modelBuilder.Entity<CourseStatus>(entity =>
@@ -403,14 +399,10 @@ public partial class VectorXContext : DbContext
         {
             entity.ToTable("Lesson");
 
-            entity.HasOne(d => d.LastLesson).WithMany(p => p.InverseLastLesson)
-                .HasForeignKey(d => d.LastLessonId)
-                .HasConstraintName("FK_Lesson_Lesson");
-
             entity.HasOne(d => d.SectionCourse).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.SectionCourseId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Lesson_SectionCourse");
+                .HasConstraintName("FK_Lesson_CourseSection");
         });
 
         modelBuilder.Entity<LessonVersion>(entity =>
@@ -454,10 +446,6 @@ public partial class VectorXContext : DbContext
 
             entity.Property(e => e.CreationDate).HasColumnType("datetime");
             entity.Property(e => e.QuestionContent).HasColumnType("text");
-
-            entity.HasOne(d => d.LastQuestion).WithMany(p => p.InverseLastQuestion)
-                .HasForeignKey(d => d.LastQuestionId)
-                .HasConstraintName("FK_QuestionVersion_QuestionVersion");
 
             entity.HasOne(d => d.Question).WithMany(p => p.QuestionVersions)
                 .HasForeignKey(d => d.QuestionId)

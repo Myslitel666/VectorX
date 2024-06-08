@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using VectorXBackend.Context;
-using VectorXBackend.Interfaces.Repositories.VectorX;
 using VectorXBackend.Models.Entities;
+using VectorXBackend.Interfaces.Repositories.VectorX;
+using VectorXBackend.Context;
 
 namespace VectorXBackend.Repositories.VectorX
 {
-    public class CourseSectionRepository
+    public class CourseSectionRepository : ICourseSectionRepository
     {
         private readonly VectorXContext _dbContext;
 
@@ -27,10 +27,10 @@ namespace VectorXBackend.Repositories.VectorX
             return section.CourseSectionId;
         }
 
-        public async Task<List<CourseSection>> GetSectionsByCourseId(int courseId)
+        public async Task<IEnumerable<CourseSection>> GetSectionsByCourseId(int courseId)
         {
             return await _dbContext.CourseSections
-                .Where(cs => cs.CourseId == courseId)
+                .Where(cs => cs.CourseId == courseId && cs.IsDeleted == false)
                 .ToListAsync();
         }
 

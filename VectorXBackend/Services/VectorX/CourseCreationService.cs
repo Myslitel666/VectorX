@@ -12,6 +12,7 @@ namespace VectorXBackend.Services.VectorX
         private readonly ISubjectRepository _subjectRepository;
         private readonly ICourseStatusDirectoryRepository _courseStatusDirectoryRepository;
         private readonly ICourseStatusesRepository _courseStatusesRepository;
+        private readonly ICourseSectionRepository _courseSectionRepository;
         private async Task<Course> ConvertToCourse(CourseDto courseDto)
         {
             //Преобразуем аватар курса из строки в массив байт
@@ -31,17 +32,20 @@ namespace VectorXBackend.Services.VectorX
             return course;
         }
 
+        //Constructor
         public CourseCreationService(
             ICourseRepository courseRepository,
             ISubjectRepository subjectRepository,
             ICourseStatusDirectoryRepository courseStatusDirectoryRepository,
-            ICourseStatusesRepository courseStatusesRepository
+            ICourseStatusesRepository courseStatusesRepository,
+            ICourseSectionRepository courseSectionRepository
         )
         {
             _courseRepository = courseRepository;
             _subjectRepository = subjectRepository;
             _courseStatusDirectoryRepository = courseStatusDirectoryRepository;
             _courseStatusesRepository = courseStatusesRepository;
+            _courseSectionRepository = courseSectionRepository;
         }
 
         public async Task<int> CreateCourse(CourseDto courseDto)
@@ -121,6 +125,25 @@ namespace VectorXBackend.Services.VectorX
             var deletedStatus = await _courseStatusDirectoryRepository.GetStatusByName("Deleted");
 
             await _courseStatusesRepository.RedactCourseStatus(courseId, deletedStatus.CourseStatusId);
+        }
+        public async Task<IEnumerable<CourseSection>> GetCourseSectionsList(CourseIdDto courseIdDto)
+        {
+            //Извлекаем список разделов
+            int courseId = courseIdDto.CourseId;
+            var sectionsList = await _courseSectionRepository.GetSectionsByCourseId(courseId);
+
+            // Находим первый раздел (у которого LastSectionId равен null)
+            var orderedSections = new List<CourseSection>();
+            var currentSection = sectionsList.FirstOrDefault(s => s.LastSectionId == null);
+
+            // Последовательно добавляем каждый следующий раздел
+            while (currentSection != null)
+            {
+                orderedSections.Add(currentSection);
+                currentSection = sectionsList.FirstOrDefault(s => s.LastSectionId == currentSection.CourseSectionId);
+            }
+
+            return orderedSections;
         }
     }
 }

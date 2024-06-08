@@ -11,7 +11,7 @@ namespace VectorXBackend.Controllers.VectorX
     public class CourseCreationController : Controller
     {
         private VectorXContext _dbContext;
-        private readonly ICourseCreationService _courseManagementService;
+        private readonly ICourseCreationService _courseCreationService;
         private readonly ICourseRepository _courseRepository;
 
         public CourseCreationController(
@@ -20,20 +20,20 @@ namespace VectorXBackend.Controllers.VectorX
         )
         {
             _dbContext = new VectorXContext();
-            _courseManagementService = courseManagementService;
+            _courseCreationService = courseManagementService;
             _courseRepository = courseRepository;
         }
 
         [HttpGet("getSubjects")]
         public async Task<IActionResult> GetSubjects()
         {
-            var subjects = await _courseManagementService.GetAllSubjects();
+            var subjects = await _courseCreationService.GetAllSubjects();
             return Ok(subjects);
         }
         [HttpPost("createCourse")]
         public async Task<IActionResult> CreateCourse([FromBody] CourseDto courseDto)
         {
-            int courseId = await _courseManagementService.CreateCourse(courseDto);
+            int courseId = await _courseCreationService.CreateCourse(courseDto);
             return Ok(
                 new CourseIdDto()
                 {
@@ -44,7 +44,7 @@ namespace VectorXBackend.Controllers.VectorX
         [HttpPost("getAuthorDrafts")]
         public async Task<IActionResult> GetAuthorDrafts([FromBody] UserIdDto userIdDto)
         {
-            var courseListDto = await _courseManagementService.GetAuthorDrafts(userIdDto);
+            var courseListDto = await _courseCreationService.GetAuthorDrafts(userIdDto);
             return Ok(courseListDto);
         }
         [HttpPost("getCourseById")]
@@ -68,16 +68,23 @@ namespace VectorXBackend.Controllers.VectorX
         [HttpPost("redactCourse")]
         public async Task<IActionResult> RedactCourse([FromBody] CourseDto courseDto)
         {
-            await _courseManagementService.RedactCourse(courseDto);
+            await _courseCreationService.RedactCourse(courseDto);
 
             return Ok();
         }
         [HttpPost("deleteCourseById")]
         public async Task<IActionResult> DeleteCourseById([FromBody] CourseIdDto courseIdDto)
         {
-            await _courseManagementService.DeleteCourse(courseIdDto);
+            await _courseCreationService.DeleteCourse(courseIdDto);
 
             return Ok();
+        }
+        [HttpPost("getCourseSections")]
+        public async Task<IActionResult> GetCourseSections([FromBody] CourseIdDto courseIdDto)
+        {
+            var courseSections = await _courseCreationService.GetCourseSectionsList(courseIdDto);
+
+            return Ok(courseSections);
         }
     }
 }
