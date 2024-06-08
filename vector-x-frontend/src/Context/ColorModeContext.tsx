@@ -78,6 +78,9 @@ export const ColorModeProvider: React.FC<ColorModeProviderProps> = ({ children }
                     action: {
                         disabledBackground: themeMode === 'light' ? '#FFFFFF' : '#252525',
                     },
+                    error: {
+                        main: themeMode === 'light' ? '#d84040' : '#E10000',
+                    }
                 },
             }),
         [themeMode, primaryColor]

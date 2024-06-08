@@ -9,15 +9,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import ArticleIcon from '@mui/icons-material/Article';
-import GavelIcon from '@mui/icons-material/Gavel';
+import CloseIcon from '@mui/icons-material/Close';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 //MyComponents Import
 import { ColorModeContextProps, useColorMode } from '../../../../../../Context/ColorModeContext';
-import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
+import MyButton from '../../../../../Common/User Interface/MyButton';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,7 +42,6 @@ const CourseSectionsCreation: React.FC = () => {
     //Context
     const theme = useTheme();
     const { themeMode }: ColorModeContextProps = useColorMode();
-    const { getColorFromLabel } = useColorLabel('red');
     const navigate = useNavigate();
     const location = useLocation();
     const { getUser, isLogged } = useUserContext();
@@ -144,12 +143,61 @@ const CourseSectionsCreation: React.FC = () => {
                 >
                     <Box>
                         {sections.map((section, index) => (
-                            <Typography 
+                            <Box 
                                 key={section.courseSectionId} 
-                                fontSize={isDesktop ? '1.38rem' : '1.05rem'}
+                                display = 'flex'
+                                alignItems='center'
+                                marginBottom='0.75rem'
+                                height='3.25rem'
                             >
-                                <strong>Section {index + 1}. </strong> {section.sectionName}
-                            </Typography>
+                                <MyButton 
+                                    variant='contained'
+                                    sx = {{
+                                        minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                        padding: isDesktop ? '0.75rem' : '0.5rem',
+                                        marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                    }}
+                                >
+                                    <ArrowUpwardIcon/>
+                                </MyButton>
+                                <MyButton 
+                                    variant='contained'
+                                    sx = {{
+                                        minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                        padding: isDesktop ? '0.75rem' : '0.5rem',
+                                        marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                    }}
+                                >
+                                    <ArrowDownwardIcon/>
+                                </MyButton>
+                                <Typography 
+                                    fontSize={isDesktop ? '1.2rem' : '1.05rem'}
+                                >
+                                    <strong>Section {index + 1}. </strong> {section.sectionName.length > 100 ? `${section.sectionName.substring(0, 100)}...` : section.sectionName}
+                                </Typography>
+                                <MyButton 
+                                    variant='contained'
+                                    sx = {{
+                                        minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                        padding: isDesktop ? '0.75rem' : '0.5rem',
+                                        marginLeft: isDesktop ? '0.75rem' : '0.5rem',
+                                        marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                    }}
+                                >
+                                    <EditIcon/>
+                                </MyButton>
+                                <MyButton 
+                                    variant='contained'
+                                    color='error'
+                                    sx = {{
+                                        minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                        padding: isDesktop ? '0.75rem' : '0.5rem',
+                                        marginRight: isDesktop ? '0.75rem' : '0.5rem',
+                                    }}
+                                >
+                                    <CloseIcon/>
+                                </MyButton>
+                            </Box>
                         ))}
                     </Box>
                 </Box>
