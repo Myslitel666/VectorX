@@ -137,12 +137,21 @@ const CourseSectionsCreation: React.FC = () => {
                         </Typography>
                     </Box>
                 </Box>
-                <Box>
-                    {sections.map((section, index) => (
-                        <Typography key={section.courseSectionId} fontSize='1rem'>
-                            Section {index + 1}. {section.sectionName}
-                        </Typography>
-                    ))}
+                <Box
+                    display='flex'
+                    justifyContent='center'
+                    marginTop='1rem'
+                >
+                    <Box>
+                        {sections.map((section, index) => (
+                            <Typography 
+                                key={section.courseSectionId} 
+                                fontSize={isDesktop ? '1.38rem' : '1.05rem'}
+                            >
+                                <strong>Section {index + 1}. </strong> {section.sectionName}
+                            </Typography>
+                        ))}
+                    </Box>
                 </Box>
             </Box>
         </>
