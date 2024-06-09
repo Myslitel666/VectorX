@@ -12,5 +12,6 @@ namespace VectorXBackend.Interfaces.Services
         Task RedactCourse(CourseDto courseDto);
         Task DeleteCourse(CourseIdDto courseIdDto);
         Task<IEnumerable<CourseSection>> GetCourseSectionsList(CourseIdDto courseIdDto);
+        Task<int> CreateCourseSection(CourseIdDto courseIdDto);
     }
 }

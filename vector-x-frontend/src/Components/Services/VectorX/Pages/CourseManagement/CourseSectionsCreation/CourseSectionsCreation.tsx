@@ -24,7 +24,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //fetch import
-import { getSubjects, getCourseById } from '../CourseCreation/fetch/courseManagementFetch';
+import { 
+    getSubjects, 
+    getCourseById
+} from '../CourseCreation/fetch/courseManagementFetch';
+
+import { 
+    getCourseSections, 
+    createCourseSection 
+} from './fetch/courseSectionsCreationFetch';
 
 //interfaces import
 import { 
@@ -35,7 +43,6 @@ import {
 
 //Utils Import
 import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
-import { getCourseSections } from './fetch/courseSectionsCreationFetch';
 
 const CourseSectionsCreation: React.FC = () => {
 
@@ -58,6 +65,16 @@ const CourseSectionsCreation: React.FC = () => {
 
     const isDesktop = useMediaQuery({ minWidth:700 });
 
+    const fetchSubjects = async () => {
+        const subjects = await getSubjects();
+        setSubjects(subjects);
+    };
+
+    const fetchЫSections = async () => {
+        const sections = await getCourseSections(courseId);
+        setSections(sections);
+    };
+
     //Блокировка доступа к управлению курсами для непривилегированных пользователей
     useEffect(() => {
         if (!managementCoursesRolesAccess.includes(user.userRole)) {
@@ -78,16 +95,6 @@ const CourseSectionsCreation: React.FC = () => {
                     setCourse(course);
                 });
         }
-
-        const fetchSubjects = async () => {
-            const subjects = await getSubjects();
-            setSubjects(subjects);
-        };
-
-        const fetchЫSections = async () => {
-            const sections = await getCourseSections(courseId);
-            setSections(sections);
-        };
 
         fetchSubjects();
         fetchЫSections();
@@ -226,6 +233,13 @@ const CourseSectionsCreation: React.FC = () => {
                             height: '3rem',
                             width: '25.8rem'
                         }}
+                        onClick = {() => {
+                                createCourseSection(courseId)        
+                                    .then(() => {
+                                        fetchЫSections();
+                                    })
+                            }
+                        }
                     >
                         <AddIcon />
                         <Typography>
@@ -248,6 +262,9 @@ const CourseSectionsCreation: React.FC = () => {
                             height: '3rem',
                             minWidth: '12.5rem',
                             marginRight: '0.75rem',
+                        }}
+                        onClick = {() => {
+                            navigate('/course-management/course-creation');
                         }}
                     >
                         Last Step

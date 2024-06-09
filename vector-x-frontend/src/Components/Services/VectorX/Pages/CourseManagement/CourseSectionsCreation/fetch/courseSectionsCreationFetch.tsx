@@ -18,3 +18,18 @@ export const getCourseSections = async (courseId: number) => {
     const data = await response.json();
     return data;
 };
+
+export const createCourseSection = async (courseId: number) => {
+    const response = await fetch(`${apiUrl}/api/vectorX/course-management/createCourseSection`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            courseId: courseId,
+        }),
+    });
+
+    const data = await response.json();
+    return data;
+};

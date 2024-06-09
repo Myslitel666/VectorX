@@ -161,5 +161,24 @@ namespace VectorXBackend.Services.VectorX
 
             return orderedSections;
         }
+        public async Task<int> CreateCourseSection(CourseIdDto courseIdDto)
+        {
+            var courseId = courseIdDto.CourseId;
+            var sections = await _courseSectionRepository.GetSectionsByCourseId(courseId);
+            var sectionsList = sections.ToList();
+            var finalSectionIndex = sectionsList.Count() - 1;
+            var lastSectionId = sectionsList[finalSectionIndex].CourseSectionId;
+
+            var courseSection = new CourseSection()
+            {
+                CourseId = courseId,
+                LastSectionId = lastSectionId,
+                SectionName = "Enter your course section name",
+                IsDeleted = false
+            };
+
+            var courseSectionId = await _courseSectionRepository.AddCourseSection(courseSection);
+            return courseSectionId;
+        }
     }
 }

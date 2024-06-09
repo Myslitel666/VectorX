@@ -86,5 +86,12 @@ namespace VectorXBackend.Controllers.VectorX
 
             return Ok(courseSections);
         }
+        [HttpPost("createCourseSection")]
+        public async Task<IActionResult> CreateCourseSection([FromBody] CourseIdDto courseIdDto)
+        {
+            var courseSectionId = await _courseCreationService.CreateCourseSection(courseIdDto);
+
+            return Ok(courseSectionId);
+        }
     }
 }

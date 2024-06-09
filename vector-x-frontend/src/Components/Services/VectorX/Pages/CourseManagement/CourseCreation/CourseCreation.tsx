@@ -263,7 +263,7 @@ const CourseCreation: React.FC = () => {
                                     if (newInputValue === '') {
                                       handleSubjectChange('');
                                     }
-                                  }}
+                                }}
                                 defaultValue={subjects?.find(option => option.subjectName === selectedSubject) || null}
                                 sx={{
                                     width: '100%'
