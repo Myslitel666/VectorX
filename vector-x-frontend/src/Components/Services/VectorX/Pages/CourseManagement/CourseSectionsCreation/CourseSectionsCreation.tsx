@@ -141,64 +141,76 @@ const CourseSectionsCreation: React.FC = () => {
                     justifyContent='center'
                     marginTop='1rem'
                 >
-                    <Box>
+                    <Box display='flex'>
+                        <Box>
+                            {sections.map((section, index) => (
+                                <Box 
+                                    key={section.courseSectionId} 
+                                    display = 'flex'
+                                    alignItems='center'
+                                    marginBottom='0.75rem'
+                                    height={isDesktop ? '3.12rem' : '2.6rem'}
+                                >
+                                    <MyButton 
+                                        variant='contained'
+                                        sx = {{
+                                            minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                            padding: isDesktop ? '0.75rem' : '0.5rem',
+                                            marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                        }}
+                                    >
+                                        <ArrowUpwardIcon/>
+                                    </MyButton>
+                                    <MyButton 
+                                        variant='contained'
+                                        sx = {{
+                                            minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                            padding: isDesktop ? '0.75rem' : '0.5rem',
+                                            marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                        }}
+                                    >
+                                        <ArrowDownwardIcon/>
+                                    </MyButton>
+                                    <Typography 
+                                        fontSize={isDesktop ? '1.2rem' : '1.05rem'}
+                                    >
+                                        <strong>Section {index + 1}. </strong> {section.sectionName}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
+                        <Box>
                         {sections.map((section, index) => (
-                            <Box 
-                                key={section.courseSectionId} 
-                                display = 'flex'
-                                alignItems='center'
-                                marginBottom='0.75rem'
-                                height='3.25rem'
-                            >
-                                <MyButton 
-                                    variant='contained'
-                                    sx = {{
-                                        minWidth: isDesktop ? '3.25rem' : '2.66rem',
-                                        padding: isDesktop ? '0.75rem' : '0.5rem',
-                                        marginRight: isDesktop ? '0.75rem' : '0.5rem'
-                                    }}
+                                <Box 
+                                    key={section.courseSectionId} 
+                                    display = 'flex'
+                                    alignItems='center'
+                                    marginBottom='0.75rem'
                                 >
-                                    <ArrowUpwardIcon/>
-                                </MyButton>
-                                <MyButton 
-                                    variant='contained'
-                                    sx = {{
-                                        minWidth: isDesktop ? '3.25rem' : '2.66rem',
-                                        padding: isDesktop ? '0.75rem' : '0.5rem',
-                                        marginRight: isDesktop ? '0.75rem' : '0.5rem'
-                                    }}
-                                >
-                                    <ArrowDownwardIcon/>
-                                </MyButton>
-                                <Typography 
-                                    fontSize={isDesktop ? '1.2rem' : '1.05rem'}
-                                >
-                                    <strong>Section {index + 1}. </strong> {section.sectionName.length > 100 ? `${section.sectionName.substring(0, 100)}...` : section.sectionName}
-                                </Typography>
-                                <MyButton 
-                                    variant='contained'
-                                    sx = {{
-                                        minWidth: isDesktop ? '3.25rem' : '2.66rem',
-                                        padding: isDesktop ? '0.75rem' : '0.5rem',
-                                        marginLeft: isDesktop ? '0.75rem' : '0.5rem',
-                                        marginRight: isDesktop ? '0.75rem' : '0.5rem'
-                                    }}
-                                >
-                                    <EditIcon/>
-                                </MyButton>
-                                <MyButton 
-                                    variant='contained'
-                                    color='error'
-                                    sx = {{
-                                        minWidth: isDesktop ? '3.25rem' : '2.66rem',
-                                        padding: isDesktop ? '0.75rem' : '0.5rem',
-                                        marginRight: isDesktop ? '0.75rem' : '0.5rem',
-                                    }}
-                                >
-                                    <CloseIcon/>
-                                </MyButton>
-                            </Box>
-                        ))}
+                                    <MyButton 
+                                        variant='contained'
+                                        sx = {{
+                                            minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                            padding: isDesktop ? '0.75rem' : '0.5rem',
+                                            marginLeft: isDesktop ? '0.75rem' : '0.5rem',
+                                            marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                        }}
+                                    >
+                                        <EditIcon/>
+                                    </MyButton>
+                                    <MyButton 
+                                        variant='contained'
+                                        color='error'
+                                        sx = {{
+                                            minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                            padding: isDesktop ? '0.75rem' : '0.5rem',
+                                        }}
+                                    >
+                                        <CloseIcon/>
+                                    </MyButton>
+                                </Box>
+                            ))}
+                        </Box>
                     </Box>
                 </Box>
             </Box>
