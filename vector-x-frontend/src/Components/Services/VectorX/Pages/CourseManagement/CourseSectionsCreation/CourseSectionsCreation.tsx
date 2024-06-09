@@ -7,7 +7,7 @@ import { useMediaQuery } from 'react-responsive';
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
@@ -180,7 +180,7 @@ const CourseSectionsCreation: React.FC = () => {
                             ))}
                         </Box>
                         <Box>
-                        {sections.map((section, index) => (
+                            {sections.map((section, index) => (
                                 <Box 
                                     key={section.courseSectionId} 
                                     display = 'flex'
@@ -212,6 +212,55 @@ const CourseSectionsCreation: React.FC = () => {
                             ))}
                         </Box>
                     </Box>
+                </Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center', // Для вертикального центрирования
+                    }}
+                >
+                    <MyButton 
+                        variant='contained'
+                        sx = {{
+                            height: '3rem',
+                            width: '25.8rem'
+                        }}
+                    >
+                        <AddIcon />
+                        <Typography>
+                            Add Course Section
+                        </Typography>
+                    </MyButton>
+                </Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center', // Для вертикального центрирования
+                        marginTop: '0.5rem',
+                        marginBottom: '0.5rem',
+                    }}
+                >
+                    <MyButton 
+                        variant='contained'
+                        sx = {{
+                            height: '3rem',
+                            minWidth: '12.5rem',
+                            marginRight: '0.75rem',
+                        }}
+                    >
+                        Last Step
+                    </MyButton>
+                    <MyButton 
+                        variant='contained'
+                        sx = {{
+                            height: '3rem',
+                            minWidth: '12.5rem',
+                        }}
+                    >
+                        Next Step
+                    </MyButton>
                 </Box>
             </Box>
         </>

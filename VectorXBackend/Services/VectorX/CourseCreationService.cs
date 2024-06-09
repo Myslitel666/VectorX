@@ -61,6 +61,22 @@ namespace VectorXBackend.Services.VectorX
             };
             await _courseStatusesRepository.AddCourseStatus(courseStatuses);
 
+            var lastSectionId = 0;
+
+            //Добавляем несколько разделов
+            for (int i = 0; i < 3; i++)
+            {
+                var courseSection = new CourseSection()
+                {
+                    CourseId = courseId,
+                    LastSectionId = i == 0 ? null : lastSectionId,
+                    SectionName = "Enter your course section name",
+                    IsDeleted = false
+                };
+
+                lastSectionId = await _courseSectionRepository.AddCourseSection(courseSection);
+            }
+
             return courseId;
         }
         public async Task<IEnumerable<SubjectsResponseDto>> GetAllSubjects()
