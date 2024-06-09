@@ -1,6 +1,7 @@
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.DTOs.Responses.VectorX.CourseManagement;
 using VectorXBackend.Models.Entities;
+using VectorXBackend.DTOs.Requests.VectorX.CourseManagement;
 
 namespace VectorXBackend.Interfaces.Services
 {
@@ -13,5 +14,6 @@ namespace VectorXBackend.Interfaces.Services
         Task DeleteCourse(CourseIdDto courseIdDto);
         Task<IEnumerable<CourseSection>> GetCourseSectionsList(CourseIdDto courseIdDto);
         Task<int> CreateCourseSection(CourseIdDto courseIdDto);
+        Task DeleteCourseSection(CourseSectionIdDto courseSectionIdDto);
     }
 }

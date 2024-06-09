@@ -1,4 +1,5 @@
 ﻿using VectorXBackend.Models.Entities;
+using VectorXBackend.DTOs.Requests.VectorX.CourseManagement;
 
 namespace VectorXBackend.Interfaces.Repositories.VectorX
 {
@@ -8,5 +9,6 @@ namespace VectorXBackend.Interfaces.Repositories.VectorX
         Task<int> AddCourseSection(CourseSection section);
         Task<IEnumerable<CourseSection>> GetSectionsByCourseId(int courseId);
         Task RedactCourseSection(CourseSection section);
+        Task DeleteCourseSection(CourseSectionIdDto courseSectionIdDto);
     }
 }

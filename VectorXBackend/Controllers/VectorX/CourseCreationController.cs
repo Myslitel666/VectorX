@@ -3,6 +3,7 @@ using VectorXBackend.Context;
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Interfaces.Repositories.VectorX;
 using VectorXBackend.Interfaces.Services;
+using VectorXBackend.DTOs.Requests.VectorX.CourseManagement;
 
 namespace VectorXBackend.Controllers.VectorX
 {
@@ -13,15 +14,18 @@ namespace VectorXBackend.Controllers.VectorX
         private VectorXContext _dbContext;
         private readonly ICourseCreationService _courseCreationService;
         private readonly ICourseRepository _courseRepository;
+        private readonly ICourseSectionRepository _courseSectionRepository;
 
         public CourseCreationController(
             ICourseCreationService courseManagementService,
-            ICourseRepository courseRepository
+            ICourseRepository courseRepository,
+            ICourseSectionRepository courseSectionRepository
         )
         {
             _dbContext = new VectorXContext();
             _courseCreationService = courseManagementService;
             _courseRepository = courseRepository;
+            _courseSectionRepository = courseSectionRepository;
         }
 
         [HttpGet("getSubjects")]
@@ -92,6 +96,13 @@ namespace VectorXBackend.Controllers.VectorX
             var courseSectionId = await _courseCreationService.CreateCourseSection(courseIdDto);
 
             return Ok(courseSectionId);
+        }
+        [HttpPost("deleteCourseSection")]
+        public async Task<IActionResult> DeleteCourseSection([FromBody] CourseSectionIdDto courseSectionIdDto)
+        {
+            await _courseCreationService.DeleteCourseSection(courseSectionIdDto);
+
+            return Ok();
         }
     }
 }

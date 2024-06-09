@@ -6,7 +6,6 @@ namespace VectorXBackend.Interfaces.Repositories.VectorX
     {
         Task<CourseStatus> GetStatusByCourseId(int courseId);
         Task AddCourseStatus(CourseStatus courseStatus);
-
         Task RedactCourseStatus(int courseId, int courseStatusId);
     }
 }

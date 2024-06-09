@@ -3,6 +3,7 @@ using VectorXBackend.Interfaces.Services;
 using VectorXBackend.DTOs.Responses.VectorX.CourseManagement;
 using VectorXBackend.DTOs.SharedDTOs;
 using VectorXBackend.Models.Entities;
+using VectorXBackend.DTOs.Requests.VectorX.CourseManagement;
 
 namespace VectorXBackend.Services.VectorX
 {
@@ -179,6 +180,13 @@ namespace VectorXBackend.Services.VectorX
 
             var courseSectionId = await _courseSectionRepository.AddCourseSection(courseSection);
             return courseSectionId;
+        }
+        public async Task DeleteCourseSection(CourseSectionIdDto courseSectionIdDto)
+        {
+            var courseSectionId = courseSectionIdDto.CourseSectionId;
+            var courseSection = await _courseSectionRepository.GetSectionById(courseSectionId);
+            courseSection.IsDeleted = true;
+            await _courseSectionRepository.RedactCourseSection(courseSection);
         }
     }
 }

@@ -2,6 +2,7 @@
 using VectorXBackend.Models.Entities;
 using VectorXBackend.Interfaces.Repositories.VectorX;
 using VectorXBackend.Context;
+using VectorXBackend.DTOs.Requests.VectorX.CourseManagement;
 
 namespace VectorXBackend.Repositories.VectorX
 {
@@ -39,6 +40,17 @@ namespace VectorXBackend.Repositories.VectorX
             _dbContext.CourseSections.Update(section); //Обновляем контекст базы данных
 
             await _dbContext.SaveChangesAsync(); // Сохраняем изменения
+        }
+
+        public async Task DeleteCourseSection(CourseSectionIdDto courseSectionIdDto)
+        {
+            var courseSectionId = courseSectionIdDto.CourseSectionId;
+            var courseSection = await GetSectionById(courseSectionId);
+            if (courseSection != null)
+            {
+                _dbContext.CourseSections.Remove(courseSection);
+            }
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

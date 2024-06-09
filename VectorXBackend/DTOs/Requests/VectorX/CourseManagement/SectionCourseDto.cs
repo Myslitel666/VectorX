@@ -1,6 +1,6 @@
-namespace VectorXBackend.DTOs.Requests.VectorX.TakingCourses
+namespace VectorXBackend.DTOs.Requests.VectorX.CourseManagement
 {
-    public class SectionCourseDto
+    public class CourseSectionDto
     {
         public int CourseId { get; set; }
 
@@ -10,4 +10,10 @@ namespace VectorXBackend.DTOs.Requests.VectorX.TakingCourses
 
         public string? Description { get; set; }
     }
+
+    public partial class CourseSectionIdDto
+    {
+        public int CourseSectionId { get; set; }
+    }
+
 }

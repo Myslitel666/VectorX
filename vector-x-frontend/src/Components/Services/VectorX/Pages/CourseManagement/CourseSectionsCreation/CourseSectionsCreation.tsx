@@ -31,7 +31,8 @@ import {
 
 import { 
     getCourseSections, 
-    createCourseSection 
+    createCourseSection,
+    deleteCourseSection
 } from './fetch/courseSectionsCreationFetch';
 
 //interfaces import
@@ -212,6 +213,13 @@ const CourseSectionsCreation: React.FC = () => {
                                             minWidth: isDesktop ? '3.25rem' : '2.66rem',
                                             padding: isDesktop ? '0.75rem' : '0.5rem',
                                         }}
+                                        onClick = {() => {
+                                            deleteCourseSection(section.courseSectionId)        
+                                                .then(() => {
+                                                    fetchЫSections();
+                                                })
+                                            }
+                                        }
                                     >
                                         <CloseIcon/>
                                     </MyButton>

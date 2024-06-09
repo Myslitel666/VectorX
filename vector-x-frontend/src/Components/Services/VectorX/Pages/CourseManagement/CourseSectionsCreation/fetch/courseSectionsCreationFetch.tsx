@@ -33,3 +33,15 @@ export const createCourseSection = async (courseId: number) => {
     const data = await response.json();
     return data;
 };
+
+export const deleteCourseSection = async (courseSectionId: number) => {
+    await fetch(`${apiUrl}/api/vectorX/course-management/deleteCourseSection`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            courseSectionId: courseSectionId,
+        }),
+    });
+};
