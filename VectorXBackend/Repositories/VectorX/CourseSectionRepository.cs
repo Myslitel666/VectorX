@@ -21,6 +21,12 @@ namespace VectorXBackend.Repositories.VectorX
             .FirstOrDefaultAsync(cs => cs.CourseSectionId == sectionId);
         }
 
+        public async Task<CourseSection> GetSectionByLastSectionId(int? lastSectionId)
+        {
+            return await _dbContext.CourseSections
+            .FirstOrDefaultAsync(cs => cs.LastSectionId == lastSectionId);
+        }
+
         public async Task<int> AddCourseSection(CourseSection section)
         {
             _dbContext.CourseSections.Add(section);
