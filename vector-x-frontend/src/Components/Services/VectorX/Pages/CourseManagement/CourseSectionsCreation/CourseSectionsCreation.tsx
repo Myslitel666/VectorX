@@ -213,11 +213,13 @@ const CourseSectionsCreation: React.FC = () => {
                                             minWidth: isDesktop ? '3.25rem' : '2.66rem',
                                             padding: isDesktop ? '0.75rem' : '0.5rem',
                                         }}
-                                        onClick = {() => {
-                                            deleteCourseSection(section.courseSectionId)        
-                                                .then(() => {
-                                                    fetchЫSections();
-                                                })
+                                        onClick={() => {
+                                            if (sections.length > 1) {
+                                                deleteCourseSection(section.courseSectionId)
+                                                    .then(() => {
+                                                        fetchЫSections();
+                                                    })
+                                                }
                                             }
                                         }
                                     >
