@@ -18,10 +18,12 @@ import { ColorModeContextProps, useColorMode } from '../../../../../../Context/C
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import MyButton from '../../../../../Common/User Interface/MyButton';
+import RedactModal from './RedactModal';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
+import { updateCourseSectionId, updateCourseSection, updateIsOpen } from '../../../../../../Store/slices/courseSectionSlice';
 
 //fetch import
 import { 
@@ -203,17 +205,24 @@ const CourseSectionsCreation: React.FC = () => {
                                             marginLeft: isDesktop ? '0.75rem' : '0.5rem',
                                             marginRight: isDesktop ? '0.75rem' : '0.5rem'
                                         }}
+                                        onClick = {
+                                            () => {
+                                                dispatch(updateCourseSectionId(section.courseId));
+                                                dispatch(updateCourseSection(section.sectionName));
+                                                dispatch(updateIsOpen(true));
+                                            }
+                                        }
                                     >
                                         <EditIcon/>
                                     </MyButton>
                                     <MyButton 
-                                        variant='contained'
-                                        color='error'
+                                        variant = 'contained'
+                                        color = 'error'
                                         sx = {{
                                             minWidth: isDesktop ? '3.25rem' : '2.66rem',
                                             padding: isDesktop ? '0.75rem' : '0.5rem',
                                         }}
-                                        onClick={() => {
+                                        onClick = {() => {
                                             if (sections.length > 1) {
                                                 deleteCourseSection(section.courseSectionId)
                                                     .then(() => {
@@ -243,7 +252,8 @@ const CourseSectionsCreation: React.FC = () => {
                             height: '3rem',
                             width: '25.8rem'
                         }}
-                        onClick = {() => {
+                        onClick = {
+                            () => {
                                 createCourseSection(courseId)        
                                     .then(() => {
                                         fetchЫSections();
@@ -290,6 +300,7 @@ const CourseSectionsCreation: React.FC = () => {
                     </MyButton>
                 </Box>
             </Box>
+            <RedactModal/>
         </>
     );
 };

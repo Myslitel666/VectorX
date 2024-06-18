@@ -21,9 +21,8 @@ import Header from '../../../../Common/Header/Header';
 import MyDraftsModal from './CourseCreation/MyDraftsModal';
 
 //Redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateCourseId, updateDrafts, setOpenDrafts } from '../../../../../Store/slices/courseCreationSlice';
-import { RootState } from '../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //fetch import
 import { getAuthorDrafts } from './CourseCreation/fetch/courseManagementFetch';
