@@ -16,6 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateIsOpen, updateCourseSection, updateCourseSectionId } from '../../../../../../Store/slices/courseSectionSlice';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
+//fetch import
+import { redactCourseSection } from './fetch/courseSectionsCreationFetch';
+
 //interfaces import
 import { CourseSection } from '../../../Interfaces/interfaces';
 
@@ -59,18 +62,23 @@ export default function BasicModal() {
                         <Typography
                             sx = {isDesktop ? {} : {marginBottom: '0.5rem'}}
                         >
-                            Enter a new username:
+                            Enter a new section name:
                         </Typography>
                         <TextField 
                             sx = {{width: '100%'}}
                             label='Username'
-                            onChange={(e) => updateCourseSection(e.target.value)}
+                            onChange={(e) => dispatch(updateCourseSection(e.target.value))}
                             value={courseSection}
                         />
                     </Box>
                     <MyButton
                         variant = 'contained'
-                        //onClick={redactCourseSection}
+                        onClick={
+                            () => {
+                                redactCourseSection(courseSectionId, courseSection.toString());
+                                dispatch(updateIsOpen(false))
+                            }
+                        }
                         disabled={courseSection === ''}
                         sx={{
                             marginTop: '1rem',

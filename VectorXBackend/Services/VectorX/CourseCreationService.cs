@@ -203,5 +203,13 @@ namespace VectorXBackend.Services.VectorX
                 await _courseSectionRepository.RedactCourseSection(nextSection);
             }
         }
+        public async Task RedactCourseSection(CourseSectionRedactDto courseSectionRedactDto)
+        {
+            var courseSectionId = courseSectionRedactDto.CourseSectionId;
+            var courseSection = await _courseSectionRepository.GetSectionById(courseSectionId);
+            var redactSection = courseSectionRedactDto.SectionName;
+            courseSection.SectionName = redactSection;
+            await _courseSectionRepository.RedactCourseSection(courseSection);
+        }
     }
 }

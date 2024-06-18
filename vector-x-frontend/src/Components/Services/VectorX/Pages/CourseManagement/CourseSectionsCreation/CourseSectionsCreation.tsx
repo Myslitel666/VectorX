@@ -28,13 +28,14 @@ import { updateCourseSectionId, updateCourseSection, updateIsOpen } from '../../
 //fetch import
 import { 
     getSubjects, 
-    getCourseById
+    getCourseById,
 } from '../CourseCreation/fetch/courseManagementFetch';
 
 import { 
     getCourseSections, 
     createCourseSection,
-    deleteCourseSection
+    deleteCourseSection,
+    redactCourseSection
 } from './fetch/courseSectionsCreationFetch';
 
 //interfaces import
@@ -63,6 +64,7 @@ const CourseSectionsCreation: React.FC = () => {
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
+    const isOpen = useSelector((state: RootState) => state.courseSection.isOpen);
 
     const [course, setCourse] = useState<Course>();
 
@@ -101,7 +103,9 @@ const CourseSectionsCreation: React.FC = () => {
 
         fetchSubjects();
         fetchЫSections();
-    }, [courseId]);
+
+        console.log(isOpen)
+    }, [courseId, isOpen]);
 
     return (
         <>
@@ -207,7 +211,7 @@ const CourseSectionsCreation: React.FC = () => {
                                         }}
                                         onClick = {
                                             () => {
-                                                dispatch(updateCourseSectionId(section.courseId));
+                                                dispatch(updateCourseSectionId(section.courseSectionId));
                                                 dispatch(updateCourseSection(section.sectionName));
                                                 dispatch(updateIsOpen(true));
                                             }

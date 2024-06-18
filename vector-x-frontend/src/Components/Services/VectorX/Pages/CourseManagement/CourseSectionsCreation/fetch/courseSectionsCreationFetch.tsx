@@ -45,3 +45,16 @@ export const deleteCourseSection = async (courseSectionId: number) => {
         }),
     });
 };
+
+export const redactCourseSection = async (courseSectionId: number, sectionName: string) => {
+    await fetch(`${apiUrl}/api/vectorX/course-management/redactCourseSection`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            courseSectionId: courseSectionId,
+            sectionName: sectionName
+        }),
+    });
+};

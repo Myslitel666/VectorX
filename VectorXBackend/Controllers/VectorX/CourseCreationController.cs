@@ -104,5 +104,12 @@ namespace VectorXBackend.Controllers.VectorX
 
             return Ok();
         }
+        [HttpPost("redactCourseSection")]
+        public async Task<IActionResult> RedactCourseSection([FromBody] CourseSectionRedactDto courseSectionRedactDto)
+        {
+            await _courseCreationService.RedactCourseSection(courseSectionRedactDto);
+
+            return Ok();
+        }
     }
 }
