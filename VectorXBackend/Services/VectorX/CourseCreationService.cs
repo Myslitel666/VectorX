@@ -187,13 +187,13 @@ namespace VectorXBackend.Services.VectorX
 
             //Извлекаем текущий раздел
             var courseSection = await _courseSectionRepository.GetSectionById(courseSectionId);
+
+            //Удаляем текущий раздел
             courseSection.IsDeleted = true;
+            await _courseSectionRepository.RedactCourseSection(courseSection);
 
             //Извлекаем следующий раздел
             var nextSection = await _courseSectionRepository.GetSectionByLastSectionId(courseSectionId);
-
-            //Изменяем статус
-            await _courseSectionRepository.RedactCourseSection(courseSection);
 
             //Изменяем ссылку на предыдущий курс
             if (nextSection != null)
