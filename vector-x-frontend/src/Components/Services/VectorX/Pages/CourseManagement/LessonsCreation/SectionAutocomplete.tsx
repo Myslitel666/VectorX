@@ -1,41 +1,46 @@
+//React Import
+import React, { ChangeEvent } from 'react';
+
 //MUI Import
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-// Определение типа для объекта с полем title
-type Option = { title: string };
+//interfaces import
+import { CourseSection } from '../../../Interfaces/interfaces';
 
 interface AutoCompleteProps {
     sx?: React.CSSProperties | {
         [key: string]: React.CSSProperties | undefined;
     } ; // Либо CSS-правила, либо media-теги
     label?: string;
-    dropList?: { title: string } [];
+    dropList: CourseSection[];
     size?: "medium" | "small";
     onFieldSelectionChange?: (selectedValue: string) => void; // Обработчик события для выбора поля
-    defaultValue?: { title: string } | null;
+    onInputChange?: (event: ChangeEvent<{}>, newInputValue: string) => void;
+    defaultValue?: CourseSection | null;
 }
 
-const MyAutoComplete: React.FC<AutoCompleteProps> = ({ 
+const SectionAutocomplete: React.FC<AutoCompleteProps> = ({ 
     sx,
     label = 'label',
-    dropList = defaultDropList,
+    dropList,
     size = "small",
     onFieldSelectionChange,
-    defaultValue = { title: '' }
+    onInputChange,
+    defaultValue
 }) => {
 
     const options = dropList.map((option) => ({ ...option }));
-    const isOptionEqualToValue = (option: Option, value: Option | null) => {
+    const isOptionEqualToValue = (option: CourseSection, value: CourseSection | null) => {
         if (value === null) {
             return false;
         }
-        return option.title === value.title;
+        return option.sectionName === value.sectionName;
     };
 
-    const handleFieldSelectionChange = (event: React.ChangeEvent<{}>, selectedOption: { title: string } | null) => {
+    const handleFieldSelectionChange = (event: React.ChangeEvent<{}>, selectedOption: CourseSection | null) => {
         if (selectedOption && onFieldSelectionChange) {
-            onFieldSelectionChange(selectedOption.title); // Вызываем обработчик события с выбранным значением
+            onFieldSelectionChange(selectedOption.sectionName); // Вызываем обработчик события с выбранным значением
         }
     };
 
@@ -44,7 +49,7 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({
             id="grouped-demo"
             size = {size}
             options={options}
-            getOptionLabel={(option) => option.title}
+            getOptionLabel={(option) => option.sectionName}
             value={defaultValue}
             sx={{
                 ...sx
@@ -52,14 +57,9 @@ const MyAutoComplete: React.FC<AutoCompleteProps> = ({
             onChange={handleFieldSelectionChange} // Передаем обработчик события onChange
             isOptionEqualToValue={isOptionEqualToValue}
             renderInput={(params) => <TextField {...params} label={ label } />}
+            onInputChange={onInputChange}
         />
     );
 }
 
-const defaultDropList = [
-    { title: 'title 1' },
-    { title: 'title 2' },
-    { title: 'title 3' },
-]
-
-export default MyAutoComplete;
+export default SectionAutocomplete;

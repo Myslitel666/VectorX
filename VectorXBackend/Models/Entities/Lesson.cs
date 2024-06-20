@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace VectorXBackend.Models.Entities;
@@ -10,6 +10,14 @@ public partial class Lesson
     public int SectionCourseId { get; set; }
 
     public int? LastLessonId { get; set; }
+
+    public string? LessonName { get; set; }
+
+    public string? LessonContent { get; set; }
+
+    public byte[]? LessonFile { get; set; }
+
+    public string? LessonTask { get; set; }
 
     public virtual ICollection<LessonVersion> LessonVersions { get; set; } = new List<LessonVersion>();
 

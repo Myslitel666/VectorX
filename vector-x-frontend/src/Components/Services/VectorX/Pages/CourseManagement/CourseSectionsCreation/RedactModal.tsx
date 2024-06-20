@@ -55,6 +55,13 @@ export default function BasicModal() {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    <Typography 
+                        style={{ 
+                            fontWeight: 'bold'
+                        }}
+                    >
+                        Course Section Editor Form
+                    </Typography>
                     <Box 
                         display = {isDesktop ? 'flex' : 'flow'}
                         marginTop='1rem'
@@ -66,7 +73,7 @@ export default function BasicModal() {
                         </Typography>
                         <TextField 
                             sx = {{width: '100%'}}
-                            label='Username'
+                            label='Course section name'
                             onChange={(e) => dispatch(updateCourseSection(e.target.value))}
                             value={courseSection}
                         />

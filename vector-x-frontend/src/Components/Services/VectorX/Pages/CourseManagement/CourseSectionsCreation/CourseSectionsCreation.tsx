@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
-import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
@@ -14,11 +13,11 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 //MyComponents Import
-import { ColorModeContextProps, useColorMode } from '../../../../../../Context/ColorModeContext';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import RedactModal from './RedactModal';
+import CourseInfo from '../CourseInfo';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,7 +34,6 @@ import {
     getCourseSections, 
     createCourseSection,
     deleteCourseSection,
-    redactCourseSection
 } from './fetch/courseSectionsCreationFetch';
 
 //interfaces import
@@ -45,20 +43,15 @@ import {
     CourseSection 
 } from '../../../Interfaces/interfaces';
 
-//Utils Import
-import { addImagePrefix } from '../../../../../../Utils/ImageUtils';
-
 const CourseSectionsCreation: React.FC = () => {
 
     //Context
-    const theme = useTheme();
-    const { themeMode }: ColorModeContextProps = useColorMode();
     const navigate = useNavigate();
     const location = useLocation();
     const { getUser, isLogged } = useUserContext();
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
-    const [subjects, setSubjects] = useState<SubjectDirectory[]>([]);
+    const [, setSubjects] = useState<SubjectDirectory[]>([]);
     const [sections, setSections] = useState<CourseSection[]>([]);
 
     //Redux
@@ -66,7 +59,7 @@ const CourseSectionsCreation: React.FC = () => {
     const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
     const isOpen = useSelector((state: RootState) => state.courseSection.isOpen);
 
-    const [course, setCourse] = useState<Course>();
+    const [, setCourse] = useState<Course>();
 
     const isDesktop = useMediaQuery({ minWidth:700 });
 
@@ -124,32 +117,7 @@ const CourseSectionsCreation: React.FC = () => {
                 >
                     Course Sections Creation
                 </Typography>
-                <Box 
-                    display='flex'
-                    justifyContent='center'
-                    alignItems='center'
-                    marginTop = '0.75rem'
-                >
-                    <img 
-                        src = {addImagePrefix(course?.courseAvatar || '')} 
-                        alt="Course Avatar"
-                        style = {{
-                            width: '10rem',
-                            height: '10rem'
-                        }}
-                    />
-                    <Box
-                        marginLeft = '1rem'
-
-                    >
-                        <Typography fontSize={isDesktop ? '1.38rem' : '1.05rem'} marginBottom='0.25rem'>
-                            <strong>Course Name:</strong> {course && course.title.length > 100 ? `${course.title.substring(0, 100)}...` : course?.title}
-                        </Typography>
-                        <Typography fontSize = {isDesktop ? '1.38rem' : '1.05rem'}>
-                            <strong>Subject:</strong> {course && subjects.find(subject => subject.subjectId === course.subjectId)?.subjectName}
-                        </Typography>
-                    </Box>
-                </Box>
+                <CourseInfo/>
                 <Box
                     display='flex'
                     justifyContent='center'
@@ -298,6 +266,9 @@ const CourseSectionsCreation: React.FC = () => {
                         sx = {{
                             height: '3rem',
                             minWidth: '12.5rem',
+                        }}
+                        onClick = {() => {
+                            navigate('/course-management/lessons-creation');
                         }}
                     >
                         Next Step
