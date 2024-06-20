@@ -111,5 +111,33 @@ namespace VectorXBackend.Controllers.VectorX
 
             return Ok();
         }
+        [HttpPost("getLessons")]
+        public async Task<IActionResult> GetLessons([FromBody] CourseSectionIdDto courseSectionIdDto)
+        {
+            var lessons = await _courseCreationService.GetLessonsList(courseSectionIdDto);
+
+            return Ok(lessons);
+        }
+        [HttpPost("createLesson")]
+        public async Task<IActionResult> CreateLesson([FromBody] CourseSectionIdDto courseSectionIdDto)
+        {
+            var lessonId = await _courseCreationService.CreateLesson(courseSectionIdDto);
+
+            return Ok(lessonId);
+        }
+        [HttpPost("deleteLesson")]
+        public async Task<IActionResult> DeleteLesson([FromBody] LessonIdDto lessonIdDto)
+        {
+            await _courseCreationService.DeleteLesson(lessonIdDto);
+
+            return Ok();
+        }
+        [HttpPost("redactLesson")]
+        public async Task<IActionResult> RedactLesson([FromBody] LessonRedactDto lessonRedactDto)
+        {
+            await _courseCreationService.RedactLesson(lessonRedactDto);
+
+            return Ok();
+        }
     }
 }

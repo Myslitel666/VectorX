@@ -14,6 +14,7 @@ namespace VectorXBackend.Services.VectorX
         private readonly ICourseStatusDirectoryRepository _courseStatusDirectoryRepository;
         private readonly ICourseStatusesRepository _courseStatusesRepository;
         private readonly ICourseSectionRepository _courseSectionRepository;
+        private readonly ILessonRepository _lessonRepository;
         private async Task<Course> ConvertToCourse(CourseDto courseDto)
         {
             //Преобразуем аватар курса из строки в массив байт
@@ -39,7 +40,8 @@ namespace VectorXBackend.Services.VectorX
             ISubjectRepository subjectRepository,
             ICourseStatusDirectoryRepository courseStatusDirectoryRepository,
             ICourseStatusesRepository courseStatusesRepository,
-            ICourseSectionRepository courseSectionRepository
+            ICourseSectionRepository courseSectionRepository,
+            ILessonRepository lessonRepository
         )
         {
             _courseRepository = courseRepository;
@@ -47,8 +49,8 @@ namespace VectorXBackend.Services.VectorX
             _courseStatusDirectoryRepository = courseStatusDirectoryRepository;
             _courseStatusesRepository = courseStatusesRepository;
             _courseSectionRepository = courseSectionRepository;
+            _lessonRepository = lessonRepository;
         }
-
         public async Task<int> CreateCourse(CourseDto courseDto)
         {
             var course = await ConvertToCourse(courseDto);
@@ -99,7 +101,6 @@ namespace VectorXBackend.Services.VectorX
 
             return subjectsResponseDto;
         }
-
         public async Task<CourseListDto> GetAuthorDrafts(UserIdDto userIdDto)
         {
             var createdStatus = await _courseStatusDirectoryRepository.GetStatusByName("Created");
@@ -210,6 +211,74 @@ namespace VectorXBackend.Services.VectorX
             var redactSection = courseSectionRedactDto.SectionName;
             courseSection.SectionName = redactSection;
             await _courseSectionRepository.RedactCourseSection(courseSection);
+        }
+        public async Task<IEnumerable<Lesson>> GetLessonsList(CourseSectionIdDto courseSectionIdDto)
+        {
+            //Извлекаем список уроков
+            int courseSectionId = courseSectionIdDto.CourseSectionId;
+            var lessonsList = await _lessonRepository.GetLessonsBySectionId(courseSectionId);
+
+            // Находим первый урок (у которого LastLessonId равен null)
+            var orderedLessons = new List<Lesson>();
+            var currentLesson = lessonsList.FirstOrDefault(l => l.LastLessonId == null);
+
+            // Последовательно добавляем каждый следующий раздел
+            while (currentLesson != null)
+            {
+                orderedLessons.Add(currentLesson);
+                currentLesson = lessonsList.FirstOrDefault(s => s.LastLessonId == currentLesson.LastLessonId);
+            }
+
+            return orderedLessons;
+        }
+        public async Task<int> CreateLesson(CourseSectionIdDto courseSectionIdDto)
+        {
+            var courseSectionId = courseSectionIdDto.CourseSectionId;
+            var lessons = await _lessonRepository.GetLessonsBySectionId(courseSectionId);
+            var lessonsList = lessons.ToList();
+            var finalLessonIndex = lessonsList.Count() - 1;
+            var lastLessonId = lessonsList[finalLessonIndex].LessonId;
+
+            var lesson = new Lesson()
+            {
+                SectionCourseId = courseSectionId,
+                LastLessonId = lastLessonId,
+                LessonName = "Enter your lesson name",
+                IsDeleted = false
+            };
+
+            var lessonId = await _lessonRepository.AddLesson(lesson);
+            return lessonId;
+        }
+        public async Task DeleteLesson(LessonIdDto lessonIdDto)
+        {
+            var lessonId = lessonIdDto.LessonId;
+
+            //Извлекаем текущий урок
+            var lesson = await _lessonRepository.GetLessonById(lessonId);
+
+            //Удаляем текущий раздел
+            lesson.IsDeleted = true;
+            await _lessonRepository.RedactLesson(lesson);
+
+            //Извлекаем следующий урок
+            var nextLesson = await _lessonRepository.GetLessonByLastLessonId(lessonId);
+
+            //Изменяем ссылку на предыдущий курс
+            if (nextLesson != null)
+            {
+                var lastLessonId = lesson.LastLessonId;
+                nextLesson.LastLessonId = lastLessonId;
+                await _lessonRepository.RedactLesson(nextLesson);
+            }
+        }
+        public async Task RedactLesson(LessonRedactDto lessonRedactDto)
+        {
+            var lessonId = lessonRedactDto.LessonId;
+            var lesson = await _lessonRepository.GetLessonById(lessonId);
+            var redactLesson = lessonRedactDto.LessonName;
+            lesson.LessonName = redactLesson;
+            await _lessonRepository.RedactLesson(lesson);
         }
     }
 }

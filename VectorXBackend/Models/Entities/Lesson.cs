@@ -19,6 +19,8 @@ public partial class Lesson
 
     public string? LessonTask { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public virtual ICollection<LessonVersion> LessonVersions { get; set; } = new List<LessonVersion>();
 
     public virtual CourseSection SectionCourse { get; set; } = null!;

@@ -67,6 +67,9 @@ const LessonsCreation: React.FC = () => {
         if (!isLogged()) {
             navigate('/auth');
         }
+        if (courseId === -1) {
+            navigate('/course-management/course-creation');
+        }
     }, [location.pathname, user.isBlocked]);
 
     useEffect(() => {

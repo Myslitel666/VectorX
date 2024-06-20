@@ -12,7 +12,6 @@ using VectorXBackend.Services.EnglishAssistant;
 using VectorXBackend.Services.VectorX;
 using VectorXBackend.Services.WebSocketService;
 using Microsoft.EntityFrameworkCore;
-using VectorXBackend.Context;
 
 
 namespace VectorXBackend.Properties
@@ -33,9 +32,11 @@ namespace VectorXBackend.Properties
             services.AddScoped<ICourseStatusesRepository, CourseStatusesRepository>();
             services.AddScoped<ICourseStatusDirectoryRepository, CourseStatusDirectoryRepository>();
             services.AddScoped<ICourseSectionRepository, CourseSectionRepository>();
+            services.AddScoped<ILessonRepository, LessonRepository>();
             services.AddScoped<IUserJargonsRepository, UserJargonsRepository>(); //EnglishAssistant
             services.AddScoped<IJargonRepository, JargonRepository>();
             services.AddScoped<IContextRepository, ContextRepository>();
+
 
             // Services
             services.AddScoped<IAccountService, AccountService>(); //Account Service
