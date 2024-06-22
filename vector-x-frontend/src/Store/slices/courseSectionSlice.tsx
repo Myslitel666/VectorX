@@ -1,9 +1,6 @@
 ﻿//Redux Import 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-//interfaces import
-import { CourseSection } from '../../Components/Services/VectorX/Interfaces/interfaces';
-
 // Определение начального состояния среза
 interface CreatedCourseState {
     courseSectionId: number,

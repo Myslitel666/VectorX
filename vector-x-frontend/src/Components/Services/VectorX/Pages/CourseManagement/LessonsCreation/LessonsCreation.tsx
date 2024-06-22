@@ -17,12 +17,13 @@ import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import CourseInfo from '../CourseInfo';
 import MyButton from '../../../../../Common/User Interface/MyButton';
+import RedactModal from './RedactModal';
 import SectionAutocomplete from './SectionAutocomplete';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
-import { updateCourseSectionId, updateCourseSection, updateIsOpen } from '../../../../../../Store/slices/courseSectionSlice';
+import { updateLessonId, updateLesson, updateIsOpen } from '../../../../../../Store/slices/lessonsSlice';
 
 //interfaces import
 import { Lesson } from '../../../Interfaces/interfaces';
@@ -47,7 +48,7 @@ const LessonsCreation: React.FC = () => {
     //Redux
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
-    const isOpen = useSelector((state: RootState) => state.courseSection.isOpen);
+    const isOpen = useSelector((state: RootState) => state.lesson.isOpen);
 
     const user = getUser();
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
@@ -216,8 +217,8 @@ const LessonsCreation: React.FC = () => {
                                         }}
                                         onClick = {
                                             () => {
-                                                dispatch(updateCourseSectionId(lesson.courseSectionId));
-                                                dispatch(updateCourseSection(lesson.lessonName));
+                                                dispatch(updateLessonId(lesson.lessonId));
+                                                dispatch(updateLesson(lesson.lessonName));
                                                 dispatch(updateIsOpen(true));
                                             }
                                         }
@@ -312,6 +313,7 @@ const LessonsCreation: React.FC = () => {
                     </MyButton>
                 </Box>
             </Box>
+            <RedactModal/>
         </>
     );
 };

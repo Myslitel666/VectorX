@@ -3,6 +3,7 @@ import cachedUsersReducer from './slices/cachedUsersSlice'; // Импортир�
 import usersReducer from './slices/adminPanelSlice'; // Импортируем срез хранилища cписка пользователей
 import createdCourseReducer from './slices/courseCreationSlice'; // Импортируем срез хранилища данных создаваемого курса
 import courseSectionReducer from './slices/courseSectionSlice'; // Импортируем срез хранилища данных раздела курса
+import lessonReducer from './slices/lessonsSlice'; // Импортируем срез хранилища данных урока
 
 const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
         users: usersReducer, // Добавляем срез пользователей в качестве редюсера
         createdCourse: createdCourseReducer, // Добавляем срез создаваемого курса в качестве редюсера
         courseSection: courseSectionReducer, // Добавляем срез раздела курса в качестве редюсера
+        lesson: lessonReducer // Добавляем срез урока в качестве редюсера
     }
 });
 
