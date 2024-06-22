@@ -26,8 +26,7 @@ import { updateCourseSectionId, updateCourseSection, updateIsOpen } from '../../
 
 //fetch import
 import { 
-    getSubjects, 
-    getCourseById,
+    getSubjects,
 } from '../CourseCreation/fetch/courseManagementFetch';
 
 import { 
@@ -38,7 +37,6 @@ import {
 
 //interfaces import
 import { 
-    Course, 
     SubjectDirectory, 
     CourseSection 
 } from '../../../Interfaces/interfaces';
@@ -58,9 +56,7 @@ const CourseSectionsCreation: React.FC = () => {
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
     const isOpen = useSelector((state: RootState) => state.courseSection.isOpen);
-
-    const [, setCourse] = useState<Course>();
-
+    
     const isDesktop = useMediaQuery({ minWidth:700 });
 
     const fetchSubjects = async () => {
@@ -87,17 +83,8 @@ const CourseSectionsCreation: React.FC = () => {
     }, [location.pathname, user.isBlocked]);
 
     useEffect(() => {
-        if (courseId != -1) {
-            getCourseById(courseId)
-                .then(course => {
-                    setCourse(course);
-                });
-        }
-
         fetchSubjects();
         fetchЫSections();
-
-        console.log(isOpen)
     }, [courseId, isOpen]);
 
     return (

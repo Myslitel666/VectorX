@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
 //MUI Import
-import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AddIcon from '@mui/icons-material/Add';
@@ -14,8 +13,6 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 //MyComponents Import
-import { ColorModeContextProps, useColorMode } from '../../../../../../Context/ColorModeContext';
-import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import CourseInfo from '../CourseInfo';
@@ -28,17 +25,21 @@ import { RootState } from '../../../../../../Store/store'; // Импорт ти�
 import { updateCourseSectionId, updateCourseSection, updateIsOpen } from '../../../../../../Store/slices/courseSectionSlice';
 
 //interfaces import
+import { Lesson } from '../../../Interfaces/interfaces';
 import { CourseSection } from '../../../Interfaces/interfaces';
 
 //fetch import
+import { 
+    getLessons, 
+    createLesson,
+    deleteLesson,
+} from '../LessonsCreation/fetch/lessonsCreationFetch';
+
 import { getCourseSections } from '../CourseSectionsCreation/fetch/courseSectionsCreationFetch';
 
 const LessonsCreation: React.FC = () => {
 
     //Context
-    const theme = useTheme();
-    const { themeMode }: ColorModeContextProps = useColorMode();
-    const { getColorFromLabel } = useColorLabel('red');
     const navigate = useNavigate();
     const location = useLocation();
     const { getUser, isLogged } = useUserContext();
@@ -52,11 +53,20 @@ const LessonsCreation: React.FC = () => {
     const managementCoursesRolesAccess = ['admin', 'teacher', 'moderator']
     const [courseSections, setCourseSections] = useState<CourseSection[]>([]);
     const [selectedSection, setSelectedSection] = useState('');
+    const [courseSectionId, setCourseSectionId] = useState(-1);
+    const [lessons, setLessons] = useState<Lesson[]>([]);
 
     const isDesktop = useMediaQuery({ minWidth:700 });
 
-    const handleSubjectChange = (selectedValue: string) => {
-        setSelectedSection(selectedValue); // обновляем значение выбранного поля
+    const handleSectionChange = (selectedValue: CourseSection | null) => {
+        setSelectedSection(selectedValue?.sectionName || ''); // обновляем значение выбранного поля
+        setCourseSectionId(selectedValue?.courseSectionId || -1);
+    };
+
+    const fetchЫLessons = async () => {
+        const lessons = await getLessons(courseSectionId);
+        console.log(lessons)
+        setLessons(lessons);
     };
 
     //Блокировка доступа к управлению курсами для непривилегированных пользователей
@@ -82,11 +92,19 @@ const LessonsCreation: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        fetchЫLessons();
+    }, [courseSectionId, isOpen]);
+
+    useEffect(() => {
         setSelectedSection(courseSections[0]?.sectionName)
+        setCourseSectionId(courseSections[0]?.courseSectionId)
     }, [courseSections]);
 
+    useEffect(() => {
+    }, [lessons]);
+
     return (
-<>
+        <>
             <Header />
             <Box 
                 padding = '4.75rem 4.75rem 0rem 4.75rem'
@@ -126,12 +144,9 @@ const LessonsCreation: React.FC = () => {
                         <SectionAutocomplete
                             dropList={courseSections}
                             size='medium'
-                            label='Subject'
-                            onFieldSelectionChange={handleSubjectChange} // передаем обновленный обработчик
+                            label='Course Section'
+                            onFieldSelectionChange={handleSectionChange} // передаем обновленный обработчик
                             onInputChange={(event, newInputValue) => {
-                                if (newInputValue === '') {
-                                    handleSubjectChange('');
-                                }
                             }}
                             defaultValue={courseSections?.find(option => option.sectionName === selectedSection) || null}
                             sx={{
@@ -139,6 +154,162 @@ const LessonsCreation: React.FC = () => {
                             }}
                         />
                     </Box>
+                </Box>
+                <Box
+                    display='flex'
+                    justifyContent='center'
+                    marginTop='1rem'
+                >
+                    <Box display='flex'>
+                        <Box>
+                            {lessons.map((lesson, index) => (
+                                <Box 
+                                    key={lesson.lessonId} 
+                                    display = 'flex'
+                                    alignItems='center'
+                                    marginBottom='0.75rem'
+                                    height={isDesktop ? '3.12rem' : '2.6rem'}
+                                >
+                                    <MyButton 
+                                        variant='contained'
+                                        sx = {{
+                                            minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                            padding: isDesktop ? '0.75rem' : '0.5rem',
+                                            marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                        }}
+                                    >
+                                        <ArrowUpwardIcon/>
+                                    </MyButton>
+                                    <MyButton 
+                                        variant='contained'
+                                        sx = {{
+                                            minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                            padding: isDesktop ? '0.75rem' : '0.5rem',
+                                            marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                        }}
+                                    >
+                                        <ArrowDownwardIcon/>
+                                    </MyButton>
+                                    <Typography 
+                                        fontSize={isDesktop ? '1.2rem' : '1.05rem'}
+                                    >
+                                        <strong>Lesson {index + 1}. </strong> {lesson.lessonName}
+                                    </Typography>
+                                </Box>
+                            ))}
+                        </Box>
+                        <Box>
+                            {lessons.map((lesson, index) => (
+                                <Box 
+                                    key={lesson.lessonId} 
+                                    display = 'flex'
+                                    alignItems='center'
+                                    marginBottom='0.75rem'
+                                >
+                                    <MyButton 
+                                        variant='contained'
+                                        sx = {{
+                                            minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                            padding: isDesktop ? '0.75rem' : '0.5rem',
+                                            marginLeft: isDesktop ? '0.75rem' : '0.5rem',
+                                            marginRight: isDesktop ? '0.75rem' : '0.5rem'
+                                        }}
+                                        onClick = {
+                                            () => {
+                                                dispatch(updateCourseSectionId(lesson.courseSectionId));
+                                                dispatch(updateCourseSection(lesson.lessonName));
+                                                dispatch(updateIsOpen(true));
+                                            }
+                                        }
+                                    >
+                                        <EditIcon/>
+                                    </MyButton>
+                                    <MyButton 
+                                        variant = 'contained'
+                                        color = 'error'
+                                        sx = {{
+                                            minWidth: isDesktop ? '3.25rem' : '2.66rem',
+                                            padding: isDesktop ? '0.75rem' : '0.5rem',
+                                        }}
+                                        onClick = {() => {
+                                            if (lessons.length > 1) {
+                                                deleteLesson(lesson.lessonId)
+                                                    .then(() => {
+                                                        fetchЫLessons();
+                                                    })
+                                                }
+                                            }
+                                        }
+                                    >
+                                        <CloseIcon/>
+                                    </MyButton>
+                                </Box>
+                            ))}
+                        </Box>
+                    </Box>
+                </Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center', // Для вертикального центрирования
+                    }}
+                >
+                    <MyButton 
+                        variant='contained'
+                        sx = {{
+                            height: '3rem',
+                            width: '25.8rem'
+                        }}
+                        onClick = {
+                            () => {
+                                createLesson(courseSectionId)        
+                                    .then(() => {
+                                        fetchЫLessons();
+                                    })
+                            }
+                        }
+                    >
+                        <AddIcon />
+                        <Typography>
+                            Add Lesson
+                        </Typography>
+                    </MyButton>
+                </Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center', // Для вертикального центрирования
+                        marginTop: '0.5rem',
+                        marginBottom: '0.5rem',
+                    }}
+                >
+                    <MyButton 
+                        variant='contained'
+                        sx = {{
+                            height: '3rem',
+                            minWidth: '12.5rem',
+                            marginRight: '0.75rem',
+                        }}
+                        onClick = {() => {
+                            navigate('/course-management/course-sections-creation');
+                        }}
+                    >
+                        Last Step
+                    </MyButton>
+                    <MyButton 
+                        variant='contained'
+                        sx = {{
+                            height: '3rem',
+                            minWidth: '12.5rem',
+                        }}
+                        onClick = {() => {
+                            //navigate('/course-management/lessons-creation');
+                        }}
+                    >
+                        Next Step
+                    </MyButton>
                 </Box>
             </Box>
         </>

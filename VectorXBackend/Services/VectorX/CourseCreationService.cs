@@ -180,6 +180,23 @@ namespace VectorXBackend.Services.VectorX
             };
 
             var courseSectionId = await _courseSectionRepository.AddCourseSection(courseSection);
+
+            var lastLessonId = 0;
+
+            //Добавляем несколько уроков
+            for (int i = 0; i < 3; i++)
+            {
+                var lesson = new Lesson()
+                {
+                    SectionCourseId = courseSectionId,
+                    LastLessonId = i == 0 ? null : lastLessonId,
+                    LessonName = "Enter your lesson name",
+                    IsDeleted = false
+                };
+
+                lastLessonId = await _lessonRepository.AddLesson(lesson);
+            }
+
             return courseSectionId;
         }
         public async Task DeleteCourseSection(CourseSectionIdDto courseSectionIdDto)
@@ -226,7 +243,7 @@ namespace VectorXBackend.Services.VectorX
             while (currentLesson != null)
             {
                 orderedLessons.Add(currentLesson);
-                currentLesson = lessonsList.FirstOrDefault(s => s.LastLessonId == currentLesson.LastLessonId);
+                currentLesson = lessonsList.FirstOrDefault(s => s.LastLessonId == currentLesson.LessonId);
             }
 
             return orderedLessons;

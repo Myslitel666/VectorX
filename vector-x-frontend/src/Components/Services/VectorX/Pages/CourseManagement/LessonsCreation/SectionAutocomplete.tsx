@@ -15,7 +15,7 @@ interface AutoCompleteProps {
     label?: string;
     dropList: CourseSection[];
     size?: "medium" | "small";
-    onFieldSelectionChange?: (selectedValue: string) => void; // Обработчик события для выбора поля
+    onFieldSelectionChange?: (selectedValue: CourseSection | null) => void; // Обработчик события для выбора поля
     onInputChange?: (event: ChangeEvent<{}>, newInputValue: string) => void;
     defaultValue?: CourseSection | null;
 }
@@ -40,7 +40,7 @@ const SectionAutocomplete: React.FC<AutoCompleteProps> = ({
 
     const handleFieldSelectionChange = (event: React.ChangeEvent<{}>, selectedOption: CourseSection | null) => {
         if (selectedOption && onFieldSelectionChange) {
-            onFieldSelectionChange(selectedOption.sectionName); // Вызываем обработчик события с выбранным значением
+            onFieldSelectionChange(selectedOption); // Вызываем обработчик события с выбранным значением
         }
     };
 

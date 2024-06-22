@@ -23,3 +23,12 @@ export interface CourseSection {
     isDeleted: boolean
 }
 
+export interface Lesson {
+    lessonId: number,
+    courseSectionId: number,
+    lastLessonId: number | null,
+    lessonName: string
+    lessonContent: string | null,
+    isDeleted: boolean
+}
+
