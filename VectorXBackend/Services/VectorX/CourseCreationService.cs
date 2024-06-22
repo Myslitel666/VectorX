@@ -64,20 +64,15 @@ namespace VectorXBackend.Services.VectorX
             };
             await _courseStatusesRepository.AddCourseStatus(courseStatuses);
 
-            var lastSectionId = 0;
+            var courseIdDto = new CourseIdDto()
+            {
+                CourseId = courseId
+            };
 
             //Добавляем несколько разделов
             for (int i = 0; i < 3; i++)
             {
-                var courseSection = new CourseSection()
-                {
-                    CourseId = courseId,
-                    LastSectionId = i == 0 ? null : lastSectionId,
-                    SectionName = "Enter your course section name",
-                    IsDeleted = false
-                };
-
-                lastSectionId = await _courseSectionRepository.AddCourseSection(courseSection);
+                await CreateCourseSection(courseIdDto);
             }
 
             return courseId;
@@ -169,7 +164,7 @@ namespace VectorXBackend.Services.VectorX
             var sections = await _courseSectionRepository.GetSectionsByCourseId(courseId);
             var sectionsList = sections.ToList();
             var finalSectionIndex = sectionsList.Count() - 1;
-            var lastSectionId = sectionsList[finalSectionIndex].CourseSectionId;
+            int? lastSectionId = finalSectionIndex == -1 ? null : sectionsList[finalSectionIndex].CourseSectionId;
 
             var courseSection = new CourseSection()
             {
