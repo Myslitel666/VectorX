@@ -1,7 +1,4 @@
 //interfaces import
-import { Course } from "../../../../Interfaces/interfaces";
-import { SubjectDirectory } from "../../../../Interfaces/interfaces";
-
 const apiUrl = process.env.REACT_APP_API_URL as string;
 
 export const getLessons = async (courseSectionId: number) => {

@@ -14,18 +14,18 @@ namespace VectorXBackend.Controllers.VectorX
         private VectorXContext _dbContext;
         private readonly ICourseCreationService _courseCreationService;
         private readonly ICourseRepository _courseRepository;
-        private readonly ICourseSectionRepository _courseSectionRepository;
+        private readonly ILessonRepository _lessonRepository;
 
         public CourseCreationController(
             ICourseCreationService courseManagementService,
             ICourseRepository courseRepository,
-            ICourseSectionRepository courseSectionRepository
+            ILessonRepository lessonRepository
         )
         {
             _dbContext = new VectorXContext();
             _courseCreationService = courseManagementService;
             _courseRepository = courseRepository;
-            _courseSectionRepository = courseSectionRepository;
+            _lessonRepository = lessonRepository;
         }
 
         [HttpGet("getSubjects")]
@@ -136,6 +136,13 @@ namespace VectorXBackend.Controllers.VectorX
         public async Task<IActionResult> RedactLesson([FromBody] LessonRedactDto lessonRedactDto)
         {
             await _courseCreationService.RedactLesson(lessonRedactDto);
+
+            return Ok();
+        }
+        [HttpPost("addLessonContent")]
+        public async Task<IActionResult> AddLessonContent([FromBody] LessonContentDto lessonContentDto)
+        {
+            await _lessonRepository.AddLessonContent(lessonContentDto);
 
             return Ok();
         }

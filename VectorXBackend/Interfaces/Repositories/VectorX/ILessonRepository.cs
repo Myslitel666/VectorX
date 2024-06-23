@@ -11,5 +11,6 @@ namespace VectorXBackend.Interfaces.Repositories.VectorX
         Task<IEnumerable<Lesson>> GetLessonsBySectionId(int courseSectionId);
         Task RedactLesson(Lesson lesson);
         Task DeleteLesson(LessonIdDto lessonIdDto);
+        Task AddLessonContent(LessonContentDto lessonContentDto);
     }
 }

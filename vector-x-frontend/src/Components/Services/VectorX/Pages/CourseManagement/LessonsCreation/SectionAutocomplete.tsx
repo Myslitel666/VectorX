@@ -27,7 +27,7 @@ const SectionAutocomplete: React.FC<AutoCompleteProps> = ({
     size = "small",
     onFieldSelectionChange,
     onInputChange,
-    defaultValue
+    defaultValue,
 }) => {
 
     const options = dropList.map((option) => ({ ...option }));

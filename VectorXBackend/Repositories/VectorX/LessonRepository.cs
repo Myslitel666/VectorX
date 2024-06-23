@@ -58,5 +58,19 @@ namespace VectorXBackend.Repositories.VectorX
             }
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task AddLessonContent(LessonContentDto lessonContentDto)
+        {
+            var lessonId = lessonContentDto.LessonId;
+            if (lessonId != 0 && lessonId != -1)
+            {
+                var lesson = await GetLessonById(lessonId);
+
+                lesson.LessonContent = lessonContentDto.LessonContent;
+                lesson.LessonTask = lessonContentDto.LessonTask;
+
+                await RedactLesson(lesson);
+            }
+        }
     }
 }

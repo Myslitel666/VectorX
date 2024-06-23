@@ -83,7 +83,10 @@ namespace VectorXBackend.Controllers.WebSocketService
                 catch (WebSocketException ex) when (ex.WebSocketErrorCode == WebSocketError.ConnectionClosedPrematurely)
                 {
                     // Обработка закрытия соединения WebSocket без завершения close handshake
-                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed prematurely", CancellationToken.None);
+                    if (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketState.CloseReceived || webSocket.State == WebSocketState.CloseSent)
+                    {
+                        await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed prematurely", CancellationToken.None);
+                    }
                 }
             }
             else

@@ -6,5 +6,4 @@ namespace VectorXBackend.DTOs.Requests.VectorX.CourseManagement
 
         public string? LessonName { get; set; }
     }
-
 }

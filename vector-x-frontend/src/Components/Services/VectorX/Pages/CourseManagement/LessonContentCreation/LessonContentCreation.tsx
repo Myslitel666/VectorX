@@ -7,13 +7,8 @@ import { useMediaQuery } from 'react-responsive';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import PublishIcon from '@mui/icons-material/VerifiedUser';
-import CloseIcon from '@mui/icons-material/Close';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 //MyComponents Import
-import { ColorModeContextProps, useColorMode } from '../../../../../../Context/ColorModeContext';
-import { useColorLabel } from '../../../../../../Context/UseColorLabel';
 import { useUserContext } from '../../../../../../Context/UserContext';
 import Header from '../../../../../Common/Header/Header';
 import CourseInfo from '../CourseInfo';
@@ -34,13 +29,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../../../Store/store'; // Импорт типа RootState из файла store
 
 //fetch import
-import { 
-    getCourseSections,
-} from '../CourseSectionsCreation/fetch/courseSectionsCreationFetch';
-
-import { 
-    getLessons, 
-} from '../LessonsCreation/fetch/lessonsCreationFetch';
+import { getCourseSections } from '../CourseSectionsCreation/fetch/courseSectionsCreationFetch';
+import { getLessons } from '../LessonsCreation/fetch/lessonsCreationFetch';
+import { addLessonContent } from './fetch/lessonsContentCreationFetch';
 
 const LessonContentCreation: React.FC = () => {
 
@@ -62,7 +53,7 @@ const LessonContentCreation: React.FC = () => {
     const [courseSectionId, setCourseSectionId] = useState(-1);
     const [lessons, setLessons] = useState<Lesson[]>([]);
     const [selectedLesson, setSelectedLesson] = useState('');
-    const [LessonId, setLessonId] = useState(-1);
+    const [lessonId, setLessonId] = useState(-1);
     const [lessonContent, setLessonContent] = useState('');
     const [task, setTask] = useState('');
 
@@ -76,6 +67,14 @@ const LessonContentCreation: React.FC = () => {
         setSelectedLesson(selectedValue?.lessonName || ''); // обновляем значение выбранного поля
         setLessonId(selectedValue?.lessonId || -1);
     };
+    const addContentAndClearFields = () => {
+        addLessonContent(lessonId, lessonContent, task)
+        .then(()=> {
+            setLessonContent('');
+            setTask('');
+        })
+    };
+
 
     useEffect(() => {
         const fetchCourseSections = async () => {
@@ -178,9 +177,7 @@ const LessonContentCreation: React.FC = () => {
                             size='medium'
                             label='Course Section'
                             onFieldSelectionChange={handleSectionChange} // передаем обновленный обработчик
-                            onInputChange={(event, newInputValue) => {
-
-                            }}
+                            onInputChange={addContentAndClearFields}
                             defaultValue={courseSections?.find(option => option.sectionName === selectedSection) || null}
                             sx={{
                                 width: '100%',
@@ -209,8 +206,7 @@ const LessonContentCreation: React.FC = () => {
                             size='medium'
                             label='Course Section'
                             onFieldSelectionChange={handleLessonChange} // передаем обновленный обработчик
-                            onInputChange={(event, newInputValue) => {
-                            }}
+                            onInputChange={addContentAndClearFields}
                             defaultValue={lessons?.find(option => option.lessonName === selectedLesson) || null}
                             sx={{
                                 width: '100%',
@@ -274,6 +270,7 @@ const LessonContentCreation: React.FC = () => {
                         }}
                         onClick = {
                             () => {
+                                addContentAndClearFields();
                                 navigate('/course-management/lessons-creation');
                             }
                         }
