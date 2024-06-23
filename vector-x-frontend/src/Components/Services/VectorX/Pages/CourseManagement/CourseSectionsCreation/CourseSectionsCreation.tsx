@@ -18,6 +18,7 @@ import Header from '../../../../../Common/Header/Header';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import RedactModal from './RedactModal';
 import CourseInfo from '../CourseInfo';
+import Stepper from '../CourseCreation/Stepper';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -260,6 +261,9 @@ const CourseSectionsCreation: React.FC = () => {
                     >
                         Next Step
                     </MyButton>
+                </Box>
+                <Box marginTop='1.75rem'>
+                    <Stepper step={1}/>
                 </Box>
             </Box>
             <RedactModal/>

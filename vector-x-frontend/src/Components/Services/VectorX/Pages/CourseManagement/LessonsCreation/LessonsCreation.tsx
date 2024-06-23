@@ -19,6 +19,7 @@ import CourseInfo from '../CourseInfo';
 import MyButton from '../../../../../Common/User Interface/MyButton';
 import RedactModal from './RedactModal';
 import SectionAutocomplete from './SectionAutocomplete';
+import Stepper from '../CourseCreation/Stepper';
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -308,6 +309,9 @@ const LessonsCreation: React.FC = () => {
                     >
                         Next Step
                     </MyButton>
+                </Box>
+                <Box marginTop='1.75rem'>
+                    <Stepper step={2}/>
                 </Box>
             </Box>
             <RedactModal/>

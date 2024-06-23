@@ -6,8 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 //MUI Import
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
+import PublishIcon from '@mui/icons-material/VerifiedUser';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -20,6 +19,9 @@ import Header from '../../../../../Common/Header/Header';
 import CourseInfo from '../CourseInfo';
 import SectionAutocomplete from '../LessonsCreation/SectionAutocomplete';
 import LessonAutocomplete from './LessonAutocomplete';
+import MyInputBase from '../../../../../Common/User Interface/MyInputBase';
+import Stepper from '../CourseCreation/Stepper';
+import MyButton from '../../../../../Common/User Interface/MyButton';
 
 //interfaces import
 import { 
@@ -54,12 +56,15 @@ const LessonContentCreation: React.FC = () => {
     const courseId = useSelector((state: RootState) => state.createdCourse.courseId);
     const isOpen = useSelector((state: RootState) => state.courseSection.isOpen);
 
+    //Lesson Content
     const [courseSections, setCourseSections] = useState<CourseSection[]>([]);
     const [selectedSection, setSelectedSection] = useState('');
     const [courseSectionId, setCourseSectionId] = useState(-1);
     const [lessons, setLessons] = useState<Lesson[]>([]);
     const [selectedLesson, setSelectedLesson] = useState('');
     const [LessonId, setLessonId] = useState(-1);
+    const [lessonContent, setLessonContent] = useState('');
+    const [task, setTask] = useState('');
 
     const isDesktop = useMediaQuery({ minWidth:700 });
 
@@ -113,6 +118,22 @@ const LessonContentCreation: React.FC = () => {
         setLessonId(lessons[0]?.lessonId);
     }, [lessons]);
 
+    const CourseCreationTypography = (typography: string) => {
+        return(
+            <Typography
+                sx={{
+                    fontSize: '2rem',
+                    float: 'left',
+                    marginRight: '2.2rem',
+                    whiteSpace: 'nowrap', // Запрещает перенос текста
+                    minWidth: '14rem',
+                }}
+            >
+                {typography}
+            </Typography>
+        )
+    }
+
     return (
         <>
             <Header />
@@ -133,7 +154,7 @@ const LessonContentCreation: React.FC = () => {
                 <CourseInfo />
                 <Box
                     display='flex'
-                    justifyContent = 'center'
+                    //justifyContent = 'center'
                     marginTop='0.5rem'
                 >
                     <Box 
@@ -193,10 +214,106 @@ const LessonContentCreation: React.FC = () => {
                             defaultValue={lessons?.find(option => option.lessonName === selectedLesson) || null}
                             sx={{
                                 width: '100%',
-                                marginRight: '1rem'
                             }}
                         />
                     </Box>
+                </Box>
+                <Box 
+                    display = 'flex'
+                    marginTop='1.12rem'
+                >
+                    {isDesktop && 
+                        CourseCreationTypography('Lesson Content:')
+                    }
+                    <MyInputBase
+                        multiline
+                        rows={15}
+                        placeholder='Lesson Content'
+                        value={lessonContent}
+                        onChange={(e) => setLessonContent(e.target.value)}
+                        maxLength={5000}
+                        style={{
+                            width: '100%',
+                            padding: '0.75rem'
+                        }}
+                    />
+                </Box>
+                <Box 
+                    display = 'flex'
+                    marginTop='1.12rem'
+                    marginBottom='1.05rem'
+                >
+                    {isDesktop && 
+                        CourseCreationTypography('Task:')
+                    }
+                    <MyInputBase
+                        multiline
+                        rows={5}
+                        placeholder='Task'
+                        value={task}
+                        onChange={(e) => setTask(e.target.value)}
+                        maxLength={5000}
+                        style={{
+                            width: '100%',
+                            padding: '0.75rem'
+                        }}
+                    />
+                </Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center', // Для вертикального центрирования
+                    }}
+                >
+                    <MyButton 
+                        variant='contained'
+                        sx = {{
+                            height: '3rem',
+                            width: '25.8rem'
+                        }}
+                        onClick = {
+                            () => {
+                                navigate('/course-management/lessons-creation');
+                            }
+                        }
+                    >
+                        <Typography>
+                            Last Step
+                        </Typography>
+                    </MyButton>
+                </Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center', // Для вертикального центрирования
+                        marginTop: '0.5rem'
+                    }}
+                >
+                    <MyButton 
+                        variant='contained'
+                        sx = {{
+                            height: '3rem',
+                            width: '25.8rem'
+                        }}
+                        onClick = {
+                            () => {
+                                // createLesson(courseSectionId)        
+                                //     .then(() => {
+                                //         fetchЫLessons();
+                                //     })
+                            }
+                        }
+                    >
+                        <PublishIcon />
+                        <Typography>
+                            Publish
+                        </Typography>
+                    </MyButton>
+                </Box>
+                <Box marginTop='1.75rem'>
+                    <Stepper step={3}/>
                 </Box>
             </Box>
         </>

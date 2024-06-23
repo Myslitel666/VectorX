@@ -29,14 +29,14 @@ const PaymentMethodContent: React.FC<({ setPaymentMethodClick: React.Dispatch<Re
             paymentMethodTitle: 'Bank Card',
             paymentMethodNumber: '2202 2020 **** 0083',
             paymentMethodMark: 'VISA',
-            avatar: 'images/vector-x/common/wallet/bank-card.svg',
+            avatar: '/images/vector-x/common/wallet/bank-card.svg',
         },
         {
             paymentMethodId: 2,
             paymentMethodTitle: 'Electronic Wallet',
             paymentMethodNumber: '',
             paymentMethodMark: 'QIWI',
-            avatar: 'images/vector-x/common/wallet/electronic-wallet.svg',
+            avatar: '/images/vector-x/common/wallet/electronic-wallet.svg',
         },
     ]
 
@@ -45,10 +45,6 @@ const PaymentMethodContent: React.FC<({ setPaymentMethodClick: React.Dispatch<Re
     const [boxStates] = useState<Array<{ lastClickedTime: Date | null; errorMessage: string }>>(
         Array(paymentMethod.length).fill({ lastClickedTime: null, errorMessage: '' })
     );
-
-    useEffect(()=> {
-        console.log(paymentMethod[0].avatar)
-    },[])
 
     return (
         <>
