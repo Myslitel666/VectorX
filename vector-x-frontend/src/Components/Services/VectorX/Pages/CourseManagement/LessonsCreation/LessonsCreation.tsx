@@ -97,12 +97,9 @@ const LessonsCreation: React.FC = () => {
     }, [courseSectionId, isOpen]);
 
     useEffect(() => {
-        setSelectedSection(courseSections[0]?.sectionName)
-        setCourseSectionId(courseSections[0]?.courseSectionId)
+        setSelectedSection(courseSections[0]?.sectionName);
+        setCourseSectionId(courseSections[0]?.courseSectionId);
     }, [courseSections]);
-
-    useEffect(() => {
-    }, [lessons]);
 
     return (
         <>
@@ -140,7 +137,7 @@ const LessonsCreation: React.FC = () => {
                                 marginTop: '-0.33rem'
                             }}
                         >
-                            Course Sections:
+                            Course Section:
                         </Typography>
                         <SectionAutocomplete
                             dropList={courseSections}
@@ -306,7 +303,7 @@ const LessonsCreation: React.FC = () => {
                             minWidth: '12.5rem',
                         }}
                         onClick = {() => {
-                            //navigate('/course-management/lessons-creation');
+                            navigate('/course-management/lesson-content-creation');
                         }}
                     >
                         Next Step
