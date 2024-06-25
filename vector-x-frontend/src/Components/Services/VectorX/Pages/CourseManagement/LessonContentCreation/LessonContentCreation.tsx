@@ -31,7 +31,7 @@ import { RootState } from '../../../../../../Store/store'; // Импорт ти�
 //fetch import
 import { getCourseSections } from '../CourseSectionsCreation/fetch/courseSectionsCreationFetch';
 import { getLessons } from '../LessonsCreation/fetch/lessonsCreationFetch';
-import { addLessonContent } from './fetch/lessonsContentCreationFetch';
+import { addLessonContent, getLessonById } from './fetch/lessonsContentCreationFetch';
 
 const LessonContentCreation: React.FC = () => {
 
@@ -56,6 +56,7 @@ const LessonContentCreation: React.FC = () => {
     const [lessonId, setLessonId] = useState(-1);
     const [lessonContent, setLessonContent] = useState('');
     const [task, setTask] = useState('');
+    const [lesson, setLesson] = useState<Lesson>();
 
     const isDesktop = useMediaQuery({ minWidth:700 });
 
@@ -63,18 +64,30 @@ const LessonContentCreation: React.FC = () => {
         setSelectedSection(selectedValue?.sectionName || ''); // обновляем значение выбранного поля
         setCourseSectionId(selectedValue?.courseSectionId || -1);
     };
+
     const handleLessonChange = (selectedValue: Lesson | null) => {
         setSelectedLesson(selectedValue?.lessonName || ''); // обновляем значение выбранного поля
         setLessonId(selectedValue?.lessonId || -1);
     };
-    const addContentAndClearFields = () => {
-        addLessonContent(lessonId, lessonContent, task)
-        .then(()=> {
-            setLessonContent('');
-            setTask('');
-        })
+
+    const addContentAndClearFields = (lessonId: number, lessonContent: string, task: string) => {
+        if (lessonId !== -1 && lessonId !== undefined) {
+            console.log('lessonId ' + lessonId)
+            addLessonContent(lessonId, lessonContent, task)
+                .then(()=> {
+                    fetchLesson(lessonId);
+                })
+        }
     };
 
+    const fetchLesson = async (lessonId: number) => {
+        if (lessonId !== -1 && lessonId !== undefined) {
+            await getLessonById(lessonId)
+                .then((lesson)=> {
+                    setLesson(lesson);
+                })
+        }
+    };
 
     useEffect(() => {
         const fetchCourseSections = async () => {
@@ -116,6 +129,19 @@ const LessonContentCreation: React.FC = () => {
         setSelectedLesson(lessons[0]?.lessonName);
         setLessonId(lessons[0]?.lessonId);
     }, [lessons]);
+
+    useEffect(() => {
+        fetchLesson(lessonId);
+    }, [lessonId]);
+
+    useEffect(() => {
+        setLessonContent(lesson?.lessonContent || '');
+        setTask(lesson?.lessonTask || '')
+    }, [lesson]);
+
+    useEffect(() => {
+        addContentAndClearFields(lessonId, lessonContent, task);
+    }, [lessonContent, task]);
 
     const CourseCreationTypography = (typography: string) => {
         return(
@@ -177,7 +203,6 @@ const LessonContentCreation: React.FC = () => {
                             size='medium'
                             label='Course Section'
                             onFieldSelectionChange={handleSectionChange} // передаем обновленный обработчик
-                            onInputChange={addContentAndClearFields}
                             defaultValue={courseSections?.find(option => option.sectionName === selectedSection) || null}
                             sx={{
                                 width: '100%',
@@ -206,7 +231,9 @@ const LessonContentCreation: React.FC = () => {
                             size='medium'
                             label='Course Section'
                             onFieldSelectionChange={handleLessonChange} // передаем обновленный обработчик
-                            onInputChange={addContentAndClearFields}
+                            // onInputChange={() => {
+                            //     addContentAndClearFields(lessonId, lessonContent, task)
+                            // }}
                             defaultValue={lessons?.find(option => option.lessonName === selectedLesson) || null}
                             sx={{
                                 width: '100%',
@@ -227,7 +254,7 @@ const LessonContentCreation: React.FC = () => {
                         placeholder='Lesson Content'
                         value={lessonContent}
                         onChange={(e) => setLessonContent(e.target.value)}
-                        maxLength={5000}
+                        maxLength={50000}
                         style={{
                             width: '100%',
                             padding: '0.75rem'
@@ -268,12 +295,10 @@ const LessonContentCreation: React.FC = () => {
                             height: '3rem',
                             width: '25.8rem'
                         }}
-                        onClick = {
-                            () => {
-                                addContentAndClearFields();
-                                navigate('/course-management/lessons-creation');
-                            }
-                        }
+                        onClick = {() => {
+                            addContentAndClearFields(lessonId, lessonContent, task);
+                            navigate('/course-management/lessons-creation');
+                        }}
                     >
                         <Typography>
                             Last Step
@@ -296,10 +321,6 @@ const LessonContentCreation: React.FC = () => {
                         }}
                         onClick = {
                             () => {
-                                // createLesson(courseSectionId)        
-                                //     .then(() => {
-                                //         fetchЫLessons();
-                                //     })
                             }
                         }
                     >

@@ -146,5 +146,19 @@ namespace VectorXBackend.Controllers.VectorX
 
             return Ok();
         }
+        [HttpPost("getLessonById")]
+        public async Task<IActionResult> GetLessonById([FromBody] LessonIdDto lessonIdDto)
+        {
+            var lessonId = lessonIdDto.LessonId;
+            var lesson = await _lessonRepository.GetLessonById(lessonId);
+            var lessonContent = new LessonContentDto()
+            {
+                LessonId = lessonId,
+                LessonContent = lesson.LessonContent,
+                LessonTask = lesson.LessonTask
+            };
+
+            return Ok(lessonContent);
+        }
     }
 }

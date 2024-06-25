@@ -29,6 +29,7 @@ export interface Lesson {
     lastLessonId: number | null,
     lessonName: string
     lessonContent: string | null,
+    lessonTask: string | null,
     isDeleted: boolean
 }
 
