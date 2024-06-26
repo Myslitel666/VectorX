@@ -72,7 +72,6 @@ const LessonContentCreation: React.FC = () => {
 
     const addContentAndClearFields = (lessonId: number, lessonContent: string, task: string) => {
         if (lessonId !== -1 && lessonId !== undefined) {
-            console.log('lessonId ' + lessonId)
             addLessonContent(lessonId, lessonContent, task)
                 .then(()=> {
                     fetchLesson(lessonId);
@@ -132,6 +131,7 @@ const LessonContentCreation: React.FC = () => {
 
     useEffect(() => {
         fetchLesson(lessonId);
+        //addContentAndClearFields(lessonId, lessonContent, task)
     }, [lessonId]);
 
     useEffect(() => {
@@ -139,9 +139,9 @@ const LessonContentCreation: React.FC = () => {
         setTask(lesson?.lessonTask || '')
     }, [lesson]);
 
-    useEffect(() => {
-        addContentAndClearFields(lessonId, lessonContent, task);
-    }, [lessonContent, task]);
+    // useEffect(() => {
+    //     addContentAndClearFields(lessonId, lessonContent, task);
+    // }, [lessonContent, task]);
 
     const CourseCreationTypography = (typography: string) => {
         return(
@@ -198,17 +198,26 @@ const LessonContentCreation: React.FC = () => {
                         >
                             Course Section:
                         </Typography>
-                        <SectionAutocomplete
-                            dropList={courseSections}
-                            size='medium'
-                            label='Course Section'
-                            onFieldSelectionChange={handleSectionChange} // передаем обновленный обработчик
-                            defaultValue={courseSections?.find(option => option.sectionName === selectedSection) || null}
+                        <Box    
                             sx={{
                                 width: '100%',
                                 marginRight: '1rem'
                             }}
-                        />
+                            onClick = {()=> {
+                                //addContentAndClearFields(lessonId, lessonContent, task);
+                            }}
+                        >
+                            <SectionAutocomplete
+                                dropList={courseSections}
+                                size='medium'
+                                label='Course Section'
+                                onFieldSelectionChange={handleSectionChange} // передаем обновленный обработчик
+                                defaultValue={courseSections?.find(option => option.sectionName === selectedSection) || null}
+                                sx={{
+                                    width: '100%',
+                                }}
+                            />
+                        </Box>
                     </Box>
                     <Box 
                         marginTop='0.5rem'
@@ -226,19 +235,27 @@ const LessonContentCreation: React.FC = () => {
                         >
                             Lesson:
                         </Typography>
-                        <LessonAutocomplete
-                            dropList={lessons}
-                            size='medium'
-                            label='Course Section'
-                            onFieldSelectionChange={handleLessonChange} // передаем обновленный обработчик
-                            // onInputChange={() => {
-                            //     addContentAndClearFields(lessonId, lessonContent, task)
-                            // }}
-                            defaultValue={lessons?.find(option => option.lessonName === selectedLesson) || null}
+                        <Box    
                             sx={{
                                 width: '100%',
+                                //backgroundColor: 'red'
                             }}
-                        />
+                            onClick = {()=> {
+                                //addContentAndClearFields(lessonId, lessonContent, task);
+                                //console.log('Я отработал')
+                            }}
+                        >
+                            <LessonAutocomplete
+                                dropList={lessons}
+                                size='medium'
+                                label='Course Section'
+                                onFieldSelectionChange={handleLessonChange} // передаем обновленный обработчик
+                                defaultValue={lessons?.find(option => option.lessonName === selectedLesson) || null}
+                                sx={{
+                                    width: '100%',
+                                }}
+                            />
+                        </Box>
                     </Box>
                 </Box>
                 <Box 
@@ -253,11 +270,14 @@ const LessonContentCreation: React.FC = () => {
                         rows={15}
                         placeholder='Lesson Content'
                         value={lessonContent}
-                        onChange={(e) => setLessonContent(e.target.value)}
-                        maxLength={50000}
                         style={{
                             width: '100%',
                             padding: '0.75rem'
+                        }}
+                        onChange={(e) => setLessonContent(e.target.value)}
+                        maxLength={50000}
+                        onBlur={()=> {
+                            addContentAndClearFields(lessonId, lessonContent, task);
                         }}
                     />
                 </Box>
@@ -274,11 +294,14 @@ const LessonContentCreation: React.FC = () => {
                         rows={5}
                         placeholder='Task'
                         value={task}
-                        onChange={(e) => setTask(e.target.value)}
-                        maxLength={5000}
                         style={{
                             width: '100%',
                             padding: '0.75rem'
+                        }}
+                        onChange={(e) => setTask(e.target.value)}
+                        maxLength={5000}
+                        onBlur={()=> {
+                            addContentAndClearFields(lessonId, lessonContent, task);
                         }}
                     />
                 </Box>
