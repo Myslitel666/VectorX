@@ -306,7 +306,7 @@ const DictionaryEditorForm: React.FC = () => {
                 rows={4}
                 value={exampleOfUse}
                 onChange={(e) => setExampleOfUse(e.target.value)}
-                maxLength={250}
+                maxLength={500}
                 style={{
                     width: '100%'
                 }}
